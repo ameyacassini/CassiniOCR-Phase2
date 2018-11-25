@@ -1,0 +1,78 @@
+<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.ScanningErrors" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:unified="sap.ui.unified"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
+	<OverflowToolbar id="toolbar">
+		<Title id="title" text="{=
+			'Scanning Errors(' + ${NonSapErrorData>/}.length + ')'
+		}"></Title>
+		<ToolbarSpacer />
+		<Button
+			type="Emphasized"
+			icon="sap-icon://synchronize"
+			tooltip="Refresh"
+			text="Refresh"
+			press="onModelRefresh"/>
+	</OverflowToolbar>
+	<t:Table
+		id="table"
+		rows="{NonSapErrorData>/}"
+		selectionMode="None"
+		alternateRowColors="true"
+		ariaLabelledBy="title">
+		<t:rowSettingsTemplate>
+			<t:RowSettings highlight="Error"/>
+		</t:rowSettingsTemplate>
+		<t:columns>
+			<t:Column hAlign="Center"
+				sortProperty="NonSapErrorData>scanId" 
+				filterProperty="NonSapErrorData>scanId"
+				width="20%">
+				<Label text="Scan ID"/>
+				<t:template>
+					<Link
+						class="error"
+						text="{NonSapErrorData>scanId}"
+						press="onSelectDocument" />
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Center" width="20%">
+				<Label text="Vendor Invoice Number"/>
+				<t:template>
+					<Text text="{NonSapErrorData>invoiceNumber}" wrapping="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Center" width="20%">
+				<Label text="Vendor Number"/>
+				<t:template>
+					<Text text="{NonSapErrorData>vendorName}" wrapping="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="20%" hAlign="Right">
+				<Label text="Gross Amount"/>
+				<t:template>
+					<unified:Currency stringValue="{NonSapErrorData>grossValue}" currency="{NonSapErrorData>currency}"/>
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Center" width="20%">
+				<Label text="Created On"/>
+				<t:template>
+					<Text 
+						text="{
+							path: 'NonSapErrorData>createdTime',
+							type: 'sap.ui.model.type.Date',
+							formatOptions: {
+								pattern: 'yyyy/MM/dd'
+							}
+						}" wrapping="false" />
+				</t:template>
+			</t:Column>
+		</t:columns>
+	</t:Table>
+</mvc:View>

@@ -1,0 +1,48 @@
+<core:FragmentDefinition
+	xmlns="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:unified="sap.ui.unified"
+	xmlns:core="sap.ui.core"
+	xmlns:m="sap.m">
+	<!--<Table
+		id="table"
+		rows="{/}"
+		visibleRowCount="7"
+		ariaLabelledBy="title">
+		<rowSettingsTemplate>
+			<RowSettings highlight="{status}"/>
+		</rowSettingsTemplate>
+		<columns>
+			<Column sortProperty="status" filterProperty="status">
+				<m:Label text="Status"/>
+				<template>
+					<m:Text text="{status}" wrapping="false"/>
+				</template>
+			</Column>
+			<Column>
+				<m:Label text="Workflow"/>
+				<template>
+					<m:Text text="{workflow}" wrapping="false"/>
+				</template>
+			</Column>
+			<Column>
+				<m:Label text="Vendor #"/>
+				<template>
+					<m:Text text="{vendorNo}" wrapping="false"/>
+				</template>
+			</Column>
+			<Column hAlign="End">
+				<m:Label text="PO #"/>
+				<template>
+					<m:Text text="{poNumber}" wrapping="false"/>
+				</template>
+			</Column>
+			<Column>
+				<m:Label text="Gross Amount"/>
+				<template>
+					<unified:Currency value="{grossAmount}" currency="{CurrencyCode}"/>
+				</template>
+			</Column>
+		</columns>
+	</Table>-->
+</core:FragmentDefinition>

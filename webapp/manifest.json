@@ -1,0 +1,220 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "demo.cassini.ocr.CassiniOCR",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/sap/opu/odata/SAP/ZCASS_OCR_SRV",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_hcb", "sap_belize"]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "demo.cassini.ocr.CassiniOCR.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "demo.cassini.ocr.CassiniOCR.i18n.i18n"
+				}
+			},
+			"mainServiceModel": {
+				"dataSource": "mainService",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}, {
+				"uri": "https://fonts.googleapis.com/css?family=Source+Sans+Pro",
+				"id": ""
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "demo.cassini.ocr.CassiniOCR.view",
+				"controlAggregation": "pages",
+				"controlId": "idAppControl",
+				"clearControlAggregation": false
+			},
+			"routes": [{
+				"name": "Home",
+				"pattern": "",
+				"target": ["Home"]
+			}, {
+				"name": "ScanningErrors",
+				"pattern": "scanning-errors",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ScanningErrors"]
+			}, {
+				"name": "ReadyToPost",
+				"pattern": "ready-to-post",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ReadyToPost"]
+			}, {
+				"name": "ScanningErrorDetails",
+				"pattern": "scanning-error-details/{scanId}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ScanningErrorDetails"]
+			}, {
+				"name": "ValidationErrors",
+				"pattern": "validation-errors",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ValidationErrors"]
+			}, {
+				"name": "ValidationErrorDetails",
+				"pattern": "validation-error-details/{docId}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ValidationErrorDetails"]
+			}, {
+				"name": "ReadyToPostDetails",
+				"pattern": "ready-yo-post-details/{recordId}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ReadyToPostDetails"]
+			}, {
+				"name": "PoPreference",
+				"pattern": "popreference/{approvalId}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["PoPreference"]
+			}, {
+				"name": "DueForApproval",
+				"pattern": "due-for-approval",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["DueForApproval"]
+			}],
+			"targets": {
+				"Home": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Home",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"ScanningErrors": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ScanningErrors",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"ReadyToPost": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ReadyToPost",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"ScanningErrorDetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ScanningErrorDetails",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"ValidationErrors": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ValidationErrors",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"ValidationErrorDetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ValidationErrorDetails",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"ReadyToPostDetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ReadyToPostDetails",
+					"controlId": "idAppControl",
+					"viewLevel": 1
+				},
+				"PoPreference": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "PoPreference",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"DueForApproval": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "DueForApproval",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				}
+			}
+		}
+	}
+}

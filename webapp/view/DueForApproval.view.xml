@@ -1,0 +1,112 @@
+<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.DueForApproval" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:unified="sap.ui.unified"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
+	<OverflowToolbar id="toolbar">
+		<Title id="title" 
+			text="{=
+				'Due for Approval (' + ${MgrApprovalData>/}.length + ')'
+			}">
+		</Title>
+		<ToolbarSpacer />
+		<Button
+			type="Emphasized"
+			icon="sap-icon://synchronize"
+			tooltip="Refresh"
+			text="Refresh"
+			press="onModelRefresh"/>
+	</OverflowToolbar>
+	<t:Table 
+		rows="{MgrApprovalData>/}"
+		selectionMode="None"
+		alternateRowColors="true"
+		ariaLabelledBy="title">
+		<t:columns>
+			<t:Column hAlign="Center"
+				sortProperty="MgrApprovalData>Uniqueid" 
+				filterProperty="MgrApprovalData>Uniqueid"
+				width="14%">
+				<Label text="Approval ID"/>
+				<t:template>
+					<Link
+						text="{MgrApprovalData>Uniqueid}"
+						press="onSelectDocument" />
+					<!--<Text text="{docId}" wrapping="false"/>-->
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Center"
+				sortProperty="MgrApprovalData>Vendorno" 
+				filterProperty="MgrApprovalData>Vendorno"
+				width="19%">
+				<Label text="Vendor #"/>
+				<t:template>
+					<Text text="{MgrApprovalData>Vendorno}" wrapping="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Center" width="20%">
+				<Label text="Vendor Name"/>
+				<t:template>
+					<Text text="{MgrApprovalData>Vendorname}" wrapping="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Right" width="10%">
+				<Label text="Net Value"/>
+				<t:template>
+					<!--<Text text="{MgrApprovalData>Netvalue}" wrapping="false"/>-->
+					<unified:Currency stringValue="{MgrApprovalData>Netvalue}" currency="{MgrApprovalData>Currency}"/>
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Right" width="10%">
+				<Label text="Tax"/>
+				<t:template>
+					<!--<Text text="{MgrApprovalData>Vat}" wrapping="false"/>-->
+					<unified:Currency stringValue="{MgrApprovalData>Vat}" currency="{MgrApprovalData>Currency}"/>
+				</t:template>
+			</t:Column>
+			<t:Column hAlign="Right" width="10%">
+				<Label text="Gross Value"/>
+				<t:template>
+					<!--<Text text="{MgrApprovalData>Grossvalue}" wrapping="false"/>-->
+					<!--<Text text="{
+						    parts: [
+						        {path: 'MgrApprovalData>Grossvalue'}, 
+						        {path: 'MgrApprovalData>Currency'}
+						    ],
+						    type: 'sap.ui.model.type.Currency',
+						    formatOptions: {
+						        showMeasure: false
+						    }
+						}"  wrapping="false" />-->
+					<!--<unified:Currency value="{
+						    path: 'MgrApprovalData>Grossvalue',
+						    type: 'sap.ui.model.type.Float'
+						}" currency="{MgrApprovalData>Currency}"/>-->
+					<unified:Currency stringValue="{MgrApprovalData>Grossvalue}" currency="{MgrApprovalData>Currency}"/>
+						
+				</t:template>
+			</t:Column>
+			<t:Column
+				id="invoiceDate"
+				hAlign="Center"
+				width="17%">
+				<Label text="Invoice Date" />
+				<t:template>
+					<Text 
+						text="{
+							path: 'MgrApprovalData>Invoicedate',
+							type: 'sap.ui.model.type.Date',
+							formatOptions: {
+								pattern: 'yyyy/MM/dd'
+							}
+						}" wrapping="false" />
+				</t:template>
+			</t:Column>
+		</t:columns>
+	</t:Table>
+</mvc:View>

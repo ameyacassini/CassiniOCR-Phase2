@@ -1,0 +1,560 @@
+/* Enter your custom styles here */
+
+/* body */
+.sapUiBody.ocrCassini {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+}
+
+/* App */
+.ocrCassini .sapMApp {
+	height: calc(100% - 5rem);
+	overflow: auto;
+}
+
+/* Dashboard */
+.ocrCassini .dasboardContainer {
+	height: 100%;
+	margin-top: 0.5rem;
+}
+
+.ocrCassini .dashboardToolbar.sapMTBStandard {
+	border: 0;
+	padding: 0 0.6rem;
+    margin-top: 0.3rem;
+}
+
+/* headings */
+.ocrCassini h1 {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	font-size: 36px;
+}
+
+.ocrCassini h2 {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	font-size: 30px;
+}
+
+.ocrCassini h3 {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	font-size: 24px;
+}
+
+.ocrCassini h4 {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	font-size: 18px;
+}
+
+.ocrCassini h5 {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	font-size: 14px;
+}
+
+.ocrCassini h6 {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	font-size: 12px;
+}
+
+/* Button */
+.ocrCassini .sapMBtnInner {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+}
+
+.ocrCassini span.sapMBtnInner.sapMBtnEmphasized {
+	background-color: #272c4d;
+	border: 1px solid #272c4d;
+}
+
+.ocrCassini .sapMBtnTransparent, .ocrCassini .sapMBtnGhost {
+	color: #272c4d;
+}
+
+.ocrCassini :not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.ocrCassini :not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #272c4d;
+}
+
+.ocrCassini .sapMBtn.error:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.ocrCassini .sapMBtn.error:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #ff0000;
+}
+
+.ocrCassini .sapMBtn.warning:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.ocrCassini .sapMBtn.warning:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #ffa500;
+}
+
+.ocrCassini .sapMBtn.inprocess:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.ocrCassini .sapMBtn.inprocess:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #2e75b6;
+}
+
+.ocrCassini .sapMBtn.due:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.ocrCassini .sapMBtn.due:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #ed7d31;
+}
+
+.ocrCassini .sapMBtn.success:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.ocrCassini .sapMBtn.success:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #385723;
+}
+
+/* Link */
+.ocrCassini .sapMLnk {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+}
+
+.ocrCassini .sapMLnk.error {
+	color: #ff0000;
+}
+
+/* Text */
+.ocrCassini .sapContrast.sapMText,
+.ocrCassini .sapContrast .sapMText {
+	color: #FFFFFF;
+}
+
+/* Label */
+.ocrCassini .sapMLabel {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+	color: #272c4d;
+}
+
+/* Title */
+.ocrCassini .sapMTitle {
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+}
+
+/* Toolbar */
+.ocrCassini .sapMTB {
+	padding-left: 0.8rem;
+}
+
+.ocrCassini .sapMTB .sapMTitle {
+	font-size: 1.125rem;
+	font-weight: bold;
+}
+
+.ocrCassini .sapMTB .sapMTitle.error {
+	color: #ff0000;
+}
+
+/* Currency */
+.ocrCassini .sapUiTable .sapUiUfdCurrencyValue {
+	float: right;
+	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+}
+
+.ocrCassini .sapUiTable .sapUiUfdCurrencyCurrency {
+	width: 0.8rem;
+    font-family: "72",Arial,Helvetica,sans-serif;
+}
+
+.ocrCassini .priceField {
+	width: 100%;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child {
+	position: absolute;
+    z-index: 1;
+    margin-top: 0.25rem;
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    border: 1px solid #cccccc;
+    background: #ebebeb;
+    font-weight: bold;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child .sapUiUfdCurrencyValue {
+	display: none;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child .sapUiUfdCurrencyCurrency {
+	width: auto;
+    font-size: 1.2rem;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper {
+	width: 100%;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper {
+	position: relative;
+    z-index: 1;
+    margin-top: 0.25rem;
+    padding: 0.55rem 0.8rem 0.55rem 0.8rem;
+    border: 1px solid #cccccc;
+    background: #ebebeb;
+    font-weight: bold;
+    width: auto;
+    right: 2.8rem;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper .sapUiIcon {
+	font-size: 1.3rem;
+}
+
+.ocrCassini .priceField div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper input {
+	padding-left: 3rem;
+}
+
+.ocrCassini .sapMInputBaseReadonlyInner .sapMInputBaseInner.sapMInputBaseErrorInner {
+	border-color: #ee0000;
+}
+
+/* Header */
+.ocrCassini .sapContrast.sapTntToolHeader.sapMTB :not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon, 
+.ocrCassini .sapContrast.sapTntToolHeader.sapMTB :not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color: #FFFFFF;
+}
+
+
+
+
+.ocrCassini .sapContrast.sapTntToolHeader.sapMTB, 
+.ocrCassini .sapContrast .sapTntToolHeader.sapMTB {
+    background-color: #272c4d;
+    border: 1px solid #272c4d;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB {
+	height: 5rem;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .sapMImageContent {
+	width: 56px;
+    height: 56px;
+}
+
+.ocrCassini .sapMText {
+    font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
+    color: #272c4d;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .sapMText.welcomeText {
+    font-size: 12px;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .sapMText.userName {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .logoContent .sapMFlexItem {
+	margin: 0 auto;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .logoContent .sapMText {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .sapMSwtOn:not(.sapMSwtAcceptReject){
+	background: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .sapMSwtOff:not(.sapMSwtAcceptReject) {
+	background: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.ocrCassini .sapTntToolHeader.sapMTB .sapMSwtOn .sapMSwtText {
+	color: #272c4d;
+}
+
+.ocrCassini .sapContrast.sapMSwtOff .sapMSwtText, 
+.ocrCassini .sapContrast .sapMSwtOff .sapMSwtText {
+    color: #272c4d;
+}
+
+.ocrCassini .sapContrast.sapMSwtOff .sapMSwtHandle, 
+.ocrCassini .sapContrast .sapMSwtOff .sapMSwtHandle {
+    border-color: #272c4d;
+}
+
+/* Dashboard Tile */
+.ocrCassini .sapMPanel.tile {
+	background: #ffffff;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.ocrCassini .sapMPanel.tile .sapMPanelHdr {
+	font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: #272c4d;
+}
+
+.ocrCassini .sapMPanel.tile>.sapMPanelHdr {
+	border: 0;
+}
+
+.ocrCassini .sapMPanel.tile .sapMPanelContent:not(.sapMPanelBGTransparent) {
+	border: 0;
+	padding-top: 0;
+}
+
+.ocrCassini .sapMPanel.tile.scanDashboardTile {
+	background: #c6dcf0;;
+	height: 13rem !important;
+}
+
+/* Dashboard Tile Button */
+.ocrCassini .sapMPanel.tile .sapMFlexItem {
+	width: 100%;
+}
+
+.ocrCassini .sapMPanel.tile .sapMFlexItem .sapMBtn {
+	width: 100%;
+}
+
+.ocrCassini .sapMPanel.tile .sapMFlexItem .sapMBtn .sapMBtnContent {
+	text-align: left;
+}
+
+
+/* Table */
+.ocrCassini .sapUiTableVScr .sapUiTableCtrlScr {
+	border-right: 0;
+}
+
+.ocrCassini .sapUiTableColRowHdr, 
+.ocrCassini .sapUiTableColRowHdr:hover {
+	background-color: #272c4d;
+    color: #FFFFFF;
+    border-right: 1px solid #272c4d;
+}
+
+.ocrCassini .sapUiTableColHdrCnt,
+.ocrCassini .sapUiTableColHdrCnt:hover {
+	background-color: #272c4d;
+    color: #FFFFFF;
+    border-right: 1px solid #272c4d;
+}
+
+.ocrCassini .sapUiTableCol,
+.ocrCassini .sapUiTableCol:hover {
+	background-color: #272c4d;
+    color: #FFFFFF;
+    border-right: 1px solid #FFFFFF;
+}
+
+.ocrCassini .sapUiTableCell .sapMLabel,
+.ocrCassini .sapUiTableColCell>.sapMLabel {
+	color: #FFFFFF;
+}
+
+/*.ocrCassini .sapUiTableTr>td {
+	border-right: 0;
+}*/
+
+.ocrCassini .sapUiTableCtrl tr {
+	-webkit-transition: width 1s; /* Safari */
+    transition: width 1s;
+}
+
+.ocrCassini .sapUiTableCtrl tr.collapsed {
+	height: 0 !important;
+}
+
+/* Table Button */
+.ocrCassini .sapUiTableCnt .sapMBtn,
+.ocrCassini .sapUiTableFtr .sapMBtn  {
+	height: 2rem;
+}
+
+.ocrCassini .sapUiTableCnt .sapMBtnInner,
+.ocrCassini .sapUiTableFtr .sapMBtnInner {
+	height: 1.5rem;
+    color: #FFFFFF;
+}
+
+.ocrCassini .sapUiTableCnt .sapMBtnInner.sapMBtnAccept,
+.ocrCassini .sapUiTableFtr .sapMBtnInner.sapMBtnAccept {
+	background-color: #385723;
+    border-color: #385723;
+}
+
+.ocrCassini .sapUiTableCell .sapMBtnInner.sapMBtnEmphasized {
+	background-color: #272c4d;
+    border-color: #272c4d;
+}
+
+
+
+.ocrCassini .sapMBtn:hover>.sapMBtnHoverable.sapMBtnAccept:not(.sapMBtnActive) {
+	background-color: #38a238;
+}
+
+.ocrCassini .sapMBtn:hover>.sapMBtnHoverable.sapMBtnAccept:not(.sapMBtnActive) .sapMBtnContent {
+	color: #FFFFFF;
+}
+
+.ocrCassini .sapUiTableCnt .sapMBtnInner .sapMBtnContent,
+.ocrCassini .sapUiTableFtr .sapMBtnInner .sapMBtnContent {
+	line-height: 1.375rem;
+    color: #FFFFFF;
+}
+
+.ocrCassini .sapMPanel.tile .sapUiTableCnt .sapMFlexItem .sapMBtn .sapMBtnContent,
+.ocrCassini .sapMPanel.tile .sapUiTableFtr .sapMFlexItem .sapMBtn .sapMBtnContent {
+	text-align: center;
+}
+
+.ocrCassini .sapUiTableRowHighlight.sapUiTableRowHighlightSuccess {
+	background-color: #385723;
+	-webkit-transition: width 0.2s; /* Safari */
+    transition: width 0.2s;
+}
+.ocrCassini .sapUiTableRowHighlight.sapUiTableRowHighlightSuccess.collapsed {
+	height: 0 !important;
+}
+
+.ocrCassini .sapUiTableRowHighlight.sapUiTableRowHighlightError {
+	background-color: #ff0000;
+}
+
+.ocrCassini .sapUiTableRowHighlight.sapUiTableRowHighlightSuccess.posted {
+	width: 37rem;
+}
+
+.ocrCassini .sapUiIcon.postCompletionIcon.hide {
+	display: none;
+}
+
+.ocrCassini .sapUiIcon.postCompletionIcon.show {
+	display: block;
+}
+
+/* Error Screen style */
+.ocrCassini .errorContainer.sapUiHLayout > .sapUiHLayoutChildWrapper {
+	width: 50%;
+}
+
+/* Object Page Layout */
+
+.ocrCassini .sapUxAPObjectPageHeaderIdentifier .sapUxAPObjectPageHeaderIdentifierContainer {
+	padding-top: 0.5rem;
+	padding-bottom: 0.8rem;
+}
+
+.ocrCassini .sapUxAPObjectPageHeaderIdentifier .sapUxAPObjectPageHeaderIdentifierContainer h1 {
+	font-size: 1.5rem;
+}
+
+.ocrCassini .sapUxAPObjectPageHeaderTitle .sapMBtn:not(.sapMBtnDisabled):not(.sapMSBActive):hover>span.sapMBtnInner.sapMBtnAccept:not(.sapMBtnActive):not(.sapMToggleBtnPressed)>.sapMBtnIcon {
+	color: #FFFFFF;
+}
+
+.ocrCassini .sapUxAPObjectPageHeaderTitle .sapMBtn:hover>.sapMBtnHoverable.sapMBtnAccept:not(.sapMBtnActive) {
+	color: #FFFFFF;
+}
+
+.ocrCassini .sapUxAPObjectPageHeaderContent .sapUxAPObjectPageHeaderContentItem.txtCommentsContainer {
+	float: right;
+    margin: 0;
+    margin-right: 1.3rem;
+}
+
+.ocrCassini .sapUiTable.collapsibleFooter {
+	position: fixed;
+    bottom: -23.2rem;
+    left: 0;
+    width: 100%;
+    background: rgba(47,60,72,0.9);
+    -webkit-transition: bottom 1s; /* Safari */
+    transition: bottom 1s;
+}
+
+.ocrCassini .sapUiTable.collapsibleFooter.expanded {
+	bottom: 0;
+}
+
+.ocrCassini .sapUiTable.collapsibleFooter .sapMTB .sapMTitle {
+	color: #FFFFFF;
+	font-size: 1rem;
+}
+
+
+
+
+
+
+
+
+.filter-openCloseWrap {
+  position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: block;
+    cursor: pointer;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+}
+.filter-openCloseWrap:hover .filter-openClose,
+.filter-openCloseWrap:hover .filter-openClose:before {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.filter-openCloseWrap .filter-openClose {
+	width: 17px;
+    height: 4px;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 2px;
+    left: 0px;
+    border-radius: 2px;
+    transform-origin: 50% 50%;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+.filter-openCloseWrap .filter-openClose:before {
+	content: ' ';
+	position: absolute;
+    height: 4px;
+    width: 17px;
+    top: -17px;
+    left: 16px;
+    border-radius: 2px;
+    background-color: #FFFFFF;
+    transform-origin: 50% 50%;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+.filter-openClose {
+  transform: rotate(45deg) translate(1.5rem, 0px);
+  -webkit-transform: rotate(45deg) translate(1.5rem, 0px);
+  -moz-transform: rotate(45deg) translate(1.5rem, 0px);
+  -ms-transform: rotate(45deg) translate(1.5rem, 0px);
+  -o-transform: rotate(45deg) translate(1.5rem, 0px);
+}
+.filter-openClose:before {
+  transform: rotate(-90deg) translate(-1.5rem, -1.5rem);
+  -webkit-transform: rotate(-90deg) translate(-1.5rem, -1.5rem);
+  -moz-transform: rotate(-90deg) translate(-1.5rem, -1.5rem);
+  -ms-transform: rotate(-90deg) translate(-1.5rem, -1.5rem);
+  -o-transform: rotate(-90deg) translate(-1.5rem, -1.5rem);
+}
+.no-filter .filter-openClose {
+	transform: rotate(45deg) translate(17px, 7px);
+    -webkit-transform: rotate(45deg) translate(17px, 7px);
+    -moz-transform: rotate(45deg) translate(17px, 7px);
+    -ms-transform: rotate(45deg) translate(17px, 7px);
+    -o-transform: rotate(45deg) translate(17px, 7px);
+}
+.no-filter .filter-openClose:before {
+	transform: rotate(-90deg) translate(-10px, -9px);
+    -webkit-transform: rotate(-90deg) translate(-10px, -9px);
+    -moz-transform: rotate(-90deg) translate(-10px, -9px);
+    -ms-transform: rotate(-90deg) translate(-10px, -9px);
+    -o-transform: rotate(-90deg) translate(-10px, -9px);
+}
+
+.ocrCassini .sapMFlexBox.homeTilesContainer .sapMHBox > .sapMFlexItem {
+	width: 50%;
+	margin-right: 1rem;
+}
