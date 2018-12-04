@@ -73,6 +73,8 @@
 		"resources": {
 			"css": [{
 				"uri": "css/style.css"
+			},{
+				"uri": "css/dashboard.css"
 			}, {
 				"uri": "https://fonts.googleapis.com/css?family=Source+Sans+Pro",
 				"id": ""
@@ -89,8 +91,12 @@
 				"clearControlAggregation": false
 			},
 			"routes": [{
-				"name": "Home",
+				"name": "Dashboard",
 				"pattern": "",
+				"target": ["Dashboard"]
+			}, {
+				"name": "Home",
+				"pattern": "home",
 				"target": ["Home"]
 			}, {
 				"name": "ScanningErrors",
@@ -142,6 +148,14 @@
 				"target": ["DueForApproval"]
 			}],
 			"targets": {
+				"Dashboard": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Dashboard",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
 				"Home": {
 					"viewType": "XML",
 					"transition": "slide",

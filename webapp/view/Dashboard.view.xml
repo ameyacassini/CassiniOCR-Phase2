@@ -1,0 +1,372 @@
+<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.Dashboard" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:unified="sap.ui.unified"
+	xmlns:core="sap.ui.core"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+	xmlns="sap.m"
+	xmlns:c="sap.suite.ui.microchart"
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
+	<!--<OverflowToolbar class="dashboardToolbar">
+		<ToolbarSpacer/>
+		<Button icon="sap-icon://add" text="{i18n>rules}" type="Emphasized"/>
+	</OverflowToolbar>
+	<l:Grid class="dasboardContainer">
+		<l:content>-->
+			<VBox class="filterContainer" width="100%">
+				<FlexBox class="filterLabels"
+					alignItems="Start"
+					justifyContent="SpaceBetween">
+					<items>
+						<Text textAlign="Center" text="Daily" />
+						<Text textAlign="Center" text="Monthly" />
+						<Text textAlign="Center" text="Yearly" />
+					</items>
+				</FlexBox>
+				<Slider enableTickmarks="false" min="0" max="2" value="1" class="filterSlider" width=""/>
+			</VBox>
+			<HBox class="sapUiTinyMargin">
+				<FlexBox
+					width="25%"
+					class="tile sapUiTinyMargin"
+					direction="Column"
+					alignItems="Center"
+					justifyContent="Center">
+					<items>
+						<Title level="H1" text="104" />
+						<Text textAlign="Center" text="Documents successfully scanned" />
+					</items>
+				</FlexBox>
+				<VBox width="25%">
+					<FlexBox  height="50%"
+						class="tile sapUiTinyMargin"
+						direction="Column"
+						alignItems="Center"
+						justifyContent="Center">
+						<items>
+							<Title level="H2" text="34" />
+							<Text textAlign="Center" text="Scanning Errors" />
+						</items>
+					</FlexBox>
+					<FlexBox  height="50%"
+						class="tile sapUiTinyMargin"
+						direction="Column"
+						alignItems="Center"
+						justifyContent="Center">
+						<items>
+							<Title level="H2" text="6" />
+							<Text textAlign="Center" text="Validation Errors" />
+						</items>
+					</FlexBox>
+				</VBox>
+				<FlexBox
+					width="25%"
+					class="tile sapUiTinyMargin"
+					direction="Column"
+					alignItems="Center"
+					justifyContent="Center">
+					<items>
+						<c:RadialMicroChart size="Auto" percentage="45" press="press"></c:RadialMicroChart>
+						<Text textAlign="Center" text="Success Percentage" />
+					</items>
+				</FlexBox>
+				<VBox width="25%">
+					<HBox height="50%">
+						<FlexBox
+							width="50%"
+							class="tile sapUiTinyMargin positive"
+							direction="Column"
+							alignItems="Center"
+							justifyContent="Center">
+							<items>
+								<Title level="H3" text="20" />
+								<Text textAlign="Center" text="Documents Posted" />
+							</items>
+						</FlexBox>
+						<FlexBox
+							width="50%"
+							class="tile sapUiTinyMargin neutral"
+							direction="Column"
+							alignItems="Center"
+							justifyContent="Center">
+							<items>
+								<Title level="H3" text="44" />
+								<Text textAlign="Center" text="Documents Awaiting Approval" />
+							</items>
+						</FlexBox>
+					</HBox>
+					<HBox height="50%">
+						<FlexBox
+							width="50%"
+							class="tile sapUiTinyMargin critical"
+							direction="Column"
+							alignItems="Center"
+							justifyContent="Center">
+							<items>
+								<Title level="H3" text="40" />
+								<Text textAlign="Center" text="Documents Approved" />
+							</items>
+						</FlexBox>
+						<FlexBox
+							width="50%"
+							class="tile sapUiTinyMargin negative"
+							direction="Column"
+							alignItems="Center"
+							justifyContent="Center">
+							<items>
+								<Title level="H3" text="12" />
+								<Text textAlign="Center" text="Documents Rejected" />
+							</items>
+						</FlexBox>
+					</HBox>
+				</VBox>
+				
+			</HBox>
+			<!--<VBox class="homeTilesContainer">
+				<layoutData>
+					<l:GridData
+						span="L6 M6 S6" />
+				</layoutData>
+				<HBox>
+					<Panel headerText="{i18n>scanDashboard}" class="tile scanDashb oardTile">
+						<layoutData>
+							<l:GridData
+								span="L6 M6 S6" />
+						</layoutData>
+						<content>
+							<FlexBox
+								direction="Column"
+								alignItems="Start">
+								<items>
+									<Button id="btnScanningErrors"
+										icon="sap-icon://detail-view" 
+										class="error" 
+										type="Transparent" 
+										 text="{i18n>scanningErrors}{=
+											' (' + ${NonSapErrorData>/}.length + ')'
+										}" 
+										press="onGoToScanningErrors" />
+									<Button id="btnValidationErrors"
+										icon="sap-icon://validate" 
+										class="error" 
+										type="Transparent" 
+										text="{i18n>validationErrors}{=
+											' (' + ${SapErrorData>/}.length + ')'
+										}" 
+										press="onGoToValidationErrors" />
+									<Button 
+										icon="sap-icon://alert" 
+										class="warning" 
+										type="Transparent" 
+										text="{i18n>warnings}{=
+											' (' + ${WarningData>/}.length + ')'
+										}" press="onPress" />
+								</items>
+							</FlexBox>
+						</content>
+					</Panel>
+
+					<Panel headerText="{i18n>workflowStatus}" class="tile">
+						<layoutData>
+							<l:GridData
+								span="L6 M6 S6" />
+						</layoutData>
+						<content>
+							<FlexBox
+								direction="Column"
+								alignItems="Start">
+								<items>
+									<Button 
+										icon="sap-icon://email-read" 
+										class="inprocess" 
+										type="Transparent" 
+										text="{i18n>inProcess}{=
+											' (' + ${InProcessData>/}.length + ')'
+										}" press="onPress" />
+									<Button id="btnDueForApproval"
+										icon="sap-icon://lateness" 
+										class="due" 
+										type="Transparent"
+										text="{i18n>dueForApproval}{=
+											' (' + ${MgrApprovalData>/}.length + ')'
+										}"
+										press="onGoToDueForApproval" />
+									<Button 
+										icon="sap-icon://decline" 
+										class="error" 
+										type="Transparent" 
+										text="{i18n>rejected}{=
+											' (' + ${RejectedData>/}.length + ')'
+										}" press="onPress" />
+								</items>
+							</FlexBox>
+						</content>
+					</Panel>
+				</HBox>
+				<l:FixFlex id='chartFixFlex' minFlexSize="250">
+			        
+			        <l:flexContent>
+			            <viz:Popover id="idPopOver"></viz:Popover>
+			            <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}"
+			                height='100%' width="100%" vizType='donut'>
+			                <viz:dataset>
+			                    <viz.data:FlattenedDataset data="{/chart}">
+			                        <viz.data:dimensions>
+			                            <viz.data:DimensionDefinition name="Status"
+			                                value="{Status}" />
+			                        </viz.data:dimensions>
+			                        <viz.data:measures>
+			                            <viz.data:MeasureDefinition name="Count"
+			                                value="{Count}" />
+			                        </viz.data:measures>
+			                    </viz.data:FlattenedDataset>
+			                </viz:dataset>
+			
+			                <viz:feeds>
+			                    <viz.feeds:FeedItem uid="size" type="Measure"
+			                        values="Count" />
+			                    <viz.feeds:FeedItem uid="color" type="Dimension"
+			                        values="Status" />
+			                </viz:feeds>
+			            </viz:VizFrame>
+			        </l:flexContent>
+			    </l:FixFlex>
+				
+			</VBox>-->
+			<!--<Panel headerText="{i18n>readyToPost}" class="tile">
+				<layoutData>
+					<l:GridData
+						span="L6 M6 S6" />
+				</layoutData>
+				<content>
+					<t:Table
+						id="tblReadyToPost"
+						rows="{FiReviewRecords>/}"
+						selectionMode="None"
+						visibleRowCountMode="{/Auto}"
+						alternateRowColors="true"
+						ariaLabelledBy="title">
+						<t:rowSettingsTemplate>
+							<t:RowSettings highlight="{FiReviewRecords>highlightStatus}"/>
+						</t:rowSettingsTemplate>
+						<t:columns>
+							<t:Column hAlign="Center"
+								sortProperty="FiReviewRecords>workflow" 
+								filterProperty="FiReviewRecords>workflow"
+								width="12%">
+								<Label text="{i18n>status}"/>
+								<t:template>
+									<core:Icon
+										src="{
+											path: 'FiReviewRecords>workflow',
+											formatter: 'demo.cassini.ocr.CassiniOCR.Formatter.postStatusIcon'
+										}">
+										<core:layoutData>
+											<FlexItemData growFactor="1" />
+										</core:layoutData>
+									</core:Icon>
+								</t:template>
+							</t:Column>
+							<t:Column hAlign="Center" width="14%">
+								<Label text="{i18n>workflow}"/>
+								<t:template>
+									<core:Icon
+										color="{=
+											(${FiReviewRecords>workflow} === 1) ? '#385723' : '#ff0000'
+										}"
+										src="{
+											path: 'FiReviewRecords>workflow',
+											formatter: 'demo.cassini.ocr.CassiniOCR.Formatter.workflowIcon'
+										}">
+										<core:layoutData>
+											<FlexItemData growFactor="1" />
+										</core:layoutData>
+									</core:Icon>
+								</t:template>
+							</t:Column>
+							<t:Column hAlign="Center" width="19%">
+								<Label text="{i18n>vendorNumber}"/>
+								<t:template>
+									<Text text="{FiReviewRecords>Vendorno}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column hAlign="Center" width="19%">
+								<Label text="{i18n>poNumber}"/>
+								<t:template>
+									<Text text="{FiReviewRecords>Ponumber}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column width="20%" hAlign="Center">
+								<Label text="{i18n>grossAmount}"/>
+								<t:template>
+									<unified:Currency stringValue="{FiReviewRecords>Grossvalue}" currency="{FiReviewRecords>Currency}"/>
+								</t:template>
+							</t:Column>
+							<t:Column width="16%" hAlign="Center">
+								<Label text="{i18n>action}"/>
+								<t:template>
+									<FlexBox
+										alignItems="Start"
+										justifyContent="Start">
+										<items>
+											<Button type="Accept" 
+												text="{i18n>post}" 
+												press="onPost"
+												visible="{=
+													${FiReviewRecords>workflow} === 1
+												}"
+												busyIndicatorDelay="0"
+												custom:postId="{postId}" />
+											<Button type="Emphasized" 
+												text="{i18n>remind}" 
+												visible="{=
+													${FiReviewRecords>workflow} === 2
+												}"
+												press="onPress"
+												busyIndicatorDelay="0" />
+											<Link
+												text="{docId}"
+												class="error"
+												visible="{=
+													${FiReviewRecords>workflow} === 0
+												}"
+												press="handleLinkPress" />
+										</items>
+									</FlexBox>
+								</t:template>
+							</t:Column>
+						</t:columns>
+						<t:footer>
+							<Toolbar>
+								<core:Icon src="sap-icon://print">
+									<core:layoutData>
+										<FlexItemData growFactor="1" />
+									</core:layoutData>
+								</core:Icon>
+								<Label text=" - {i18n>notYetPosted}"/>
+								
+								<core:Icon src="sap-icon://travel-expense-report">
+									<core:layoutData>
+										<FlexItemData growFactor="1" />
+									</core:layoutData>
+								</core:Icon>
+								<Label text=" - {i18n>notYetApproved}"/>
+								<ToolbarSpacer/>
+								<Button
+									text="{i18n>viewMore}"
+									tooltip="{i18n>viewMore}"
+									type="Emphasized"
+									press="onGoToReadyToPost"/>
+							</Toolbar>
+						</t:footer>
+					</t:Table>
+				</content>
+			</Panel>-->
+		<!--</l:content>
+	</l:Grid>-->
+</mvc:View>

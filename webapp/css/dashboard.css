@@ -1,0 +1,63 @@
+.tile {
+	background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1rem;
+    text-align: center;
+}
+
+.tile.positive{
+	background: #EAFAF1;
+    border: 1px solid #82E0AA;
+}
+
+.tile.negative{
+	background: #FDEDEC;
+    border: 1px solid #F1948A;
+}
+
+.tile.critical{
+	background: #FEF9E7;
+    border: 1px solid #F7DC6F;
+}
+
+.tile.neutral{
+	background: #F4F6F6;
+    border: 1px solid #BFC9CA;
+}
+
+
+.tile h1 {
+	font-size: 5rem;
+}
+
+.tile h2 {
+	font-size: 3rem;
+}
+
+.filterSlider {
+	margin-left: 2rem;
+	margin-right: 2rem;
+	width: calc(100% - 4rem);
+	padding: 1rem 0 0.5rem 0;
+    height: auto;
+}
+
+.filterContainer .sapMText {
+	font-size: 1rem;
+    font-weight: bold;
+}
+
+.filterContainer .filterLabels {
+	margin: 1rem 1rem 0.2rem 1rem;
+}
+
+
+
+html.sapUiMedia-Std-Desktop .tile .sapSuiteRMC.sapSuiteRMCSizeAuto, 
+html.sapUiMedia-Std-Tablet .tile .sapSuiteRMC.sapSuiteRMCSizeAuto, 
+.tile .sapSuiteRMC.sapSuiteRMCSizeM, 
+.tile .sapSuiteRMC.sapSuiteRMCSizeL {
+	width: calc(100% - 2rem);
+	height: calc(100% - 2rem);
+	margin: 0 auto;
+}
