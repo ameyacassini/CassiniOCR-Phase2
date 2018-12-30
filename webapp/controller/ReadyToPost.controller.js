@@ -1,11 +1,12 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
 	"sap/m/MessageBox",
+	"cassini/sim/service/documentServices",
 	'../Formatter'
-], function (Controller, MessageBox, Formatter) {
+], function (BaseController, MessageBox, documentServices, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.ReadyToPost", {
+	return BaseController.extend("cassini.sim.controller.ReadyToPost", {
 		onInit: function() {
 			oController = this;
 			oView = this.getView();
@@ -13,20 +14,21 @@ sap.ui.define([
 		},
 		onSelectDocument: function(oEvent) {
 			try {
-				var row = oEvent.getSource().getParent();
-				var sPath = row.getBindingContext('FiReviewRecords').getPath();
-				var selectedRecord = row.getBindingContext('FiReviewRecords').getModel().getProperty(row.getBindingContext('FiReviewRecords').getPath());
-				
-				
-				var recordId = oEvent.getSource().getProperty('text');
-				var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-				oRouter.navTo("ReadyToPostDetails", {
+				var recordId = oEvent.getSource().data("uniqueId");
+				this.getRouter().navTo("ReadyToPostDetails", {
 					recordId: recordId
 				});
 				
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
+		},
+		onRefresh: function (oEvent) {
+			var tbl = oView.byId("approvedTable");
+			tbl.setBusy(true);
+			documentServices.getInstance().getApprovedDocuments(this, function() {
+				tbl.setBusy(false);
+			});
 		},
 		
 		onPost: function(oEvent) {
@@ -34,7 +36,7 @@ sap.ui.define([
 				var source = oEvent.getSource();
 				
 				var row = source.getParent();
-				var sPath = row.getBindingContext('FiReviewRecords').getPath();
+				//var sPath = row.getBindingContext('FiReviewRecords').getPath();
 				var selectedRecord = row.getBindingContext('FiReviewRecords').getModel().getProperty(row.getBindingContext('FiReviewRecords').getPath());
 				
 				
@@ -43,9 +45,8 @@ sap.ui.define([
 				var reviewedData = JSON.parse(JSON.stringify(selectedRecord));
 				
 				
-				$.ajax("http://localhost:8090/OcrRestSpring/getTaxRate/"+ reviewedData.VendorCountry + "/" + reviewedData.Companycode + "/", {
+				$.ajax("/ocrspring/getTaxRate/"+ reviewedData.VendorCountry + "/" + reviewedData.Companycode + "/", {
 					success: function(data) {
-						console.log(data);
 						//recordlModel.getData().Taxcode = data.taxCode;
 						//recordlModel.getData().Taxrate = data.taxRate;
 						var tax = (parseFloat(reviewedData.Netvalue) * parseFloat(data.taxRate)) / 100;
@@ -131,16 +132,16 @@ sap.ui.define([
 								);
 							},
 							error: function(oError) {
-								console.log(oError);
+								MessageBox.error(oError);
 							}
 						});
 					},
 					error: function(err) {
-						console.log(err);
+						MessageBox.error(err);
 			    	}
 			   });	
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		}
 	});

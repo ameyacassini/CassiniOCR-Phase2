@@ -1,4 +1,4 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.ValidationErrorDetails" 
+<mvc:View controllerName="cassini.sim.controller.ValidationErrorDetails" 
 	xmlns:html="http://www.w3.org/1999/xhtml" 
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
@@ -9,148 +9,201 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-	<OverflowToolbar id="toolbar">
-		<Title text="Validation Errors - "></Title>
-		<Title class="error" text="{errorData>/Uniqueid}"></Title>
-	</OverflowToolbar>
-	<l:HorizontalLayout class="errorContainer">
-		<f:Form id="FormDisplay480_12120"
-			width="100%"
-			editable="false">
-			<f:layout>
-				<f:ResponsiveGridLayout
-					labelSpanXL="12"
-					labelSpanL="12"
-					labelSpanM="12"
-					labelSpanS="12"
-					adjustLabelSpan="false"
-					emptySpanXL="0"
-					emptySpanL="0"
-					emptySpanM="0"
-					emptySpanS="0"
-					columnsXL="2"
-					columnsL="2"
-					columnsM="2"
-					singleContainerFullSize="false" />
-			</f:layout>
-			<f:formContainers>
-				
-				<f:FormContainer>
-					<f:formElements>
-						<f:FormElement label="Invoice Number">
-							<f:fields>
-								<Input value="{errorData>/Invoiceno}" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Invoice Date">
-							<f:fields>
-								<DatePicker
-									value="{
-										path: 'errorData>/Invoicedate',
-										type: 'sap.ui.model.type.Date',
-										formatOptions: {
-											pattern: 'yyyy-MM-dd'
-										}
-									}" valueFormat="yyyy-MM-dd" displayFormat="long"/>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Net Value">
-							<f:fields>
-								<l:HorizontalLayout class="priceField">
-									<unified:Currency currency="{errorData>/Currency}"/>
-									<Input value="{errorData>/Netvalue}">
-										<layoutData>
-											<l:GridData span="XL12 L12 M12 S12" />
-										</layoutData>
-									</Input>
-								</l:HorizontalLayout>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Gross Value">
-							<f:fields>
-								<l:HorizontalLayout class="priceField">
-									<unified:Currency currency="{errorData>/Currency}"/>
-									<Input value="{errorData>/Grossvalue}">
-										<layoutData>
-											<l:GridData span="XL12 L12 M12 S12" />
-										</layoutData>
-									</Input>
-								</l:HorizontalLayout>
-							</f:fields>
-						</f:FormElement>
-					</f:formElements>
-				</f:FormContainer>
-				<f:FormContainer>
-					<f:formElements>
-						<f:FormElement label="Vendor Number">
-							<f:fields>
-								<Input editable="false" valueState="{=
-									(${errorData>/Vendorno} === '') ? 'Error' : 'None' 
-								}" 
-								valueStateText="{=
-									(${errorData>/Vendorno} === '') ? 'Vendor Name or Pincode is not valid!!!' : '' 
-								}"
-								value="{errorData>/Vendorno}" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Vendor Name">
-							<f:fields>
-								<Input value="{errorData>/Vendorname}" change="onChangeVendorDetails" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Pincode">
-							<f:fields>
-								<Input value="{errorData>/Postalcode}" change="onChangeVendorDetails" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Tax">
-							<f:fields>
-								<l:HorizontalLayout class="priceField">
-									<unified:Currency currency="{errorData>/Currency}"/>
-									<Input value="{errorData>/Vat}">
-										<layoutData>
-											<l:GridData span="XL12 L12 M12 S12" />
-										</layoutData>
-									</Input>
-								</l:HorizontalLayout>
-							</f:fields>
-						</f:FormElement>
-					</f:formElements>
-				</f:FormContainer>
-				<f:FormContainer>
-					<f:formElements>
-						<f:FormElement>
-							<f:fields>
-								<FlexBox
-									alignItems="Start"
-									justifyContent="Start">
-									<items>
-										<Button 
-											text="Update" 
-											type="Emphasized" 
-											class="sapUiSmallMarginEnd" 
-											enabled="{=
-												(${errorData>/Vendorno} !== '') ? true : false 
-											}"
-											press="onUpdate" />
-										<Button text="Cancel Document" type="Reject" class="sapUiSmallMarginEnd" />
-									</items>
-								</FlexBox>
-							</f:fields>
-						</f:FormElement>
-					</f:formElements>
-				</f:FormContainer>
-			</f:formContainers>
-		</f:Form>
-		<Image id="invoiceFileImg"
-			src="{=
-				(${errorData>/invoiceFile} !== '') ? 'data:image/bmp;base64,' + ${errorData>/invoiceFile} : '/webapp/images/invoice.jpg'
-			}"
-			width="100%"
-			densityAware="false">
-			<layoutData>
-				<FlexItemData growFactor="1" />
-			</layoutData>
-		</Image>
-	</l:HorizontalLayout>
+	<Page title="Validation Errors - {errorData>/uniqueId}" class="detailScreen" showNavButton="true" navButtonPress="onNavBack">
+		<headerContent>
+			<Button text="Cancel Document" type="Reject" />
+			<Button 
+				text="Update"
+				type="Emphasized"
+				press="onUpdate" />
+			<Button icon="sap-icon://detail-view" 
+				custom:file="{=
+					(${errorData>/file} &amp;&amp; ${errorData>/file} !== '') ? 'data:application/pdf;base64, ' + ${errorData>/file} : '/webapp/sample-invoice.pdf'
+				}" press="onViewDocument"/>
+			
+			
+		</headerContent>
+		<content>
+			<MessageStrip
+				text="Please verify the Vendor Name or Postal Code or Currency in this document"
+				type="Error"
+				class="sapUiSmallMargin"
+				showIcon="true"/>
+			<!--<OverflowToolbar id="toolbar">
+				<Title text="Validation Errors - "></Title>
+				<Title class="error" text="{errorData>/Uniqueid}"></Title>
+			</OverflowToolbar>-->
+			<!--<l:Grid class="pdfViewerWrapper"
+					containerQuery="true">-->
+				<f:Form
+					editable="false">
+					<!--<f:layoutData>
+						<l:GridData
+							span="XL6 L6 M6 S12"/>
+					</f:layoutData>-->
+					<f:layout>
+						<f:ResponsiveGridLayout
+							labelSpanXL="12"
+							labelSpanL="12"
+							labelSpanM="12"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="0"
+							emptySpanL="0"
+							emptySpanM="0"
+							emptySpanS="0"
+							columnsXL="3"
+							columnsL="3"
+							columnsM="3"
+							singleContainerFullSize="false" />
+					</f:layout>
+					<f:formContainers>
+						
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="Invoice Number">
+									<f:fields>
+										<Input editable="false" value="{errorData>/referenceNo}" />
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Invoice Date">
+									<f:fields>
+										<Input editable="false" value="{
+												path: 'errorData>/documentDate',
+												type: 'sap.ui.model.type.Date',
+												formatOptions: {
+													pattern: 'yyyy-MM-dd'
+												}
+											}" />
+										<!--<DatePicker editable="false"
+											value="{
+												path: 'errorData>/documentDate',
+												type: 'sap.ui.model.type.Date',
+												formatOptions: {
+													pattern: 'yyyy-MM-dd'
+												}
+											}" valueFormat="yyyy-MM-dd" displayFormat="long"/>-->
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Vendor Number">
+									<f:fields>
+										<Input editable="false" valueState="{=
+											(${errorData>/vendorNo} === '') ? 'Error' : 'None' 
+										}" 
+										valueStateText="{=
+											(${errorData>/vendorNo} === '') ? 'Vendor Name or Pincode is not valid!!!' : '' 
+										}"
+										value="{errorData>/vendorNo}" />
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="Vendor Name">
+									<f:fields>
+										<Input value="{errorData>/vendorName}" change="onChangeVendorDetails" />
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Postal Code">
+									<f:fields>
+										<Input value="{errorData>/postalCode}" change="onChangeVendorDetails" />
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Currency">
+									<f:fields>
+										<Select selectedKey="{errorData>/currency}" change="onChangeCurrency">
+											<core:ListItem key="EUR" text="EUR" />
+											<core:ListItem key="USD" text="USD" />
+											<core:ListItem key="INR" text="INR" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="Net Value">
+									<f:fields>
+										<l:HorizontalLayout class="priceField">
+											<unified:Currency currency="{errorData>/currency}"/>
+											<Input editable="false" value="{errorData>/netValue}">
+												<layoutData>
+													<l:GridData span="XL12 L12 M12 S12" />
+												</layoutData>
+											</Input>
+										</l:HorizontalLayout>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Tax">
+									<f:fields>
+										<l:HorizontalLayout class="priceField">
+											<unified:Currency currency="{errorData>/currency}"/>
+											<Input editable="false" value="{errorData>/tax}">
+												<layoutData>
+													<l:GridData span="XL12 L12 M12 S12" />
+												</layoutData>
+											</Input>
+										</l:HorizontalLayout>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Gross Value">
+									<f:fields>
+										<l:HorizontalLayout class="priceField">
+											<unified:Currency currency="{errorData>/currency}"/>
+											<Input editable="false" value="{errorData>/grossValue}">
+												<layoutData>
+													<l:GridData span="XL12 L12 M12 S12" />
+												</layoutData>
+											</Input>
+										</l:HorizontalLayout>
+									</f:fields>
+								</f:FormElement>
+								
+							</f:formElements>
+						</f:FormContainer>
+						<!--<f:FormContainer>
+							<f:formElements>
+								<f:FormElement>
+									<f:fields>
+										<FlexBox
+											alignItems="Start"
+											justifyContent="Start">
+											<items>
+												<Button 
+													text="Update" 
+													type="Emphasized" 
+													class="sapUiSmallMarginEnd"
+													press="onUpdate" />
+												<Button text="Cancel Document" type="Reject" class="sapUiSmallMarginEnd" />
+											</items>
+										</FlexBox>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>-->
+					</f:formContainers>
+				</f:Form>
+				<!--<PDFViewer id="invoiceFilePdf"
+					class="sapUiSmallMarginBegin" 
+					source="{errorData>/file}" title="Invoice" height="100%" width="auto">
+					<layoutData>
+						<l:GridData
+							span="XL6 L6 M6 S12"/>
+					</layoutData>
+				</PDFViewer>-->
+			<!--</l:Grid>-->
+				<!--<ScrollContainer
+					height="100%"
+					width="100%"
+					horizontal="true"
+					vertical="true">
+					<FlexBox class="sapUiSmallMargin" direction="Column" renderType="Div">
+						<FlexBox direction="Row" fitContainer="true" renderType="Div">
+							
+							
+					</FlexBox>
+				</ScrollContainer>-->
+		</content>
+	</Page>
 </mvc:View>

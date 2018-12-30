@@ -28,14 +28,14 @@
 				<f:formElements>
 					<f:FormElement label="Tax Code">
 						<f:fields>
-							<Input value="{record>/Taxcode}" />
+							<Input value="{record>/taxCode}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Tax Amount">
 						<f:fields>
 							<l:HorizontalLayout class="priceField">
-								<unified:Currency currency="{record>/Currency}"/>
-								<Input value="{record>/Vat}">
+								<unified:Currency currency="{record>/currency}"/>
+								<Input value="{record>/tax}">
 									<layoutData>
 										<l:GridData span="XL12 L12 M12 S12" />
 									</layoutData>
@@ -50,7 +50,7 @@
 				<f:formElements>
 					<f:FormElement label="Tax Rate">
 						<f:fields>
-							<Input value="{record>/Taxrate}" editable="false" />
+							<Input value="{record>/taxRate}%" editable="false" />
 						</f:fields>
 					</f:FormElement>
 					<!--<f:FormElement label="Calculate Tax">

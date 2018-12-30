@@ -1,4 +1,4 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.ValidationErrors" 
+<mvc:View controllerName="cassini.sim.controller.ValidationErrors" 
 	xmlns:html="http://www.w3.org/1999/xhtml" 
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
@@ -6,9 +6,82 @@
 	xmlns:unified="sap.ui.unified"
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m"
+	xmlns:u="sap.ui.unified"
 	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-	<OverflowToolbar id="toolbar">
+	<Page
+		title="{=
+			'Validation Errors(' + ${validationErrorsDocuments>/}.length + ')'
+		}"
+		class="sapUiSizeCompact"
+		showNavButton="true"
+		navButtonPress="onNavBack">
+		<headerContent>
+			<Button icon="sap-icon://refresh"  press="onRefresh" tooltip="Refresh" />
+		</headerContent>
+		<content>
+			<Table id="validationErrorTable"
+				inset="false"
+				busyIndicatorDelay="0"
+				items="{
+					path: 'validationErrorsDocuments>/',
+					sorter: {
+						path: 'validationErrorsDocuments>uniqueId'
+					}
+				}">
+				<columns>
+					<Column>
+						<Text text="Unique ID" />
+					</Column>
+					<Column minScreenWidth="Tablet"
+						demandPopin="true">
+						<Text text="Vendor Name" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Reference No." />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Net Amount" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Tax" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Gross Amount" />
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Document Date" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem vAlign="Middle" type="Navigation" press="onSelectDocument" custom:uniqueId="{validationErrorsDocuments>uniqueId}">
+						<cells>
+							<ObjectIdentifier
+								title="{validationErrorsDocuments>uniqueId}"/>
+							<Text
+								text="{validationErrorsDocuments>vendorName}"/>
+							<Text
+								text="{validationErrorsDocuments>referenceNo}" />
+							<u:Currency stringValue="{validationErrorsDocuments>netValue}" currency="{validationErrorsDocuments>currency}" useSymbol="true"/>
+							<u:Currency stringValue="{validationErrorsDocuments>tax}" currency="{validationErrorsDocuments>currency}" useSymbol="true"/>
+							<u:Currency stringValue="{validationErrorsDocuments>grossValue}" currency="{validationErrorsDocuments>currency}" useSymbol="true"/>
+							<Text text="{ path: 'validationErrorsDocuments>documentDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' } }"
+								wrapping="false"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+	<!--<OverflowToolbar id="toolbar">
 		<Title id="title" text="{=
 			'Validation Errors(' + ${SapErrorData>/}.length + ')'
 		}"></Title>
@@ -70,5 +143,5 @@
 				</t:template>
 			</t:Column>
 		</t:columns>
-	</t:Table>
+	</t:Table>-->
 </mvc:View>

@@ -1,6 +1,10 @@
 /* Enter your custom styles here */
 
 /* body */
+body {
+	margin:	0;
+}
+
 .sapUiBody.ocrCassini {
 	font-family: 'Source Sans Pro', "72",Arial,Helvetica,sans-serif;
 }
@@ -157,10 +161,11 @@
 	position: absolute;
     z-index: 1;
     margin-top: 0.25rem;
-    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    padding: 0.5rem 4px 0.5rem 4px;
     border: 1px solid #cccccc;
     background: #ebebeb;
     font-weight: bold;
+    width: 2.1rem;
 }
 
 .ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child .sapUiUfdCurrencyValue {
@@ -170,6 +175,8 @@
 .ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child .sapUiUfdCurrencyCurrency {
 	width: auto;
     font-size: 1.2rem;
+    text-align: center;
+    display: block;
 }
 
 .ocrCassini .priceField div.sapUiHLayoutChildWrapper + div.sapUiHLayoutChildWrapper {
@@ -557,4 +564,66 @@
 .ocrCassini .sapMFlexBox.homeTilesContainer .sapMHBox > .sapMFlexItem {
 	width: 50%;
 	margin-right: 1rem;
+}
+
+.sapUiMedia-Std-Desktop .ocrCassini .poPreferenceLineItems .sapMITB.sapUiResponsiveContentPadding .sapMITBScrollContainer {
+    margin: 0 1rem;
+}
+
+.ocrCassini .poPreferenceLineItems .sapMITH {
+    background-color: #FAFAFA;
+}
+
+.ocrCassini .poPreferenceLineItems .sapMITBTextOnly .sapMITBText {
+	font-size: 1rem;
+}
+
+.ocrCassini .poPreferenceLineItems .sapMITBContent {
+	padding: 0;
+}
+
+.ocrCassini .detailScreen header.sapMPageHeader .sapMBarMiddle {
+	text-align: left;
+    margin-left: 2.7rem;
+}
+
+.ocrCassini .detailScreen header.sapMPageHeader .sapMBarMiddle .sapMTitle span {
+	font-size: 1.5rem;
+}
+
+.ocrCassini .detailScreen header.sapMPageHeader .sapMBar {
+    box-shadow: none;
+}
+
+.ocrCassini .detailScreen header.sapMPageHeader .sapMBarRight {
+    padding-right: 1rem;
+}
+
+.ocrCassini .detailScreen.readyToPost header.sapMPageHeader .sapMBarRight {
+    padding-right: 2rem;
+}
+
+.ocrCassini .sapMListTbl .sapUiUfdCurrencyValue {
+    float: right;
+}
+
+.ocrCassini .sapMListTbl .sapUiUfdCurrencyCurrency {
+    float: right;
+}
+
+.ocrCassini .sapMListTbl .sapUiUfdCurrency {
+	width: 100%;
+    display: inline-flex;
+}
+
+.ocrCassini .sapMListTbl .sapUiUfdCurrency .sapUiUfdCurrencyAlign {
+	margin: 0 auto;
+}
+
+.pdfViewerWrapper {
+	height: calc(100% - 5rem);
+}
+
+.pdfViewerWrapper>div + div{
+	height: 100%;
 }

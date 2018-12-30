@@ -61,3 +61,53 @@ html.sapUiMedia-Std-Tablet .tile .sapSuiteRMC.sapSuiteRMCSizeAuto,
 	height: calc(100% - 2rem);
 	margin: 0 auto;
 }
+
+.dashboardChartContainer > .sapMFlexItem {
+	width: 50%;
+}
+
+.dashboardDonutChart .sapSuiteUiCommonsChartContainerToolBarArea {
+	display: none;
+}
+
+/*.dashboardDonutChart .sapSuiteUiCommonsChartContainer {
+    height: calc(100% - 48px);
+}*/
+
+.dashboardDonutChart .sapSuiteUiCommonsChartContainer .sapSuiteUiCommonsChartContainerWrapper,
+.dashboardDonutChart .sapSuiteUiCommonsChartContainer .sapSuiteUiCommonsChartContainerWrapper .sapSuiteUiCommonsChartContainerChartArea,
+.dashboardDonutChart .sapSuiteUiCommonsChartContainer .sapSuiteUiCommonsChartContainerWrapper .sapVizFrame {
+    height: 100% !important;
+}
+
+.dashboardBarChart .sapSuiteUiCommonsChartContainerToolBarArea {
+	display: none;
+}
+
+.dashboardBarChart .sapSuiteUiCommonsChartContainer .sapSuiteUiCommonsChartContainerWrapper,
+.dashboardBarChart .sapSuiteUiCommonsChartContainer .sapSuiteUiCommonsChartContainerWrapper .sapSuiteUiCommonsChartContainerChartArea,
+.dashboardBarChart .sapSuiteUiCommonsChartContainer .sapSuiteUiCommonsChartContainerWrapper .sapVizFrame {
+    height: 100% !important;
+}
+
+.casTile.positive:hover {
+    background: #d0efde;
+}
+
+.casTile.neutral:hover {
+    background: #eaeaea;
+}
+
+.casTile.critical:hover {
+    background: #fcfad6;
+}
+
+.casTile.negative:hover {
+    background: #fcdede;
+}
+
+
+
+
+
+

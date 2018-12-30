@@ -1,4 +1,4 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.ScanningErrorDetails" 
+<mvc:View controllerName="cassini.sim.controller.ScanningErrorDetails" 
 	xmlns:html="http://www.w3.org/1999/xhtml" 
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"

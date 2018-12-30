@@ -1,10 +1,12 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
+	"sap/m/MessageBox",
+	"cassini/sim/service/documentServices",
 	'../Formatter'
-], function (Controller, Formatter) {
+], function (BaseController, MessageBox, documentServices, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.DueForApproval", {
+	return BaseController.extend("cassini.sim.controller.DueForApproval", {
 		onInit: function() {
 			oController = this;
 			oView = this.getView();
@@ -12,19 +14,20 @@ sap.ui.define([
 		},
 		onSelectDocument: function(oEvent) {
 			try {
-				var row = oEvent.getSource().getParent();
-				var sPath = row.getBindingContext('MgrApprovalData').getPath();
-				var selectedRecord = row.getBindingContext('MgrApprovalData').getModel().getProperty(row.getBindingContext('MgrApprovalData').getPath());
-				
-				
-				var approvalId = oEvent.getSource().getProperty('text');
-				var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-				oRouter.navTo("PoPreference", {
+				var approvalId = oEvent.getSource().data("uniqueId");
+				this.getRouter().navTo("PoPreference", {
 					approvalId: approvalId
 				});
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
+		},
+		onRefresh: function (oEvent) {
+			var tbl = oView.byId("awaitingApprovalTable");
+			tbl.setBusy(true);
+			documentServices.getInstance().getAwaitingApprovalDocuments(this, function() {
+				tbl.setBusy(false);
+			});
 		}
 	});
 });

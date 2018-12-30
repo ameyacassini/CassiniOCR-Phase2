@@ -1,7 +1,7 @@
 {
 	"_version": "1.8.0",
 	"sap.app": {
-		"id": "demo.cassini.ocr.CassiniOCR",
+		"id": "cassini.sim",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
@@ -39,11 +39,14 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": ["sap_hcb", "sap_belize"]
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		]
 	},
 	"sap.ui5": {
 		"rootView": {
-			"viewName": "demo.cassini.ocr.CassiniOCR.view.App",
+			"viewName": "cassini.sim.view.App",
 			"type": "XML"
 		},
 		"dependencies": {
@@ -62,7 +65,7 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "demo.cassini.ocr.CassiniOCR.i18n.i18n"
+					"bundleName": "cassini.sim.i18n.i18n"
 				}
 			},
 			"mainServiceModel": {
@@ -71,82 +74,134 @@
 			}
 		},
 		"resources": {
-			"css": [{
-				"uri": "css/style.css"
-			},{
-				"uri": "css/dashboard.css"
-			}, {
-				"uri": "https://fonts.googleapis.com/css?family=Source+Sans+Pro",
-				"id": ""
-			}]
+			"css": [
+				{
+					"uri": "css/style.css"
+				},
+				{
+					"uri": "css/dashboard.css"
+				},
+				{
+					"uri": "css/busyLoader.css"
+				}
+			]
 		},
 		"routing": {
 			"config": {
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
 				"async": true,
-				"viewPath": "demo.cassini.ocr.CassiniOCR.view",
+				"viewPath": "cassini.sim.view",
 				"controlAggregation": "pages",
 				"controlId": "idAppControl",
 				"clearControlAggregation": false
 			},
-			"routes": [{
-				"name": "Dashboard",
-				"pattern": "",
-				"target": ["Dashboard"]
-			}, {
-				"name": "Home",
-				"pattern": "home",
-				"target": ["Home"]
-			}, {
-				"name": "ScanningErrors",
-				"pattern": "scanning-errors",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["ScanningErrors"]
-			}, {
-				"name": "ReadyToPost",
-				"pattern": "ready-to-post",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["ReadyToPost"]
-			}, {
-				"name": "ScanningErrorDetails",
-				"pattern": "scanning-error-details/{scanId}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["ScanningErrorDetails"]
-			}, {
-				"name": "ValidationErrors",
-				"pattern": "validation-errors",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["ValidationErrors"]
-			}, {
-				"name": "ValidationErrorDetails",
-				"pattern": "validation-error-details/{docId}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["ValidationErrorDetails"]
-			}, {
-				"name": "ReadyToPostDetails",
-				"pattern": "ready-yo-post-details/{recordId}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["ReadyToPostDetails"]
-			}, {
-				"name": "PoPreference",
-				"pattern": "popreference/{approvalId}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["PoPreference"]
-			}, {
-				"name": "DueForApproval",
-				"pattern": "due-for-approval",
-				"titleTarget": "",
-				"greedy": false,
-				"target": ["DueForApproval"]
-			}],
+			"routes": [
+				{
+					"name": "Dashboard",
+					"pattern": "",
+					"target": [
+						"Dashboard"
+					]
+				},
+				{
+					"name": "Home",
+					"pattern": "home",
+					"target": [
+						"Home"
+					]
+				},
+				{
+					"name": "ScanningErrors",
+					"pattern": "scanning-errors",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ScanningErrors"
+					]
+				},
+				{
+					"name": "ReadyToPost",
+					"pattern": "ready-to-post",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ReadyToPost"
+					]
+				},
+				{
+					"name": "ScanningErrorDetails",
+					"pattern": "scanning-error-details/{scanId}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ScanningErrorDetails"
+					]
+				},
+				{
+					"name": "ValidationErrors",
+					"pattern": "validation-errors",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ValidationErrors"
+					]
+				},
+				{
+					"name": "ValidationErrorDetails",
+					"pattern": "validation-error-details/{docId}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ValidationErrorDetails"
+					]
+				},
+				{
+					"name": "ReadyToPostDetails",
+					"pattern": "ready-yo-post-details/{recordId}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ReadyToPostDetails"
+					]
+				},
+				{
+					"name": "PoPreference",
+					"pattern": "popreference/{approvalId}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"PoPreference"
+					]
+				},
+				{
+					"name": "DueForApproval",
+					"pattern": "due-for-approval",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"DueForApproval"
+					]
+				},
+				{
+					"name": "ScannedDocuments",
+					"pattern": "scanned-documents",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ScannedDocuments"
+					]
+				},
+				{
+					"name": "PostedDocuments",
+					"pattern": "posted-documents",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"PostedDocuments"
+					]
+				}
+			],
 			"targets": {
 				"Dashboard": {
 					"viewType": "XML",
@@ -227,8 +282,28 @@
 					"viewName": "DueForApproval",
 					"viewLevel": 1,
 					"controlId": "idAppControl"
+				},
+				"ScannedDocuments": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ScannedDocuments",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"PostedDocuments": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "PostedDocuments",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
 				}
 			}
 		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.1.0"
 	}
 }

@@ -1,10 +1,12 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
+	"sap/m/MessageBox",
+	"cassini/sim/service/documentServices",
 	'../Formatter'
-], function (Controller, Formatter) {
+], function (BaseController, MessageBox, documentServices, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.ScanningErrors", {
+	return BaseController.extend("cassini.sim.controller.ScanningErrors", {
 		onInit: function() {
 			oController = this;
 			oView = this.getView();
@@ -24,9 +26,9 @@ sap.ui.define([
 		onSelectDocument: function(oEvent) {
 			try {
 				
-				var row = oEvent.getSource().getParent();
-				var sPath = row.getBindingContext('NonSapErrorData').getPath();
-				var selectedRecord = row.getBindingContext('NonSapErrorData').getModel().getProperty(row.getBindingContext('NonSapErrorData').getPath());
+				//var row = oEvent.getSource().getParent();
+				//var sPath = row.getBindingContext('NonSapErrorData').getPath();
+				//var selectedRecord = row.getBindingContext('NonSapErrorData').getModel().getProperty(row.getBindingContext('NonSapErrorData').getPath());
 				
 				
 				var scanId = oEvent.getSource().getProperty('text');
@@ -35,8 +37,20 @@ sap.ui.define([
 					scanId: scanId
 				});
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
+		},
+		onNavigateManualVerify: function (oEvent) {
+			var batchId = oEvent.getSource().data("batchId");
+			var url = "http://103.73.151.249/DataVerifier?batchId=" + batchId;
+			window.open(url, '_blank');
+		},
+		onRefresh: function (oEvent) {
+			var tbl = oView.byId("manualVerifyTable");
+			tbl.setBusy(true);
+			documentServices.getInstance().getManualVerificationDocuments(this, function() {
+				tbl.setBusy(false);
+			});
 		}
 	});
 });

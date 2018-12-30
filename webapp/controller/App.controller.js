@@ -1,24 +1,40 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"cassini/sim/controller/BaseController",
+	"sap/m/MessageBox",
+	"cassini/sim/service/documentServices"
+], function (BaseController, MessageBox, documentServices) {
 	"use strict";
 
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.App", {
+	return BaseController.extend("cassini.sim.controller.App", {
+		
+		onInit: function() {
+			documentServices.getInstance().getSuccesfullyScannedDocuments(this);
+			documentServices.getInstance().getManualVerificationDocuments(this);
+			documentServices.getInstance().getValidationErrorDocuments(this);
+			documentServices.getInstance().getAwaitingApprovalDocuments(this);
+			documentServices.getInstance().getApprovedDocuments(this);
+			documentServices.getInstance().getPostedDocuments(this);
+			
+		},
+		
+		calculateSuccessRate: function() {
+			
+		},
+		
 		onChangeLanguage: function(oEvent) {
 			try {
-				console.log(oEvent);
 				if(oEvent.getParameter("state")) {
-					/*var i18nModel = new sap.ui.model.resource.ResourceModel({
-						bundleUrl : "i18n/messageBundle.properties",
-						bundleLocale : "dt"
-					});*/
 					sap.ui.getCore().getConfiguration().setLanguage("en");
 				} else {
 					sap.ui.getCore().getConfiguration().setLanguage("de");
 				}
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
+		},
+		
+		goHome: function(oEvent) {
+			this.getRouter().navTo("Dashboard");
 		}
 	});
 });

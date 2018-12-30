@@ -1,205 +1,171 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.ReadyToPostDetails" 
-	xmlns:core="sap.ui.core"
-	xmlns="sap.uxap"
-	xmlns:layout="sap.ui.layout"
-	xmlns:m="sap.m"
-	xmlns:t="sap.ui.table"
-	xmlns:f="sap.ui.layout.form"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:invoice="demo.cassini.ocr.CassiniOCR.blocks.invoice"
-	xmlns:tax="demo.cassini.ocr.CassiniOCR.blocks.tax"
-	xmlns:misc="demo.cassini.ocr.CassiniOCR.blocks.misc"
+<mvc:View controllerName="cassini.sim.controller.ReadyToPostDetails" xmlns:core="sap.ui.core" xmlns="sap.uxap" xmlns:layout="sap.ui.layout"
+	xmlns:m="sap.m" xmlns:t="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc" xmlns:invoice="cassini.sim.blocks.invoice"
+	xmlns:tax="cassini.sim.blocks.tax" xmlns:misc="cassini.sim.blocks.misc"
 	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-	<ObjectPageLayout id="ObjectPageLayout" isChildPage="true">
-		<headerTitle>
-			<ObjectPageHeader id="headerForTest"
-							  headerDesign="Light"
-							  objectTitle="Ready to Post - {record>/Uniqueid}">
-				<actions>
-					<ObjectPageHeaderActionButton 
-						icon="sap-icon://action" 
-						hideText="false" 
-						type="Accept" 
-						text="Post" 
-						tooltip="Post"
-						press="onPost"/>
-				</actions>
-			</ObjectPageHeader>
-		</headerTitle>
-		<headerContent>
-			<layout:VerticalLayout>
-				<m:ObjectStatus title="Vendor Number" text="{record>/Vendorno}"/>
-				<m:ObjectStatus title="Vendor Name" text="{record>/Vendorname}"/>
-				<m:ObjectStatus title="Country" text="{record>/VendorCountry}"/>
-			</layout:VerticalLayout>
-			<layout:VerticalLayout>
-				<m:ObjectStatus title="Payment Terms" text="{record>/Paymentterm}"/>
-				<m:ObjectStatus title="Payment Days" text="{record>/Paymentindays} days"/>
-				<m:ObjectStatus 
-					title="Basline Date" 
-					text="{
-						path: 'record>/Invoicedate',
-						type: 'sap.ui.model.type.Date',
-						formatOptions: {
-							pattern: 'yyyy-MM-dd'
-						}
-					}"/>
-			</layout:VerticalLayout>
-			<layout:VerticalLayout>
-				<m:Label text="Transaction:" labelFor="selTransaction"/>
-				<m:Select id="selTransaction">
-					<core:Item key="0" text="Invoice" />
-					<core:Item key="1" text="Credit memo" />
-				</m:Select>
-			</layout:VerticalLayout>
-			<layout:VerticalLayout>
-				<m:Label text="Document Type" labelFor="selDocType"/>
-				<m:Select id="selDocType">
-					<core:Item key="MM" text="MM" />
-					<core:Item key="FI" text="FI" />
-				</m:Select>
-			</layout:VerticalLayout>
-			<layout:VerticalLayout class="txtCommentsContainer">
-				<m:Label text="Text/Comments" labelFor="txtComments"/>
-				<m:TextArea id="txtComments" value="{record>/MgrComment}" width="20rem" rows="2" editable="false" />
-			</layout:VerticalLayout>
-
-		</headerContent>
-		<sections>
-			<ObjectPageSection title="Invoice Data">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<invoice:InvoiceData id="invoiceDataBlock"/>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-
-			<ObjectPageSection title="Tax Data">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<tax:TaxData id="taxDataBlock"/>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-			<ObjectPageSection title="Misc. Data">
-				<subSections>
-					<ObjectPageSubSection>
-						<blocks>
-							<misc:MiscData id="miscDataBlock"/>
-						</blocks>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-		</sections>
-	</ObjectPageLayout>
-	<t:Table
-		id="collapsibleFooter"
-		class="collapsibleFooter"
-		rows="{record>/GetOcrHdrToOcrItm/results}"
-		selectionMode="None"
-		alternateRowColors="true"
-		ariaLabelledBy="title">
-		<t:toolbar>
-			<m:Toolbar>
-				<m:Title text="{=
-					'Purchase Orders (' + ${record>/GetOcrHdrToOcrItm/results}.length + ')'
-				}"></m:Title>
-				<m:ToolbarSpacer />
-				<core:HTML afterRendering="onExpandCollapsibleTable" content='&lt;div&gt;&lt;span id=&quot;btnToggleTable&quot; class=&quot;filter-openCloseWrap&quot;&gt;&lt;span class=&quot;filter-openClose&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;'>
-				</core:HTML>
-			</m:Toolbar>
-		</t:toolbar>
-		<t:columns>
-			<t:Column hAlign="Center"
-				sortProperty="item" 
-				filterProperty="item"
-				width="14%">
-				<m:Label text="Item"/>
-				<t:template>
-					<m:Text text="{record>Poitem}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center"
-				sortProperty="record>netAmount" 
-				filterProperty="record>netAmount"
-				width="14%">
-				<m:Label text="Net Amount"/>
-				<t:template>
-					<m:Text text="{record>Netprice}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center" width="14%">
-				<m:Label text="PO Doc. Number"/>
-				<t:template>
-					<m:Text text="{record>Ponumber}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center" width="17%">
-				<m:Label text="Qty"/>
-				<t:template>
-					<m:Text text="{record>PoitemQuantity}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center" width="14%">
-				<m:Label text="Tax Code"/>
-				<t:template>
-					<m:Text text="{record>Taxcode}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="Material" />
-				<t:template>
-					<m:Text text="{record>Material}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="UoM" />
-				<t:template>
-					<m:Text text="{record>PoitemUom}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="Text" />
-				<t:template>
-					<m:Text text="{record>PoitemText}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="Ref. Doc. Item #" />
-				<t:template>
-					<m:Text text="{record>RefDocItm}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="Ref. Doc. #" />
-				<t:template>
-					<m:Text text="{record>RefDocNum}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="Year" />
-				<t:template>
-					<m:Text text="{record>OcrYear}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<m:Label text="Description" />
-				<t:template>
-					<m:Text text="{record>Description}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-		</t:columns>
-	</t:Table>
+	<m:Page title="Ready to Post - {record>/uniqueId}" class="detailScreen readyToPost" showNavButton="true" navButtonPress="onNavBack">
+		<m:headerContent>
+			<m:Button icon="sap-icon://action" type="Accept" text="Post"  press="onPost" tooltip="Post"/>
+			<m:Button icon="sap-icon://detail-view" 
+				custom:file="{=
+					(${record>/file} &amp;&amp; ${record>/file} !== '') ? 'data:application/pdf;base64, ' + ${record>/file} : '/webapp/sample-invoice.pdf'
+				}" press="onViewDocument"/>
+		</m:headerContent>
+		<m:content>
+			<ObjectPageLayout id="ObjectPageLayout" isChildPage="true">
+				<!--<headerTitle>
+					<ObjectPageHeader id="headerForTest" headerDesign="Light" objectTitle="Ready to Post - {record>/uniqueId}">
+						<actions>
+							<ObjectPageHeaderActionButton icon="sap-icon://action" hideText="false" type="Accept" text="Post" tooltip="Post" press="onPost"/>
+						</actions>
+					</ObjectPageHeader>
+				</headerTitle>-->
+				<headerContent>
+					<layout:VerticalLayout>
+						<m:ObjectStatus title="Vendor Number" text="{record>/vendorNo}"/>
+						<m:ObjectStatus title="Vendor Name" text="{record>/vendorName}"/>
+						<m:ObjectStatus title="Country" text="{record>/vendorCountry}"/>
+					</layout:VerticalLayout>
+					<layout:VerticalLayout>
+						<m:ObjectStatus title="Payment Terms" text="{record>/paymentTerm}"/>
+						<m:ObjectStatus title="Payment Days" text="{record>/paymentInDays} days"/>
+						<m:ObjectStatus title="Basline Date"
+							text="{ path: 'record>/documentDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' } }"/>
+					</layout:VerticalLayout>
+					<layout:VerticalLayout>
+						<m:Label text="Transaction:" labelFor="selTransaction"/>
+						<m:Select id="selTransaction">
+							<core:Item key="0" text="Invoice"/>
+							<core:Item key="1" text="Credit memo"/>
+						</m:Select>
+					</layout:VerticalLayout>
+					<layout:VerticalLayout>
+						<m:Label text="Module" labelFor="selDocType"/>
+						<m:Select id="selDocType">
+							<core:Item key="MM" text="MM"/>
+							<core:Item key="FI" text="FI"/>
+						</m:Select>
+					</layout:VerticalLayout>
+					<layout:VerticalLayout class="txtCommentsContainer">
+						<m:Label text="Text/Comments" labelFor="txtComments"/>
+						<m:TextArea id="txtComments" value="{record>/mgrComment}" width="20rem" rows="2" editable="false"/>
+					</layout:VerticalLayout>
+				</headerContent>
+				<sections>
+					<ObjectPageSection title="Invoice Data">
+						<subSections>
+							<ObjectPageSubSection>
+								<blocks>
+									<invoice:InvoiceData id="invoiceDataBlock"/>
+								</blocks>
+							</ObjectPageSubSection>
+						</subSections>
+					</ObjectPageSection>
+					<ObjectPageSection title="Tax Data">
+						<subSections>
+							<ObjectPageSubSection>
+								<blocks>
+									<tax:TaxData id="taxDataBlock"/>
+								</blocks>
+							</ObjectPageSubSection>
+						</subSections>
+					</ObjectPageSection>
+					<ObjectPageSection title="Misc. Data">
+						<subSections>
+							<ObjectPageSubSection>
+								<blocks>
+									<misc:MiscData id="miscDataBlock"/>
+								</blocks>
+							</ObjectPageSubSection>
+						</subSections>
+					</ObjectPageSection>
+				</sections>
+			</ObjectPageLayout>
+			<t:Table id="collapsibleFooter" class="collapsibleFooter" rows="{record>/poItems}" selectionMode="None" alternateRowColors="true"
+				ariaLabelledBy="title">
+				<t:toolbar>
+					<m:Toolbar>
+						<m:Title text="{= 'Purchase Orders (' + ${record>/poItems}.length + ')' }"></m:Title>
+						<m:ToolbarSpacer/>
+						<core:HTML afterRendering="onExpandCollapsibleTable"
+							content='&lt;div&gt;&lt;span id=&quot;btnToggleTable&quot; class=&quot;filter-openCloseWrap&quot;&gt;&lt;span class=&quot;filter-openClose&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;'></core:HTML>
+					</m:Toolbar>
+				</t:toolbar>
+				<t:columns>
+					<t:Column hAlign="Center" sortProperty="item" filterProperty="item" width="14%">
+						<m:Label text="Item"/>
+						<t:template>
+							<m:Text text="{record>poItem}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column hAlign="Center" sortProperty="record>netValue" filterProperty="record>netValue" width="14%">
+						<m:Label text="Net Amount"/>
+						<t:template>
+							<m:Text text="{record>netValue}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column hAlign="Center" width="14%">
+						<m:Label text="PO Doc. Number"/>
+						<t:template>
+							<m:Text text="{record>poNumber}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column hAlign="Center" width="17%">
+						<m:Label text="Qty"/>
+						<t:template>
+							<m:Text text="{record>poItemQuantity}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column hAlign="Center" width="14%">
+						<m:Label text="Tax Code"/>
+						<t:template>
+							<m:Text text="{record>taxCode}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="Material"/>
+						<t:template>
+							<m:Text text="{record>material}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="UoM"/>
+						<t:template>
+							<m:Text text="{record>poItemUom}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="Text"/>
+						<t:template>
+							<m:Text text="{record>poItemText}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="Ref. Doc. Item #"/>
+						<t:template>
+							<m:Text text="{record>refDocItm}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="Ref. Doc. #"/>
+						<t:template>
+							<m:Text text="{record>refDocNum}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="Year"/>
+						<t:template>
+							<m:Text text="{record>ocrYear}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<t:Column width="17%">
+						<m:Label text="Description"/>
+						<t:template>
+							<m:Text text="{record>description}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+				</t:columns>
+			</t:Table>
+		</m:content>
+	</m:Page>
 </mvc:View>

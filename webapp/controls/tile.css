@@ -1,0 +1,71 @@
+.casTile {
+	background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: center;
+    position: relative;
+    min-height: 5rem;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+    border-radius: 0.125rem;
+    cursor: pointer;
+}
+
+.casTile:hover {
+    background-color: #F7F9FA;
+}
+
+.casTile.positive{
+	background: #EAFAF1;
+    border: 1px solid #82E0AA;
+    box-shadow: none;
+}
+
+.casTile.negative{
+	background: #FDEDEC;
+    border: 1px solid #F1948A;
+    box-shadow: none;
+}
+
+.casTile.critical{
+	background: #FEF9E7;
+    border: 1px solid #F7DC6F;
+    box-shadow: none;
+}
+
+.casTile.neutral{
+	background: #F4F6F6;
+    border: 1px solid #BFC9CA;
+    box-shadow: none;
+}
+
+.casTileWrapper {
+	margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.casTileTitle {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.casTileWrapper h1 {
+	font-size: 5rem;
+}
+.casTileWrapper h3 {
+	font-size: 2rem;
+}
+
+.casTileWrapper .sapSuiteRMC {
+	margin: 0 auto;	
+}
+
+.casTileWrapper div.sapSuiteRMC {
+	margin-bottom: 1rem;
+}
+
+.casTileDescription {
+    font-size: 0.9rem;
+}

@@ -1,372 +1,135 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.Dashboard" 
-	xmlns:html="http://www.w3.org/1999/xhtml" 
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:l="sap.ui.layout"
-	xmlns:t="sap.ui.table"
-	xmlns:unified="sap.ui.unified"
-	xmlns:core="sap.ui.core"
-	xmlns:viz="sap.viz.ui5.controls"
-	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
-    xmlns:viz.data="sap.viz.ui5.data"
-	xmlns="sap.m"
-	xmlns:c="sap.suite.ui.microchart"
+<mvc:View controllerName="cassini.sim.controller.Dashboard" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table" xmlns:unified="sap.ui.unified" xmlns:core="sap.ui.core" xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data" xmlns="sap.m" xmlns:tnt="sap.tnt"
+	xmlns:c="sap.suite.ui.microchart" xmlns:cassini="cassini.sim.controls"
 	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-	<!--<OverflowToolbar class="dashboardToolbar">
-		<ToolbarSpacer/>
-		<Button icon="sap-icon://add" text="{i18n>rules}" type="Emphasized"/>
-	</OverflowToolbar>
-	<l:Grid class="dasboardContainer">
-		<l:content>-->
-			<VBox class="filterContainer" width="100%">
-				<FlexBox class="filterLabels"
-					alignItems="Start"
-					justifyContent="SpaceBetween">
-					<items>
-						<Text textAlign="Center" text="Daily" />
-						<Text textAlign="Center" text="Monthly" />
-						<Text textAlign="Center" text="Yearly" />
-					</items>
-				</FlexBox>
-				<Slider enableTickmarks="false" min="0" max="2" value="1" class="filterSlider" width=""/>
-			</VBox>
-			<HBox class="sapUiTinyMargin">
-				<FlexBox
-					width="25%"
-					class="tile sapUiTinyMargin"
-					direction="Column"
-					alignItems="Center"
-					justifyContent="Center">
-					<items>
-						<Title level="H1" text="104" />
-						<Text textAlign="Center" text="Documents successfully scanned" />
-					</items>
-				</FlexBox>
-				<VBox width="25%">
-					<FlexBox  height="50%"
-						class="tile sapUiTinyMargin"
-						direction="Column"
-						alignItems="Center"
-						justifyContent="Center">
-						<items>
-							<Title level="H2" text="34" />
-							<Text textAlign="Center" text="Scanning Errors" />
-						</items>
-					</FlexBox>
-					<FlexBox  height="50%"
-						class="tile sapUiTinyMargin"
-						direction="Column"
-						alignItems="Center"
-						justifyContent="Center">
-						<items>
-							<Title level="H2" text="6" />
-							<Text textAlign="Center" text="Validation Errors" />
-						</items>
-					</FlexBox>
-				</VBox>
-				<FlexBox
-					width="25%"
-					class="tile sapUiTinyMargin"
-					direction="Column"
-					alignItems="Center"
-					justifyContent="Center">
-					<items>
-						<c:RadialMicroChart size="Auto" percentage="45" press="press"></c:RadialMicroChart>
-						<Text textAlign="Center" text="Success Percentage" />
-					</items>
-				</FlexBox>
-				<VBox width="25%">
-					<HBox height="50%">
-						<FlexBox
-							width="50%"
-							class="tile sapUiTinyMargin positive"
-							direction="Column"
-							alignItems="Center"
-							justifyContent="Center">
-							<items>
-								<Title level="H3" text="20" />
-								<Text textAlign="Center" text="Documents Posted" />
-							</items>
-						</FlexBox>
-						<FlexBox
-							width="50%"
-							class="tile sapUiTinyMargin neutral"
-							direction="Column"
-							alignItems="Center"
-							justifyContent="Center">
-							<items>
-								<Title level="H3" text="44" />
-								<Text textAlign="Center" text="Documents Awaiting Approval" />
-							</items>
-						</FlexBox>
-					</HBox>
-					<HBox height="50%">
-						<FlexBox
-							width="50%"
-							class="tile sapUiTinyMargin critical"
-							direction="Column"
-							alignItems="Center"
-							justifyContent="Center">
-							<items>
-								<Title level="H3" text="40" />
-								<Text textAlign="Center" text="Documents Approved" />
-							</items>
-						</FlexBox>
-						<FlexBox
-							width="50%"
-							class="tile sapUiTinyMargin negative"
-							direction="Column"
-							alignItems="Center"
-							justifyContent="Center">
-							<items>
-								<Title level="H3" text="12" />
-								<Text textAlign="Center" text="Documents Rejected" />
-							</items>
-						</FlexBox>
-					</HBox>
-				</VBox>
-				
-			</HBox>
-			<!--<VBox class="homeTilesContainer">
-				<layoutData>
-					<l:GridData
-						span="L6 M6 S6" />
-				</layoutData>
-				<HBox>
-					<Panel headerText="{i18n>scanDashboard}" class="tile scanDashb oardTile">
-						<layoutData>
-							<l:GridData
-								span="L6 M6 S6" />
-						</layoutData>
-						<content>
-							<FlexBox
-								direction="Column"
-								alignItems="Start">
-								<items>
-									<Button id="btnScanningErrors"
-										icon="sap-icon://detail-view" 
-										class="error" 
-										type="Transparent" 
-										 text="{i18n>scanningErrors}{=
-											' (' + ${NonSapErrorData>/}.length + ')'
-										}" 
-										press="onGoToScanningErrors" />
-									<Button id="btnValidationErrors"
-										icon="sap-icon://validate" 
-										class="error" 
-										type="Transparent" 
-										text="{i18n>validationErrors}{=
-											' (' + ${SapErrorData>/}.length + ')'
-										}" 
-										press="onGoToValidationErrors" />
-									<Button 
-										icon="sap-icon://alert" 
-										class="warning" 
-										type="Transparent" 
-										text="{i18n>warnings}{=
-											' (' + ${WarningData>/}.length + ')'
-										}" press="onPress" />
-								</items>
-							</FlexBox>
-						</content>
-					</Panel>
-
-					<Panel headerText="{i18n>workflowStatus}" class="tile">
-						<layoutData>
-							<l:GridData
-								span="L6 M6 S6" />
-						</layoutData>
-						<content>
-							<FlexBox
-								direction="Column"
-								alignItems="Start">
-								<items>
-									<Button 
-										icon="sap-icon://email-read" 
-										class="inprocess" 
-										type="Transparent" 
-										text="{i18n>inProcess}{=
-											' (' + ${InProcessData>/}.length + ')'
-										}" press="onPress" />
-									<Button id="btnDueForApproval"
-										icon="sap-icon://lateness" 
-										class="due" 
-										type="Transparent"
-										text="{i18n>dueForApproval}{=
-											' (' + ${MgrApprovalData>/}.length + ')'
-										}"
-										press="onGoToDueForApproval" />
-									<Button 
-										icon="sap-icon://decline" 
-										class="error" 
-										type="Transparent" 
-										text="{i18n>rejected}{=
-											' (' + ${RejectedData>/}.length + ')'
-										}" press="onPress" />
-								</items>
-							</FlexBox>
-						</content>
-					</Panel>
-				</HBox>
-				<l:FixFlex id='chartFixFlex' minFlexSize="250">
-			        
-			        <l:flexContent>
-			            <viz:Popover id="idPopOver"></viz:Popover>
-			            <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}"
-			                height='100%' width="100%" vizType='donut'>
-			                <viz:dataset>
-			                    <viz.data:FlattenedDataset data="{/chart}">
-			                        <viz.data:dimensions>
-			                            <viz.data:DimensionDefinition name="Status"
-			                                value="{Status}" />
-			                        </viz.data:dimensions>
-			                        <viz.data:measures>
-			                            <viz.data:MeasureDefinition name="Count"
-			                                value="{Count}" />
-			                        </viz.data:measures>
-			                    </viz.data:FlattenedDataset>
-			                </viz:dataset>
-			
-			                <viz:feeds>
-			                    <viz.feeds:FeedItem uid="size" type="Measure"
-			                        values="Count" />
-			                    <viz.feeds:FeedItem uid="color" type="Dimension"
-			                        values="Status" />
-			                </viz:feeds>
-			            </viz:VizFrame>
-			        </l:flexContent>
-			    </l:FixFlex>
-				
-			</VBox>-->
-			<!--<Panel headerText="{i18n>readyToPost}" class="tile">
-				<layoutData>
-					<l:GridData
-						span="L6 M6 S6" />
-				</layoutData>
+	<l:Grid class="sapUiSmallMarginTop" containerQuery="true" vSpacing="0" defaultSpan="XL2 L3">
+		<cassini:Tile id="tileSuccessfullyScanned" titleLevel="H1" height="259px" title="{= ${successfullyScannedDocuments>/}.length }"
+			description="Documents successfully scanned" custom:route="ScannedDocuments" press="handleNav"/>
+		<l:Grid containerQuery="true" vSpacing="1rem" hSpacing="0" defaultSpan="L12 M12 S12">
+			<cassini:Tile titleLevel="H3" height="6.5rem" title="{= ${manualVerifyDocuments>/}.length }" custom:route="ScanningErrors"
+				description="Manual Verification" press="handleNav"/>
+			<cassini:Tile titleLevel="H3" height="6.5rem" title="{= ${validationErrorsDocuments>/}.length }" custom:route="ValidationErrors"
+				description="Validation Errors" press="handleNav"/>
+		</l:Grid>
+		<!--<cassini:Tile padding="2rem" height="226px" description="Success Percentage">
+			<c:RadialMicroChart size="Responsive" percentage="{= ${report>/successRate} }" press="press"></c:RadialMicroChart>
+		</cassini:Tile>-->
+		<l:FixFlex id='chartTopVendors' class="dashboardDonutChart" minFlexSize="290">
+			<l:flexContent>
+				<viz:Popover id="idPopOver"></viz:Popover>
+				<viz:VizFrame id="vfTopVendors" uiConfig="{applicationSet:'fiori'}" vizType='donut'>
+					<viz:dataset>
+						<viz.data:FlattenedDataset data="{/topVendors}">
+							<viz.data:dimensions>
+								<viz.data:DimensionDefinition name="Vendor" value="{Vendor}"/>
+							</viz.data:dimensions>
+							<viz.data:measures>
+								<viz.data:MeasureDefinition name="Revenue" value="{Revenue}"/>
+							</viz.data:measures>
+						</viz.data:FlattenedDataset>
+					</viz:dataset>
+					<viz:feeds>
+						<viz.feeds:FeedItem uid="size" type="Measure" values="Revenue"/>
+						<viz.feeds:FeedItem uid="color" type="Dimension" values="Vendor"/>
+					</viz:feeds>
+				</viz:VizFrame>
+			</l:flexContent>
+		</l:FixFlex>
+		<l:Grid containerQuery="true" vSpacing="1rem" hSpacing="0" defaultSpan="XL6 L6 M6 S6">
+			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile positive sapUiTinyMarginEnd"
+				title="{= ${postedDocuments>/}.length }" custom:route="PostedDocuments" description="Documents Posted" press="handleNav"/>
+			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile neutral" title="{= ${awaitingApprovalDocuments>/}.length }"
+				custom:route="DueForApproval" description="Documents Awaiting Approval" press="handleNav"/>
+			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile critical sapUiTinyMarginEnd"
+				title="{= ${approvedDocuments>/}.length }" custom:route="ReadyToPost" description="Ready To Post" press="handleNav"/>
+			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile negative" title="0" description="Documents Rejected"
+				press="handleNav"/>
+		</l:Grid>
+	</l:Grid>
+	<l:Grid containerQuery="true" width="100%" defaultSpan="XL12 L12 M12 S12">
+		<l:FixFlex id='chartTopProducts' class="dashboardBarChart" minFlexSize="300">
+			<l:flexContent>
+				<viz:Popover id="idPopOverBar"></viz:Popover>
+				<viz:VizFrame id="vfTopProducts" uiConfig="{applicationSet:'fiori'}" vizType='bar'>
+					<viz:dataset>
+						<viz.data:FlattenedDataset data="{/topProducts}">
+							<viz.data:dimensions>
+								<viz.data:DimensionDefinition name="Product" value="{Product}"/>
+							</viz.data:dimensions>
+							<viz.data:measures>
+								<viz.data:MeasureDefinition name="Volume" value="{Volume}"/>
+							</viz.data:measures>
+						</viz.data:FlattenedDataset>
+					</viz:dataset>
+					<viz:feeds>
+						<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Volume"/>
+						<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Product"/>
+					</viz:feeds>
+				</viz:VizFrame>
+			</l:flexContent>
+		</l:FixFlex>
+	</l:Grid>
+	<Table id="awaitingTable" class="sapUiSizeCompact"
+		items="{ path: 'approvedDocuments>/', sorter: { path: 'approvedDocuments>uniqueId' } }">
+		<headerToolbar>
+			<Toolbar>
 				<content>
-					<t:Table
-						id="tblReadyToPost"
-						rows="{FiReviewRecords>/}"
-						selectionMode="None"
-						visibleRowCountMode="{/Auto}"
-						alternateRowColors="true"
-						ariaLabelledBy="title">
-						<t:rowSettingsTemplate>
-							<t:RowSettings highlight="{FiReviewRecords>highlightStatus}"/>
-						</t:rowSettingsTemplate>
-						<t:columns>
-							<t:Column hAlign="Center"
-								sortProperty="FiReviewRecords>workflow" 
-								filterProperty="FiReviewRecords>workflow"
-								width="12%">
-								<Label text="{i18n>status}"/>
-								<t:template>
-									<core:Icon
-										src="{
-											path: 'FiReviewRecords>workflow',
-											formatter: 'demo.cassini.ocr.CassiniOCR.Formatter.postStatusIcon'
-										}">
-										<core:layoutData>
-											<FlexItemData growFactor="1" />
-										</core:layoutData>
-									</core:Icon>
-								</t:template>
-							</t:Column>
-							<t:Column hAlign="Center" width="14%">
-								<Label text="{i18n>workflow}"/>
-								<t:template>
-									<core:Icon
-										color="{=
-											(${FiReviewRecords>workflow} === 1) ? '#385723' : '#ff0000'
-										}"
-										src="{
-											path: 'FiReviewRecords>workflow',
-											formatter: 'demo.cassini.ocr.CassiniOCR.Formatter.workflowIcon'
-										}">
-										<core:layoutData>
-											<FlexItemData growFactor="1" />
-										</core:layoutData>
-									</core:Icon>
-								</t:template>
-							</t:Column>
-							<t:Column hAlign="Center" width="19%">
-								<Label text="{i18n>vendorNumber}"/>
-								<t:template>
-									<Text text="{FiReviewRecords>Vendorno}" wrapping="false"/>
-								</t:template>
-							</t:Column>
-							<t:Column hAlign="Center" width="19%">
-								<Label text="{i18n>poNumber}"/>
-								<t:template>
-									<Text text="{FiReviewRecords>Ponumber}" wrapping="false"/>
-								</t:template>
-							</t:Column>
-							<t:Column width="20%" hAlign="Center">
-								<Label text="{i18n>grossAmount}"/>
-								<t:template>
-									<unified:Currency stringValue="{FiReviewRecords>Grossvalue}" currency="{FiReviewRecords>Currency}"/>
-								</t:template>
-							</t:Column>
-							<t:Column width="16%" hAlign="Center">
-								<Label text="{i18n>action}"/>
-								<t:template>
-									<FlexBox
-										alignItems="Start"
-										justifyContent="Start">
-										<items>
-											<Button type="Accept" 
-												text="{i18n>post}" 
-												press="onPost"
-												visible="{=
-													${FiReviewRecords>workflow} === 1
-												}"
-												busyIndicatorDelay="0"
-												custom:postId="{postId}" />
-											<Button type="Emphasized" 
-												text="{i18n>remind}" 
-												visible="{=
-													${FiReviewRecords>workflow} === 2
-												}"
-												press="onPress"
-												busyIndicatorDelay="0" />
-											<Link
-												text="{docId}"
-												class="error"
-												visible="{=
-													${FiReviewRecords>workflow} === 0
-												}"
-												press="handleLinkPress" />
-										</items>
-									</FlexBox>
-								</t:template>
-							</t:Column>
-						</t:columns>
-						<t:footer>
-							<Toolbar>
-								<core:Icon src="sap-icon://print">
-									<core:layoutData>
-										<FlexItemData growFactor="1" />
-									</core:layoutData>
-								</core:Icon>
-								<Label text=" - {i18n>notYetPosted}"/>
-								
-								<core:Icon src="sap-icon://travel-expense-report">
-									<core:layoutData>
-										<FlexItemData growFactor="1" />
-									</core:layoutData>
-								</core:Icon>
-								<Label text=" - {i18n>notYetApproved}"/>
-								<ToolbarSpacer/>
-								<Button
-									text="{i18n>viewMore}"
-									tooltip="{i18n>viewMore}"
-									type="Emphasized"
-									press="onGoToReadyToPost"/>
-							</Toolbar>
-						</t:footer>
-					</t:Table>
+					<Title text="Ready to Post" level="H2"/>
+					<!--<ToolbarSpacer />
+					<ComboBox id="idPopinLayout"
+						placeholder="Popin layout options"
+						change="onPopinLayoutChanged">
+						<items>
+							<core:Item  text="Block"
+								key="Block"/>
+							<core:Item  text="Grid Large"
+								key="GridLarge"/>
+							<core:Item  text="Grid Small"
+								key="GridSmall"/>
+						</items>
+					</ComboBox>-->
 				</content>
-			</Panel>-->
-		<!--</l:content>
-	</l:Grid>-->
+			</Toolbar>
+		</headerToolbar>
+		<columns>
+			<Column>
+				<Text text="Unique ID"/>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true">
+				<Text text="Vendor Details"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+				<Text text="Process"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+				<Text text="Workflow"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+				<Text text="Status"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+				<Text text="Document Date"/>
+			</Column>
+			<Column hAlign="Center">
+				<Text text="Action"/>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<ObjectIdentifier title="{approvedDocuments>uniqueId}"/>
+					<ObjectIdentifier title="{approvedDocuments>vendorName}" text="{approvedDocuments>vendorNo}"/>
+					<Text text="MM"/>
+					<core:Icon color="{= (${approvedDocuments>workflow} === 1) ? '#385723' : '#ff0000' }"
+						src="{ path: 'approvedDocuments>workflow', formatter: 'cassini.sim.Formatter.workflowIcon' }"></core:Icon>
+					<tnt:InfoLabel text="Approved" displayOnly="true" colorScheme="8"/>
+					<Text text="{ path: 'approvedDocuments>documentDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' } }"
+						wrapping="false"/>
+					<Button icon="sap-icon://paper-plane" text="Post" press="onPost" type="Accept" ariaLabelledBy="editButtonLabel"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
 </mvc:View>

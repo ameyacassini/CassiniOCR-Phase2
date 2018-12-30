@@ -1,4 +1,4 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.Home" 
+<mvc:View controllerName="cassini.sim.controller.Home" 
 	xmlns:html="http://www.w3.org/1999/xhtml" 
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
@@ -38,7 +38,7 @@
 										class="error" 
 										type="Transparent" 
 										 text="{i18n>scanningErrors}{=
-											' (' + ${NonSapErrorData>/}.length + ')'
+											' (' + ${ManualVerifyDocuments>/}.length + ')'
 										}" 
 										press="onGoToScanningErrors" />
 									<Button id="btnValidationErrors"

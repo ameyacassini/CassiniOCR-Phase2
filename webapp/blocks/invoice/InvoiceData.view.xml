@@ -29,7 +29,7 @@
 					<f:FormElement label="Document Date">
 						<f:fields>
 							<Input value="{
-								path: 'record>/Invoicedate',
+								path: 'record>/documentDate',
 								type: 'sap.ui.model.type.Date',
 								formatOptions: {
 									pattern: 'yyyy-MM-dd'
@@ -41,7 +41,7 @@
 						<f:fields>
 							<DatePicker
 								value="{
-									path: 'record>/Postingdate',
+									path: 'record>/postingDate',
 									type: 'sap.ui.model.type.Date',
 									formatOptions: {
 										pattern: 'yyyy-MM-dd'
@@ -50,14 +50,14 @@
 								change="handleChange"/>
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="Reference">
+					<f:FormElement label="Reference Number">
 						<f:fields>
-							<Input value="" editable="false" />
+							<Input value="{record>/referenceNo}" editable="false" />
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="Document Type">
+					<f:FormElement label="Transaction">
 						<f:fields>
-							<Input value="MM" editable="false" />
+							<Input value="Invoice" editable="false" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
@@ -66,19 +66,19 @@
 				<f:formElements>
 					<f:FormElement label="Vendor Number">
 						<f:fields>
-							<Input value="{record>/Vendorno}" editable="false" />
+							<Input value="{record>/vendorNo}" editable="false" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Company Code">
 						<f:fields>
-							<Input value="{record>/Companycode}" editable="false" />
+							<Input value="{record>/companyCode}" editable="false" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Gross Amount">
 						<f:fields>
 							<l:HorizontalLayout class="priceField">
-								<unified:Currency currency="{record>/Currency}"/>
-								<Input value="{record>/Grossvalue}" editable="false">
+								<unified:Currency currency="{record>/currency}"/>
+								<Input value="{record>/grossValue}" editable="false">
 									<layoutData>
 										<l:GridData span="XL12 L12 M12 S12" />
 									</layoutData>
@@ -89,8 +89,8 @@
 					<f:FormElement label="Net Value">
 						<f:fields>
 							<l:HorizontalLayout class="priceField">
-								<unified:Currency currency="{record>/Currency}"/>
-								<Input value="{record>/Netvalue}" editable="false">
+								<unified:Currency currency="{record>/currency}"/>
+								<Input value="{record>/netValue}" editable="false">
 									<layoutData>
 										<l:GridData span="XL12 L12 M12 S12" />
 									</layoutData>

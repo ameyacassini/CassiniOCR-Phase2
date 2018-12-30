@@ -1,92 +1,27 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
 	'../Formatter',
 	'sap/ui/model/json/JSONModel',
 	'sap/viz/ui5/format/ChartFormatter',
 	'sap/viz/ui5/api/env/Format',
 	"sap/m/MessageBox",
+	"cassini/sim/model/Report",
+	"cassini/sim/service/documentServices",
+	"cassini/sim/service/utilities",
 	'../InitPage'
-], function (Controller, Formatter, JSONModel, ChartFormatter, Format, MessageBox, InitPageUtil) {
+], function (BaseController, Formatter, JSONModel, ChartFormatter, Format, MessageBox, Report, documentServices, utilities, InitPageUtil) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.Dashboard", {
-		settingsModel : {
-            dataset : {
-                name: "Dataset",
-                defaultSelected : 1,
-                values : [{
-                    name : "Small",
-                    value : "/small.json"
-                },{
-                    name : "Medium",
-                    value : "/medium.json"
-                }]
-            },
-            series : {
-                name : "Series",
-                defaultSelected : 0,
-                enabled : false,
-                values : [{
-                    name : "1 Series"
-                }, {
-                    name : '2 Series'
-                }]
-            },
-            dataLabel : {
-                name : "Value Label",
-                defaultState : false
-            },
-            axisTitle : {
-                name : "Axis Title",
-                defaultState : false,
-                enabled : false
-            }
-        },
-        
+	return BaseController.extend("cassini.sim.controller.Dashboard", {
 		onInit: function() {
-			/*oController = this;
+			oController = this;
 			oView = this.getView();
 			oComponent = this.getOwnerComponent();
 			
-			// set highlight status of post data model
-			var oModel = this.getOwnerComponent().getModel();
-			var oData = oModel.getData();
-			for (var i = 0; i < oData.PostData.length; i++) {
-				var oProduct = oData.PostData[i];
-	
-				if (oProduct.status === 0) {
-					oProduct.highlightStatus = "Error";
-				} else if (oProduct.status === 1) {
-					oProduct.highlightStatus = "Success";
-				} if (oProduct.status === 2) {
-					oProduct.highlightStatus = "Error";
-				}
-			}
-			oModel.refresh(true);*/
-			
-			//var oModel = this.getOwnerComponent().getModel();
-			//var postData = oModel.getData().PostData;
-			/*var scanningErrorData = oData.PostData.filter(function(data) {
-			    return data.status === 0;
-			});
-			
-			var oScanningErrorModel = new sap.ui.model.json.JSONModel({
-				PostData: scanningErrorData
-			});
-			this.getOwnerComponent().setModel(oScanningErrorModel, "ScanningErrorData");
-			
-			
-			
-			Format.numericFormatter(ChartFormatter.getInstance());
-            // set explored app's demo model on this sample
-            var oSettingsModel = new JSONModel(this.settingsModel);
-            oSettingsModel.setDefaultBindingMode(sap.ui.model.BindingMode.OneWay);
-            this.getView().setModel(oSettingsModel);
-            
-            var oVizFrame = this.oVizFrame = this.getView().byId("idVizFrame");
-            oVizFrame.setVizProperties({
+			var vfTopVendors = this.vfTopVendors = this.getView().byId("vfTopVendors");
+            vfTopVendors.setVizProperties({
                 title: {
-                    visible: false
+                    text: "Top 5 Vendors by Value"
                 },
                 plotArea: {
                     dataLabel: {
@@ -95,96 +30,129 @@ sap.ui.define([
                 }
             });
             
-            var chartDataModel = oComponent.getModel("chartData"); 
-            
-            var dataModel = new JSONModel({
-            	chart: chartDataModel.getData()
-            });
-            oVizFrame.setModel(dataModel);
-            
             var oPopOver = this.getView().byId("idPopOver");
-            oPopOver.connect(oVizFrame.getVizUid());
+            oPopOver.connect(vfTopVendors.getVizUid());
             oPopOver.setFormatString(ChartFormatter.DefaultPattern.STANDARDFLOAT);
             
-            InitPageUtil.initPageSettings(this.getView());*/
+            InitPageUtil.initPageSettings(this.getView(), "vfTopVendors", "chartTopVendors", false);
             
-            /*var that = this;
-            dataModel.attachRequestCompleted(function() {
-                that.dataSort(this.getData());
+            var vfTopProducts = this.vfTopProducts = this.getView().byId("vfTopProducts");
+            vfTopProducts.setVizProperties({
+                title: {
+                    text: "Top 5 Products by Volume"
+                },
+                plotArea: {
+                    dataLabel: {
+                        visible: true
+                    }
+                },
+                valueAxis: {
+                    title: {
+                        visible: false
+                    }
+                },
+                categoryAxis: {
+                    title: {
+                        visible: false
+                    }
+                }
+            });
+            
+            var dataModel = new JSONModel({
+            	topVendors: Report.getInstance().getModel().getData().topVendors,
+            	topProducts: Report.getInstance().getModel().getData().topProducts
+            });
+            vfTopVendors.setModel(dataModel);
+            
+            /*var dataModelTopProducts = new JSONModel({
+            	topProducts: Report.getInstance().getModel().getData().topProducts
             });*/
-			
-			
-			
-			
-			
-			
-			/*var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        	oRouter.getRoute("Dashboard").attachPatternMatched(this._onObjectMatched, this);*/
+            vfTopProducts.setModel(dataModel);
+            
+            var oPopOverBar = this.getView().byId("idPopOverBar");
+            oPopOverBar.connect(vfTopVendors.getVizUid());
+            oPopOverBar.setFormatString(ChartFormatter.DefaultPattern.STANDARDFLOAT);
+            
+            InitPageUtil.initPageSettings(this.getView(), "vfTopProducts", "chartTopProducts", false);
+            
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        	oRouter.getRoute("Dashboard").attachPatternMatched(this._onObjectMatched, this);
 		},
 		
 		_onObjectMatched: function() {
-		    oComponent.getNonSapErrorData(oController, ["btnScanningErrors"]);
-		    oComponent.getSapErrorData(oController, ["btnValidationErrors"]);
-		    oComponent.getMgrApprovalData(oController, ["btnDueForApproval"]);
-		    oComponent.getFiReviewRecords(oController, ["tblReadyToPost"]);
-		    oComponent.getCompletedRecords(oController);
-		    
-			// my logic here    
+			documentServices.getInstance().getAnalyticsReport(this, new Date().getFullYear(), [this.vfTopVendors, this.vfTopProducts]);
+			//documentServices.getInstance().getValidationErrorDocuments(this);
+			//documentServices.getInstance().getAwaitingApprovalDocuments(this);
+			oView.byId("tileSuccessfullyScanned").focus();
+			
 		},
 		
-		/*onPost: function(oEvent) {
-			var source = oEvent.getSource();
-			source.setBusy(true);
-			setTimeout(function(){ 
-				var parent = source.getParent().getParent();
-				$("#" + parent.getId() + "-highlight").addClass("posted");
-				source.setBusy(false);
-				$("#" + parent.getId() + "-highlight").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
-				function(e) {
-			    	var oModel = oComponent.getModel();
-					var postData = oModel.getData().PostData;
-					var postId = source.data("postId");
-					for(var i = 0; i < postData.length; i++) {
-						if(postId === postData[i].postId) {
-							postData.splice(i, 1);
-						}
-					}
-					oModel.refresh(true);
-				}); 
-				
-			}, 3000);
+		onAfterRendering: function() {
 			
-		},*/
+		},
 		
 		onPost: function(oEvent) {
 			try {
-				var source = oEvent.getSource();
+				//var source = oEvent.getSource();
 				
-				var row = source.getParent();
-				var sPath = row.getBindingContext('FiReviewRecords').getPath();
-				var selectedRecord = row.getBindingContext('FiReviewRecords').getModel().getProperty(row.getBindingContext('FiReviewRecords').getPath());
+				var oRow = oEvent.getSource().getParent();
+				var oBindingContext = oRow.getBindingContext('approvedDocuments');
+				var oBindingModel = oBindingContext.getModel();
+				var sPath = oBindingContext.getPath();
+				
+				/** @type {cassini.sim.model.Document} */
+				var oSelectedRecord = oBindingModel.getProperty(sPath);
 				
 				
+				var oSource = oEvent.getSource();
+				oSource.setBusy(true);
 				
-				source.setBusy(true);
+				documentServices.getInstance().getTaxRate(oController, oSelectedRecord.vendorCountry, oSelectedRecord.companyCode,
+					function(oData) {
+						oSelectedRecord.tax = documentServices.getInstance().calculateTax(oSelectedRecord.netValue, oData.taxRate);
+						oSelectedRecord.taxCode = (oData.taxCode) ? oData.taxCode : "";
+						oBindingModel.refresh(true);
+						utilities.getInstance().create(
+							{	oController: oController, sModelName: "mainServiceModel", sEntity: "UpdOcrHdrs",
+								oPostData: oSelectedRecord.getSAPPostData(true),           
+								fnSuccess: function(postResponse) {
+									oSelectedRecord.sapInvoice = postResponse.UpdOcrHdrToOcrItm.results[0].Sapinvoice;
+									oBindingModel.refresh(true);
+									if(oSelectedRecord.sapInvoice && oSelectedRecord.sapInvoice !== "") {
+										MessageBox.success(
+											"Document no. " + oSelectedRecord.sapInvoice + " posted successfully",
+											{
+												actions: [sap.m.MessageBox.Action.OK],
+												onClose: function(sAction) {
+													oBindingModel.getData().splice(sPath.split("/")[1], 1);
+													oBindingModel.refresh(true);
+													
+													documentServices.getInstance().getPostedDocuments(this);
+												}
+											}
+										);
+									} else {
+										MessageBox.error("Error while posting the document");
+									}
+									oSource.setBusy(false);
+								},
+								fnError: function (oError) {
+									oSource.setBusy(false);
+								}
+							});
+					});
+				
+				/*source.setBusy(true);
 				var reviewedData = JSON.parse(JSON.stringify(selectedRecord));
 				
 				
 				$.ajax("http://localhost:8090/OcrRestSpring/getTaxRate/"+ reviewedData.VendorCountry + "/" + reviewedData.Companycode + "/", {
 					success: function(data) {
 						console.log(data);
-						//recordlModel.getData().Taxcode = data.taxCode;
-						//recordlModel.getData().Taxrate = data.taxRate;
 						var tax = (parseFloat(reviewedData.Netvalue) * parseFloat(data.taxRate)) / 100;
-						//recordlModel.getData().Vat = tax;
-						//recordlModel.refresh(true);
-						
-						
-						
 						reviewedData.UpdOcrHdrToOcrItm = reviewedData.GetOcrHdrToOcrItm;
 				
 						for(var i = 0; i < reviewedData.UpdOcrHdrToOcrItm.results.length; i++) {
-							//reviewedData.UpdOcrHdrToOcrItm.results[i].Message = "";
 							reviewedData.UpdOcrHdrToOcrItm.results[i].FinReviewed = "X";
 							delete reviewedData.UpdOcrHdrToOcrItm.results[i].Paymentindays;
 							delete reviewedData.UpdOcrHdrToOcrItm.results[i].VendorCountry;
@@ -265,30 +233,15 @@ sap.ui.define([
 					error: function(err) {
 						console.log(err);
 			    	}
-			   });	
+			   });*/	
 			} catch (ex) {
-				console.log(ex);
+				//console.log(ex);
 			}
 		},
 		
-		onGoToScanningErrors: function(oEvent) {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-			oRouter.navTo("ScanningErrors");
-		},
-		
-		onGoToValidationErrors: function(oEvent) {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-			oRouter.navTo("ValidationErrors");
-		},
-		
-		onGoToReadyToPost: function(oEvent) {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-			oRouter.navTo("ReadyToPost");
-		},
-		
-		onGoToDueForApproval: function(oEvent) {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-			oRouter.navTo("DueForApproval");
+		handleNav: function(oEvent) {
+			var route = oEvent.getSource().data("route");
+			this.getRouter().navTo(route);
 		}
 	});
 });

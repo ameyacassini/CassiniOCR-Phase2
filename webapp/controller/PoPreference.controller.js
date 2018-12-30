@@ -1,12 +1,17 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
+	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageBox",
+	"sap/m/PDFViewer",
+	"cassini/sim/service/documentServices",
 	"../Formatter"
-], function (Controller, MessageBox, Formatter) {
+], function (BaseController, JSONModel, MessageBox, PDFViewer, documentServices, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.ScanningErrors", {
+	return BaseController.extend("cassini.sim.controller.ScanningErrors", {
 		onInit: function() {
+			this._pdfViewer = new PDFViewer();
+			this.getView().addDependent(this._pdfViewer);
 			oController = this;
 			oView = this.getView();
 			oComponent = this.getOwnerComponent();
@@ -15,20 +20,65 @@ sap.ui.define([
 		},
 		
 		_onObjectMatched: function(oEvent) {
-			var mgrApprovalDataModel = oComponent.getModel("MgrApprovalData");
+			var mgrApprovalDataModel = oComponent.getModel("awaitingApprovalDocuments");
 			var approvals = mgrApprovalDataModel.getData();
 			var approval = {};
 			for(var i = 0; i < approvals.length; i++) {
-				if(approvals[i].Uniqueid == oEvent.getParameter("arguments").approvalId){
+				if(approvals[i].uniqueId === oEvent.getParameter("arguments").approvalId){
 					approval = approvals[i];
 					break;
 				}
 			}
-			approval.balanceAmount = approval.Grossvalue;
+			
+			
+			
+			approval.balanceAmount = approval.grossValue;
 			approval.isValid = false;
 			
 			var approvalModel = new sap.ui.model.json.JSONModel(approval);
-			oView.setModel(approvalModel, "approval");  
+			oView.setModel(approvalModel, "approval"); 
+			
+			var filePath = approval.filePath;
+			var newFilePath = filePath.substring(filePath.lastIndexOf("/") + 1);
+			var postData = JSON.stringify({
+				filePath: newFilePath,
+				linkId: approval.documentId
+			});
+			
+			documentServices.getInstance().getFile(this, postData, 
+				function(oData) {
+					//oView.byId("invoiceFileImg").setBusy(false);
+				},
+				function(oError) {
+					if(oError.status === 200) {
+						approvalModel.getData().file = oError.responseText;
+						approvalModel.refresh(true);
+					}
+				});
+			
+			$.ajax("/ocrspring/ocr/"+ approval.documentId + "/", {
+				success: function(data) {
+					var lineItemsModel = new JSONModel();
+					lineItemsModel.setData(data);
+					oComponent.setModel(lineItemsModel, "lineItems");
+				},
+				error: function(err) {
+					MessageBox.error(err);
+		    	}
+		   });
+		},
+		onViewDocument: function (oEvent) {
+			var sSource = oEvent.getSource().data("file");
+			//this._pdfViewer.setSource(sSource);
+			//this._pdfViewer.setTitle("Document");
+			//this._pdfViewer.open();
+			//var batchId = oEvent.getSource().data("batchId");
+			//var url = "http://103.73.151.249/DataVerifier?batchId=" + batchId;
+			
+			//window.open(sSource, "myWindow", "width=1000, height=800");
+			var pdfWindow = window.open("", "myWindow", "width=1000, height=800");
+			pdfWindow.document.write("<iframe width='100%' height='100%' src='" + sSource +"'></iframe>");
+			//window.open(sSource, '_blank');
 		},
 		onSelectionPO: function(oEvent) {
 			try {
@@ -36,31 +86,8 @@ sap.ui.define([
 				var sPath = oEvent.getParameter("rowContext").getPath();
 				var selectedRecord = oEvent.getParameter("rowContext").getModel().getProperty(sPath);
 				oController._updateBalanceAmount(table, selectedRecord);
-				/*var approval = oView.getModel("approval");
-				
-				var tax = parseFloat(approval.getData().Vat)
-				
-				var rowBinding = table.getBindingInfo("rows");
-				var selectedIndices = table.getSelectedIndices();
-				var totalDiff = 0;
-				for(var i = 0; i < selectedIndices.length; i++) {
-					var item = rowBinding.binding.getModel().getProperty(rowBinding.path + "/" + selectedIndices[i]);
-					totalDiff += (parseFloat(item.PoitemQuantity) * parseFloat(item.Netprice)) + tax;
-				}
-				
-				var balanceAmount = parseFloat(approval.getData().Grossvalue) - totalDiff;
-				if(balanceAmount == 0) {
-					approval.getData().isValid = true;
-				} else {
-					approval.getData().isValid = false;
-				}
-				approval.getData().balanceAmount = balanceAmount;
-				approval.refresh(true);
-				
-				console.log(oEvent);*/
-				
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		},
 		onChangePoQuantity: function(oEvent) {
@@ -72,9 +99,7 @@ sap.ui.define([
 				var table = oView.byId("poItemsTbl");
 				var rowBinding = table.getBindingInfo("rows");
 				var selectedIndices = table.getSelectedIndices();
-				
-				
-				
+
 				var isSelected = false;
 				for(var i = 0; i < selectedIndices.length; i++) { 
 					if(sPath === rowBinding.path + "/" + selectedIndices[i]) {
@@ -83,41 +108,16 @@ sap.ui.define([
 					}
 				}
 				if(isSelected) {
-					/*var displayQty = parseFloat(selectedRecord.QtyToDisplay);
-					var qty = parseFloat(selectedRecord.PoitemQuantity);
-					if(qty > displayQty) {
-						MessageBox.error("PO Item Quantity should not be greater than Open PO Quantity");
-					} else {*/
-						oController._updateBalanceAmount(table, selectedRecord);
-					//}
-					
-					
-					/*var approval = oView.getModel("approval");
-					var tax = parseFloat(approval.getData().Vat)
-					var totalDiff = 0;
-					for(var i = 0; i < selectedIndices.length; i++) {
-						var item = rowBinding.binding.getModel().getProperty(rowBinding.path + "/" + selectedIndices[i]);
-						totalDiff += (parseFloat(item.PoitemQuantity) * parseFloat(item.Netprice)) + tax;
-					}
-					
-					var balanceAmount = parseFloat(approval.getData().Grossvalue) - totalDiff;
-					if(balanceAmount == 0) {
-						approval.getData().isValid = true;
-					} else {
-						approval.getData().isValid = false;
-					}
-					approval.getData().balanceAmount = balanceAmount;
-					approval.refresh(true);	*/
+					oController._updateBalanceAmount(table, selectedRecord);
 				}
-				console.log(oEvent);
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		},
 		_updateBalanceAmount: function(table, selectedRecord) {
 			try {
-				var displayQty = parseFloat(selectedRecord.QtyToDisplay);
-				var qty = parseFloat(selectedRecord.PoitemQuantity);
+				var displayQty = parseFloat(selectedRecord.qtyToDisplay);
+				var qty = parseFloat(selectedRecord.poItemQuantity);
 				if(qty > displayQty) {
 					MessageBox.error("Item quantity should be less than or equal to the open PO quantity");
 				} else {
@@ -125,18 +125,16 @@ sap.ui.define([
 					var selectedIndices = table.getSelectedIndices();
 					
 					var approval = oView.getModel("approval");
-					var tax = parseFloat(approval.getData().Vat);
+					var tax = parseFloat(approval.getData().tax);
 					var totalDiff = 0;
-					approval.getData().UpdOcrHdrToOcrItm = {
-						results: []
-					};
+					approval.getData().selectedPoItems = [];
 					for(var i = 0; i < selectedIndices.length; i++) {
 						var item = rowBinding.binding.getModel().getProperty(rowBinding.path + "/" + selectedIndices[i]);
-						totalDiff += (parseFloat(item.PoitemQuantity) * parseFloat(item.Netprice));
-						approval.getData().UpdOcrHdrToOcrItm.results.push(item);
+						totalDiff += (parseFloat(item.poItemQuantity) * parseFloat(item.netPrice));
+						approval.getData().selectedPoItems.push(item);
 					}
 					
-					var balanceAmount = parseFloat(approval.getData().Grossvalue) - (totalDiff + tax);
+					var balanceAmount = parseFloat(approval.getData().grossValue) - (totalDiff + tax);
 					if(balanceAmount == 0) {
 						approval.getData().isValid = true;
 					} else {
@@ -146,9 +144,23 @@ sap.ui.define([
 					approval.refresh(true);
 				}
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		},
+		
+		/** 
+		 * 
+		 * @param {Date} date
+		 * @returns
+		 */
+		getResponseDate: function(date) {
+			var month = date.getMonth();
+			if(month < 9)
+				month = "0" + (date.getMonth() + 1);
+			
+			return date.getFullYear() + "-" + month + "-" + date.getDate() + "T00:00:00";
+		},
+		
 		onApprove: function(oEvent) {
 			try {
 				MessageBox.confirm(
@@ -158,42 +170,28 @@ sap.ui.define([
 						onClose: function(sAction) {
 							if(sAction == "OK") { 
 								sap.ui.core.BusyIndicator.show(0);
-								var approvalData = JSON.parse(JSON.stringify(oView.getModel("approval").getData()));
-								for(var i = 0; i < approvalData.UpdOcrHdrToOcrItm.results.length; i++) {
-									approvalData.UpdOcrHdrToOcrItm.results[i].Message = "";
-									approvalData.UpdOcrHdrToOcrItm.results[i].MgrApproved = "X";
-									delete approvalData.UpdOcrHdrToOcrItm.results[i].QtyToDisplay;
-									delete approvalData.UpdOcrHdrToOcrItm.results[i].__metadata;
-								}
 								
-								var postData = {
-									Servicecall: "MGR",
-									PostingDate: new Date(approvalData.Invoicedate),
-									MgrComment: approvalData.MgrComment,
-									Vat: approvalData.Vat,
-									TaxCode: "",
-									DocumentDate: new Date(),
-									CalcTax: "",
-									UpdOcrHdrToOcrItm: approvalData.UpdOcrHdrToOcrItm
-								};
+								var postData = oView.getModel("approval").getData().getSAPPostData(false);
+								
 								var mainServiceModel = oComponent.getModel("mainServiceModel");
 								mainServiceModel.create("/UpdOcrHdrs", postData, {
-									success: function() {
+									success: function(oData) {
 										sap.ui.core.BusyIndicator.hide();
 										MessageBox.success(
-											"Request approved",
+											"The document is approved for posting",
 											{
 												actions: [sap.m.MessageBox.Action.OK],
 												onClose: function(sAction) {
-													var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-													oRouter.navTo("Home");
+													documentServices.getInstance().getAwaitingApprovalDocuments(oController);
+													documentServices.getInstance().getApprovedDocuments(oController);
+													oController.getRouter().navTo("Dashboard");
 												}
 											}
 										);
 									},
-									error: function() {
+									error: function(oError) {
 										sap.ui.core.BusyIndicator.hide();
-										console.log(oError);
+										MessageBox.error(oError);
 									}
 								});				
 							} else {
@@ -203,7 +201,7 @@ sap.ui.define([
 					});
 			} catch (ex) {
 				sap.ui.core.BusyIndicator.hide();
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		}
 	});

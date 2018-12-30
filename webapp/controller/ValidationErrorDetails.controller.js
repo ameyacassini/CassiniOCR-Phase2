@@ -1,22 +1,16 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
 	"sap/m/MessageBox",
+	"cassini/sim/service/documentServices",
+	"sap/m/PDFViewer",
 	'../Formatter'
-], function (Controller, MessageBox, Formatter) {
+], function (BaseController, MessageBox, documentServices, PDFViewer, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.ValidationErrorDetails", {
+	return BaseController.extend("cassini.sim.controller.ValidationErrorDetails", {
 		onInit: function() {
-			/*var oModel = this.getOwnerComponent().getModel();
-			var postData = oModel.getData().PostData;
-			var scanningErrorData = postData.filter(function(data) {
-			    return data.status === 0;
-			});
-			
-			var oScanningErrorModel = new sap.ui.model.json.JSONModel({
-				PostData: scanningErrorData
-			});
-			this.getOwnerComponent().setModel(oScanningErrorModel, "ScanningErrorData");*/
+			this._pdfViewer = new PDFViewer();
+			this.getView().addDependent(this._pdfViewer);
 			oController = this;
 			oView = this.getView();
 			oComponent = this.getOwnerComponent();
@@ -25,71 +19,104 @@ sap.ui.define([
 		},
 		
 		_onObjectMatched: function(oEvent) {
-			var sapErrorDataModel = oComponent.getModel("SapErrorData");
+			var sapErrorDataModel = oComponent.getModel("validationErrorsDocuments");
 			var errors = sapErrorDataModel.getData();
 			var errorData = {};
 			for(var i = 0; i < errors.length; i++) {
-				if(errors[i].Uniqueid === oEvent.getParameter("arguments").docId){
+				if(errors[i].uniqueId === oEvent.getParameter("arguments").docId){
 					errorData = errors[i];
 					break;
 				}
 			}
-			errorData.invoiceFile = "";
+			errorData.fileName = "";
 			var errorModel = new sap.ui.model.json.JSONModel(errorData);
-			oView.setModel(errorModel, "errorData"); 
+			oView.setModel(errorModel, "errorData");
+			var filePath = errorData.filePath;
+			var newFilePath = filePath.substring(filePath.lastIndexOf("/") + 1);
 			var postData = JSON.stringify({
-				fileName: errorData.Filename,
-				filePath: errorData.Filepath
+				filePath: newFilePath,
+				linkId: errorData.documentId
 			});
-			oView.byId("invoiceFileImg").setBusy(true);
-			//sap.ui.core.BusyIndicator.show(0);
-			$.ajax({
+			//oView.byId("invoiceFilePdf").setBusy(true);
+			documentServices.getInstance().getFile(this, postData, 
+				function(oData) {
+					//oView.byId("invoiceFilePdf").setBusy(false);
+				},
+				function(oError) {
+					if(oError.status === 200) {
+						/*var decodedPdfContent = atob(oError.responseText);
+						var byteArray = new Uint8Array(decodedPdfContent.length)
+						for(var i=0; i<decodedPdfContent.length; i++){
+						    byteArray[i] = decodedPdfContent.charCodeAt(i);
+						}
+						var blob = new Blob([byteArray.buffer], { type: 'application/pdf' });
+						errorModel.getData().file = URL.createObjectURL(blob);
+						oView.byId("invoiceFilePdf").setBusy(false);
+						errorModel.refresh(true);*/
+						if(oError.status === 200) {
+						errorModel.getData().file = oError.responseText;
+						errorModel.refresh(true);
+					}
+					}
+				});
+			/*$.ajax({
 				type: 'POST',
 				headers: { 
 			        'Content-Type': 'application/json' 
 			    },
-				url: "http://localhost:8090/OcrRestSpring/getInvoiceFile/",
+				url: "/ocrspring/getInvoiceFile/",
 				data: postData,
 				dataType: "json",
-				success: function(data) { 
-					console.log(data);
+				success: function(data) {
 					oView.byId("invoiceFileImg").setBusy(false);
-					//sap.ui.core.BusyIndicator.hide();
 				},
 				error: function(err) {
-					console.log(err);
+					MessageBox.error(err);
 					if(err.status === 200) {
 						errorModel.getData().invoiceFile = err.responseText;
 						oView.byId("invoiceFileImg").setBusy(false);
 						errorModel.refresh(true);
 					}
-					//sap.ui.core.BusyIndicator.hide();
 				}
-			});
+			});*/
+		},
+		
+		onViewDocument: function (oEvent) {
+			var sSource = oEvent.getSource().data("file");
+			/*this._pdfViewer.setSource(sSource);
+			this._pdfViewer.setTitle("Document");
+			this._pdfViewer.open();*/
+			var pdfWindow = window.open("", "myWindow", "width=1000, height=800");
+			pdfWindow.document.write("<iframe width='100%' height='100%' src='" + sSource +"'></iframe>");
 		},
 		
 		onChangeVendorDetails: function(oEvent) {
 			try {
-				var vendorNoDataModel = oComponent.getModel("VendorNoData");
+				/*var vendorNoDataModel = oComponent.getModel("VendorNoData");
 				var errorModel = oView.getModel("errorData");
 				var vendorNoExist = false;
 				for(var i = 0; i < vendorNoDataModel.getData().length; i++) {
 					if(vendorNoDataModel.getData()[i].vendorName === errorModel.getData().Vendorname 
 						&& vendorNoDataModel.getData()[i].pincode === errorModel.getData().Postalcode) {
-							errorModel.getData().Vendorno = vendorNoDataModel.getData()[i].vendorNo;
-							errorModel.refresh(true);
-							vendorNoExist = true;
-							break;
-						}
+						errorModel.getData().Vendorno = vendorNoDataModel.getData()[i].vendorNo;
+						errorModel.refresh(true);
+						vendorNoExist = true;
+						break;
+					}
 				}
 				
 				if(!vendorNoExist) {
 					errorModel.getData().Vendorno = "";
 					errorModel.refresh(true);
-				}
+				}*/
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
+		},
+		
+		onChangeCurrency: function (oEvent) {
+			/*var errorModel = oView.getModel("errorData");
+			errorModel.getData().currency = */
 		},
 		
 		onUpdate: function(oEvent) {
@@ -101,9 +128,10 @@ sap.ui.define([
 						onClose: function(sAction) {
 							if(sAction == "OK") {
 								sap.ui.core.BusyIndicator.show(0);
-								var errorData = JSON.parse(JSON.stringify(oView.getModel("errorData").getData()));
+								//var errorData = JSON.parse(JSON.stringify(oView.getModel("errorData").getData()));
+								var errorData = oView.getModel("errorData").getData();
 				
-								var invoiceDate = new Date(errorData.Invoicedate);
+								var invoiceDate = new Date(errorData.documentDate);
 							
 								var invoiceMonth = "";
 								if(invoiceDate.getMonth() < 9) {
@@ -117,20 +145,20 @@ sap.ui.define([
 								var postData = {
 									Servicecall: "FIN",
 									UpdOcrScanHdrToItm: [{
-										Uniqueid: errorData.Uniqueid,
-										Invoiceno: errorData.Invoiceno,
-							            Vendorno: errorData.Vendorno,
+										Uniqueid: errorData.uniqueId,
+										Invoiceno: errorData.referenceNo,
+							            Vendorno: errorData.vendorNo,
 							            Invoicetype: "MM",
 							            Invoicedate: invoiceDate,
-							            Vendorname: errorData.Vendorname,
-							            Postalcode: errorData.Postalcode,
-							            Filename: errorData.Filename,
-							            Filepath: errorData.Filepath,
-							            Status: errorData.Status,
-							            Netvalue: errorData.Netvalue,
-							            Grossvalue: errorData.Grossvalue,
-							            Vat: errorData.Vat,
-							            Currency: errorData.Currency,
+							            Vendorname: errorData.vendorName,
+							            Postalcode: errorData.postalCode,
+							            Filename: errorData.fileName,
+							            Filepath: errorData.filePath,
+							            Status: errorData.status,
+							            Netvalue: errorData.netValue,
+							            Grossvalue: errorData.grossValue,
+							            Vat: errorData.tax,
+							            Currency: errorData.currency,
 							            Timestamp: null,
 							            ValidStatus: "VE"
 									}]
@@ -144,15 +172,18 @@ sap.ui.define([
 											{
 												actions: [sap.m.MessageBox.Action.OK],
 												onClose: function(sAction) {
-													var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-													oRouter.navTo("Home");
+													documentServices.getInstance().getValidationErrorDocuments(oController);
+													documentServices.getInstance().getAwaitingApprovalDocuments(oController);
+													oController.getRouter().navTo("Dashboard");
+													//var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
+													//oRouter.navTo("Home");
 												}
 											}
 										);
 									},
-									error: function() {
+									error: function(oError) {
 										sap.ui.core.BusyIndicator.hide();
-										console.log(oError);
+										MessageBox.error(oError);
 									}
 								});				
 							} else {
@@ -162,7 +193,7 @@ sap.ui.define([
 					});
 				
 			} catch (ex) {
-				MessageBox.error("Error catch");
+				MessageBox.error(ex);
 			}
 		}
 	});

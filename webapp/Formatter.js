@@ -41,7 +41,24 @@ sap.ui.define(function() {
 	        var amount1 = new sap.ui.model.type.Currency();
 			amount1.formatValue(change, sInternalType);
 	    	return amount1;
-	    }
+	    },
+	    
+	    availableState: function (sStateValue) {
+			var sStateValueToLower = sStateValue;
+			if(sStateValueToLower)
+				sStateValueToLower = sStateValueToLower.toLowerCase();
+
+			switch (sStateValueToLower) {
+				case "approved":
+					return 8;
+				case "approval pending":
+					return 5;
+				case "rejected":
+					return 3;
+				default:
+					return 9;
+			}
+		}
 	};
 
 	return Formatter;

@@ -1,8 +1,8 @@
 sap.ui.define([
    ], function() {
     return {
-        initPageSettings : function(oView) {
-            // Hide Settings Panel for phone
+        initPageSettings : function(oView, sVizFrame, sChart, legendFlag) {
+        	// Hide Settings Panel for phone
             if (sap.ui.Device.system.phone) {
                 var oSettingsPanel = oView.byId('settingsPanel');
                 if(oSettingsPanel){
@@ -18,19 +18,24 @@ sap.ui.define([
             });
             if (bSuiteAvailable) {
                 jQuery.sap.require("sap/suite/ui/commons/ChartContainer");
-                var vizframe = oView.byId("idVizFrame");
-                var oChartContainerContent = new sap.suite.ui.commons.ChartContainerContent({
+                var vizframe = oView.byId(sVizFrame);
+                /*var oChartContainerContent = new sap.suite.ui.commons.ChartContainerContent({
                     icon : "sap-icon://donut-chart",
                     title : "vizFrame Donut Chart Sample",
+                    content : [ vizframe ]
+                });*/
+                var oChartContainerContent = new sap.suite.ui.commons.ChartContainerContent({
                     content : [ vizframe ]
                 });
                 var oChartContainer = new sap.suite.ui.commons.ChartContainer({
                     content : [ oChartContainerContent ]
                 });
-                oChartContainer.setShowFullScreen(true);
+                 oChartContainer.setShowLegend(legendFlag);
+                 oChartContainer.setShowLegendButton(legendFlag);
+                oChartContainer.setShowFullScreen(false);
                 oChartContainer.setAutoAdjustHeight(true);
                 oChartContainer.setShowZoom(false);
-                oView.byId('chartFixFlex').setFlexContent(oChartContainer); 
+                oView.byId(sChart).setFlexContent(oChartContainer); 
             }
         }
     };

@@ -1,7 +1,7 @@
 sap.ui.define(['sap/uxap/BlockBase'], function (BlockBase) {
 	"use strict";
 
-	var InvoiceData = BlockBase.extend("demo.cassini.ocr.CassiniOCR.blocks.invoice.InvoiceData", {
+	var InvoiceData = BlockBase.extend("cassini.sim.blocks.invoice.InvoiceData", {
 		metadata: {}
 	});
 

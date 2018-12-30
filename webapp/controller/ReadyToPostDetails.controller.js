@@ -1,12 +1,16 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"cassini/sim/controller/BaseController",
 	"sap/m/MessageBox",
+	"sap/m/PDFViewer",
+	"cassini/sim/service/documentServices",
 	"../Formatter"
-], function (Controller, MessageBox, Formatter) {
+], function (BaseController, MessageBox, PDFViewer, documentServices, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return Controller.extend("demo.cassini.ocr.CassiniOCR.controller.ReadyToPostDetails", {
+	return BaseController.extend("cassini.sim.controller.ReadyToPostDetails", {
 		onInit: function() {
+			this._pdfViewer = new PDFViewer();
+			this.getView().addDependent(this._pdfViewer);
 			oController = this;
 			oView = this.getView();
 			oComponent = this.getOwnerComponent();
@@ -20,11 +24,11 @@ sap.ui.define([
 		},
 		
 		_onObjectMatched: function(oEvent) {
-			var fiReviewRecordsDataModel = oComponent.getModel("FiReviewRecords");
+			var fiReviewRecordsDataModel = oComponent.getModel("approvedDocuments");
 			var records = fiReviewRecordsDataModel.getData();
 			var record = {};
 			for(var i = 0; i < records.length; i++) {
-				if(records[i].Uniqueid == oEvent.getParameter("arguments").recordId){
+				if(records[i].uniqueId == oEvent.getParameter("arguments").recordId){
 					record = records[i];
 					break;
 				}
@@ -33,29 +37,61 @@ sap.ui.define([
 			//approval.isValid = false;
 			
 			var recordlModel = new sap.ui.model.json.JSONModel(record);
-			oView.setModel(recordlModel, "record");  
+			oView.setModel(recordlModel, "record"); 
 			
-		$.ajax("http://localhost:8090/OcrRestSpring/getTaxRate/"+ record.VendorCountry + "/" + record.Companycode + "/", {
-		//$.ajax("http://localhost:8090/OcrRestSpring/getTaxRate/US/C001/", {
+			var filePath = record.filePath;
+			var newFilePath = filePath.substring(filePath.lastIndexOf("/") + 1);
+			var postData = JSON.stringify({
+				filePath: newFilePath,
+				linkId: record.documentId
+			});
+			
+			documentServices.getInstance().getFile(this, postData, 
+				function(oData) {
+					//oView.byId("invoiceFileImg").setBusy(false);
+				},
+				function(oError) {
+					if(oError.status === 200) {
+						recordlModel.getData().file = oError.responseText;
+						recordlModel.refresh(true);
+					}
+				});
+			
+			documentServices.getInstance().getTaxRate(oController, record.vendorCountry, record.companyCode,
+					function(oData) {
+						recordlModel.getData().taxCode = oData.taxCode;
+						recordlModel.getData().taxRate = oData.taxRate;
+						record.tax = documentServices.getInstance().calculateTax(record.netValue, oData.taxRate);
+						recordlModel.getData().tax  = (parseFloat(recordlModel.getData().netValue) * parseFloat(oData.taxRate)) / 100;
+						recordlModel.refresh(true);
+					});
+			
+		/*$.ajax("/ocrspring/getTaxRate/"+ record.VendorCountry + "/" + record.Companycode + "/", {
 				success: function(data) {
-					console.log(data);
-					recordlModel.getData().Taxcode = data.taxCode;
-					recordlModel.getData().Taxrate = data.taxRate;
-					var tax = (parseFloat(recordlModel.getData().Netvalue) * parseFloat(data.taxRate)) / 100;
+					recordlModel.getData().taxcode = data.taxCode;
+					recordlModel.getData().taxRate = data.taxRate;
+					var tax = (parseFloat(recordlModel.getData().netValue) * parseFloat(data.taxRate)) / 100;
 					recordlModel.getData().Vat = tax;
 					recordlModel.refresh(true);
 				},
 				error: function(err) {
-					console.log(err);
+					MessageBox.error(err);
 		    	}
-		   });
+		   });*/
+		},
+		onViewDocument: function (oEvent) {
+			var sSource = oEvent.getSource().data("file");
+			/*this._pdfViewer.setSource(sSource);
+			this._pdfViewer.setTitle("Document");
+			this._pdfViewer.open();*/
+			var pdfWindow = window.open("", "myWindow", "width=1000, height=800");
+			pdfWindow.document.write("<iframe width='100%' height='100%' src='" + sSource +"'></iframe>");
 		},
 		onExpandCollapsibleTable: function(oEvent) {
 			try {
-				this.getView().byId("collapsibleFooter").toggleStyleClass('expanded');
-				
+				//this.getView().byId("collapsibleFooter").toggleStyleClass('expanded');
 			} catch (ex) {
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		},
 		onPost: function(oEvent) {
@@ -67,13 +103,11 @@ sap.ui.define([
 						onClose: function(sAction) {
 							if(sAction == "OK") {
 								sap.ui.core.BusyIndicator.show(0);
-								var reviewedData = JSON.parse(JSON.stringify(oView.getModel("record").getData()));
-				
-				
+								//var reviewedData = JSON.parse(JSON.stringify(oView.getModel("record").getData()));
+								/*var reviewedData = oView.getModel("record").getData();
 								reviewedData.UpdOcrHdrToOcrItm = reviewedData.GetOcrHdrToOcrItm;
 								
 								for(var i = 0; i < reviewedData.UpdOcrHdrToOcrItm.results.length; i++) {
-									//reviewedData.UpdOcrHdrToOcrItm.results[i].Message = "";
 									reviewedData.UpdOcrHdrToOcrItm.results[i].FinReviewed = "X";
 									delete reviewedData.UpdOcrHdrToOcrItm.results[i].Paymentindays;
 									delete reviewedData.UpdOcrHdrToOcrItm.results[i].VendorCountry;
@@ -104,33 +138,44 @@ sap.ui.define([
 								
 								var postData = {
 									Servicecall: "FIN",
-									PostingDate: postingDate,
+									PostingDate: postingDate.toJSON().split(".")[0],
 									MgrComment: reviewedData.MgrComment,
 									Vat: reviewedData.Vat.toString(),
 									TaxCode: reviewedData.Taxcode,
-									DocumentDate: documentDate,
+									DocumentDate: documentDate.toJSON().split(".")[0],
 									CalcTax: "X",
 									UpdOcrHdrToOcrItm: reviewedData.UpdOcrHdrToOcrItm
-								};
+								};*/
+								
+								var oReadyToPostModel = oView.getModel("record");
+								var postData = oReadyToPostModel.getData().getSAPPostData(true);
 								
 								var mainServiceModel = oComponent.getModel("mainServiceModel");
 								mainServiceModel.create("/UpdOcrHdrs", postData, {
 									success: function(postResponse) {
 										sap.ui.core.BusyIndicator.hide();
-										MessageBox.success(
-											"Document no. " + postResponse.UpdOcrHdrToOcrItm.results[0].Sapinvoice + " posted successfully",
-											{
-												actions: [sap.m.MessageBox.Action.OK],
-												onClose: function(sAction) {
-													var oRouter = sap.ui.core.UIComponent.getRouterFor(oView);
-													oRouter.navTo("Home");
+										postData.sapInvoice = postResponse.UpdOcrHdrToOcrItm.results[0].Sapinvoice;
+										oReadyToPostModel.refresh(true);
+										if(postData.sapInvoice && postData.sapInvoice !== "") {
+											MessageBox.success(
+												"Document no. " + postData.sapInvoice + " posted successfully",
+												{
+													actions: [sap.m.MessageBox.Action.OK],
+													onClose: function(sAction) {
+														documentServices.getInstance().getApprovedDocuments(oController);
+														documentServices.getInstance().getPostedDocuments(oController);
+														oController.getRouter().navTo("Dashboard");
+													}
 												}
-											}
-										);
+											);
+										} else {
+											MessageBox.error("Error while posting the document");
+										}
+										
 									},
 									error: function(oError) {
 										sap.ui.core.BusyIndicator.hide();
-										console.log(oError);
+										MessageBox.error(oError);
 									}
 								});				
 							}
@@ -139,7 +184,7 @@ sap.ui.define([
 				
 			} catch (ex) {
 				sap.ui.core.BusyIndicator.hide();
-				console.log(ex);
+				MessageBox.error(ex);
 			}
 		}
 	});

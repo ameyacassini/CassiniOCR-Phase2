@@ -1,4 +1,4 @@
-<mvc:View controllerName="demo.cassini.ocr.CassiniOCR.controller.PoPreference" 
+<mvc:View controllerName="cassini.sim.controller.PoPreference" 
 	xmlns:html="http://www.w3.org/1999/xhtml" 
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
@@ -9,238 +9,297 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-	<OverflowToolbar id="toolbar">
-		<Title text="PO Preference"></Title>
-		<ToolbarSpacer />
-		<Button 
-			text="Approve" 
-			type="Accept" 
-			enabled="{approval>/isValid}"
-			press="onApprove" />
-		<Button text="Reject" type="Reject" />
-	</OverflowToolbar>
-	<f:Form width="100%"
-		editable="false">
-		<f:layout>
-			<f:ResponsiveGridLayout
-				labelSpanXL="12"
-				labelSpanL="12"
-				labelSpanM="12"
-				labelSpanS="12"
-				adjustLabelSpan="false"
-				emptySpanXL="0"
-				emptySpanL="0"
-				emptySpanM="0"
-				emptySpanS="0"
-				columnsXL="4"
-				columnsL="4"
-				columnsM="4"
-				singleContainerFullSize="false" />
-		</f:layout>
-		<f:formContainers>
-			<f:FormContainer>
-				<f:formElements>
-					<f:FormElement label="Vendor Number">
-						<f:fields>
-							<Input value="{approval>/Vendorno}" editable="false" />
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label="Vendor Name">
-						<f:fields>
-							<Input value="{approval>/Vendorname}" editable="false" />
-						</f:fields>
-					</f:FormElement>
-				</f:formElements>
-			</f:FormContainer>
-			<f:FormContainer>
-				<f:formElements>
-					<f:FormElement label="Net Value">
-						<f:fields>
-							<l:HorizontalLayout class="priceField">
-								<unified:Currency currency="{approval>/Currency}"/>
-								<Input value="{approval>/Netvalue}" editable="false">
-									<layoutData>
-										<l:GridData span="XL12 L12 M12 S12" />
-									</layoutData>
-								</Input>
-							</l:HorizontalLayout>
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label="Gross Value">
-						<f:fields>
-							<l:HorizontalLayout class="priceField">
-								<unified:Currency currency="{approval>/Currency}"/>
-								<Input value="{approval>/Grossvalue}" editable="false">
-									<layoutData>
-										<l:GridData span="XL12 L12 M12 S12" />
-									</layoutData>
-								</Input>
-							</l:HorizontalLayout>
-						</f:fields>
-					</f:FormElement>
-				</f:formElements>
-			</f:FormContainer>
-			<f:FormContainer>
-				<f:formElements>
-					<f:FormElement label="Tax">
-						<f:fields>
-							<l:HorizontalLayout class="priceField">
-								<unified:Currency currency="{approval>/Currency}"/>
-								<Input value="{approval>/Vat}" editable="false">
-									<layoutData>
-										<l:GridData span="XL12 L12 M12 S12" />
-									</layoutData>
-								</Input>
-							</l:HorizontalLayout>
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label="Balance Amount">
-						<f:fields>
-							<l:HorizontalLayout class="priceField balanceAmountField">
-								<unified:Currency currency="{approval>/Currency}"/>
-								<Input value="{approval>/balanceAmount}" editable="false">
-									<layoutData>
-										<l:GridData span="XL12 L12 M12 S12" />
-									</layoutData>
-								</Input>
-								<core:Icon
-									src="{=
-										${approval>/isValid} ? 'sap-icon://compare' : 'sap-icon://compare-2'
-									}"
-									color="{=
-										${approval>/isValid} ? '#38a238' : '#ff0000'
-									}" />
-							</l:HorizontalLayout>
-						</f:fields>
-					</f:FormElement>
-				</f:formElements>
-			</f:FormContainer>
-			<f:FormContainer>
-				<f:formElements>
-					<f:FormElement label="Text / Comments">
-						<f:fields>
-							<TextArea value="{approval>/MgrComment}" rows="2" />
-						</f:fields>
-					</f:FormElement>
-				</f:formElements>
-			</f:FormContainer>
-		</f:formContainers>
-	</f:Form>
-	<t:Table
-		id="poItemsTbl"
-		class="collapsibl eFooter"
-		rows="{approval>/GetOcrHdrToOcrItm/results}"
-		selectionMode="MultiToggle"
-		rowSelectionChange="onSelectionPO"
-		alternateRowColors="true"
-		visibleRowCount="5"
-		ariaLabelledBy="title">
-		<t:toolbar>
-			<Toolbar>
-				<Title 
-					text="{=
-						'Purchase Orders (' + ${approval>/GetOcrHdrToOcrItm/results}.length + ')'
-					}"></Title>
-				<!--<ToolbarSpacer />
-				<core:HTML afterRendering="onExpandCollapsibleTable" content='&lt;div&gt;&lt;span id=&quot;btnTogglePOPreferenceTable&quot; class=&quot;filter-openCloseWrap&quot;&gt;&lt;span class=&quot;filter-openClose&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;'>
-				</core:HTML>-->
-			</Toolbar>
-		</t:toolbar>
-		<t:columns>
-			<t:Column hAlign="Center"
-				sortProperty="approval>Poitem" 
-				filterProperty="approval>Poitem"
-				width="14%">
-				<Label text="Item"/>
-				<t:template>
-					<Text text="{approval>Poitem}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center"
-				sortProperty="approval>Netprice" 
-				filterProperty="approval>Netprice"
-				width="14%">
-				<Label text="Net Amount"/>
-				<t:template>
-					<unified:Currency stringValue="{approval>Netprice}" currency="{approval>/Currency}"/>
-					<!--<Text text="{approval>Netprice}" wrapping="false"/>-->
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Right" width="14%">
-				<Label text="PO Doc. Number"/>
-				<t:template>
-					<Text text="{approval>Ponumber}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Right"
-				width="17%">
-				<Label text="Open PO Qty" />
-				<t:template>
-					<Text text="{approval>QtyToDisplay}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center" width="17%">
-				<Label text="Qty"/>
-				<t:template>
-					<Input value="{approval>PoitemQuantity}" submit="onChangePoQuantity"/>
-					<!--<Text text="{approval>PoitemQuantity}" wrapping="false"/>-->
-				</t:template>
-			</t:Column>
-			<t:Column hAlign="Center" width="14%">
-				<Label text="Tax Code"/>
-				<t:template>
-					<Text text="{approval>Taxcode}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<Label text="Material" />
-				<t:template>
-					<Text text="{approval>Material}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<Label text="UoM" />
-				<t:template>
-					<Text text="{approval>PoitemUom}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="24%">
-				<Label text="Text" />
-				<t:template>
-					<Text text="{approval>PoitemText}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<Label text="Ref. Doc. Item" />
-				<t:template>
-					<Text text="{approval>RefDocItm}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<Label text="Ref. Doc. #" />
-				<t:template>
-					<Text text="{approval>RefDocNum}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="10%">
-				<Label text="Year" />
-				<t:template>
-					<Text text="{approval>OcrYear}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-			<t:Column
-				width="17%">
-				<Label text="Description" />
-				<t:template>
-					<Text text="{approval>Description}" wrapping="false"/>
-				</t:template>
-			</t:Column>
-		</t:columns>
-	</t:Table>
+	<Page title="Awaiting for Approval  - {approval>/uniqueId}" class="detailScreen" showNavButton="true" navButtonPress="onNavBack">
+		<headerContent>
+			<Button text="Reject" type="Reject" />
+			<Button 
+				text="Approve" 
+				type="Accept" 
+				enabled="{approval>/isValid}"
+				press="onApprove" />
+			<Button icon="sap-icon://detail-view" 
+				custom:file="{=
+					(${approval>/file} &amp;&amp; ${approval>/file} !== '') ? 'data:application/pdf;base64, ' + ${approval>/file} : '/webapp/sample-invoice.pdf'
+				}" press="onViewDocument"/>
+		</headerContent>
+		<content>
+			<!--<OverflowToolbar id="toolbar">
+				<Title text="PO Preference"></Title>
+				<ToolbarSpacer />
+				<Button 
+					text="Approve" 
+					type="Accept" 
+					enabled="{approval>/isValid}"
+					press="onApprove" />
+				<Button text="Reject" type="Reject" />
+			</OverflowToolbar>-->
+			<f:Form width="100%"
+				editable="false">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="12"
+						labelSpanL="12"
+						labelSpanM="12"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="0"
+						emptySpanL="0"
+						emptySpanM="0"
+						emptySpanS="0"
+						columnsXL="4"
+						columnsL="4"
+						columnsM="4"
+						singleContainerFullSize="false" />
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="Vendor Number">
+								<f:fields>
+									<Input value="{approval>/vendorNo}" editable="false" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Vendor Name">
+								<f:fields>
+									<Input value="{approval>/vendorName}" editable="false" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="Net Value">
+								<f:fields>
+									<l:HorizontalLayout class="priceField">
+										<unified:Currency currency="{approval>/currency}"/>
+										<Input value="{approval>/netValue}" editable="false">
+											<layoutData>
+												<l:GridData span="XL12 L12 M12 S12" />
+											</layoutData>
+										</Input>
+									</l:HorizontalLayout>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Gross Value">
+								<f:fields>
+									<l:HorizontalLayout class="priceField">
+										<unified:Currency currency="{approval>/currency}"/>
+										<Input value="{approval>/grossValue}" editable="false">
+											<layoutData>
+												<l:GridData span="XL12 L12 M12 S12" />
+											</layoutData>
+										</Input>
+									</l:HorizontalLayout>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="Tax">
+								<f:fields>
+									<l:HorizontalLayout class="priceField">
+										<unified:Currency currency="{approval>/currency}"/>
+										<Input value="{approval>/tax}" editable="false">
+											<layoutData>
+												<l:GridData span="XL12 L12 M12 S12" />
+											</layoutData>
+										</Input>
+									</l:HorizontalLayout>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Balance Amount">
+								<f:fields>
+									<l:HorizontalLayout class="priceField balanceAmountField">
+										<unified:Currency currency="{approval>/currency}"/>
+										<Input value="{approval>/balanceAmount}" editable="false">
+											<layoutData>
+												<l:GridData span="XL12 L12 M12 S12" />
+											</layoutData>
+										</Input>
+										<core:Icon
+											src="{=
+												${approval>/isValid} ? 'sap-icon://compare' : 'sap-icon://compare-2'
+											}"
+											color="{=
+												${approval>/isValid} ? '#38a238' : '#ff0000'
+											}" />
+									</l:HorizontalLayout>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="Text / Comments">
+								<f:fields>
+									<TextArea value="{approval>/mgrComment}" rows="2" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			<IconTabBar
+				id="idIconTabBarInlineMode"
+				upperCase="true"
+				expanded="{device>/isNoPhone}"
+				class="poPreferenceLineItems">
+				<items>
+					<IconTabFilter
+						text="Purchase Orders"
+						count="{= ${approval>/poItems}.length }">
+						<t:Table
+							id="poItemsTbl"
+							class="collapsibl eFooter"
+							rows="{approval>/poItems}"
+							selectionMode="MultiToggle"
+							rowSelectionChange="onSelectionPO"
+							alternateRowColors="true"
+							visibleRowCount="5"
+							ariaLabelledBy="title">
+							<t:columns>
+								<t:Column hAlign="Center"
+									sortProperty="approval>poItem" 
+									filterProperty="approval>poItem"
+									width="14%">
+									<Label text="Item"/>
+									<t:template>
+										<Text text="{approval>poItem}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Center"
+									sortProperty="approval>netPrice" 
+									filterProperty="approval>netPrice"
+									width="14%">
+									<Label text="Net Amount"/>
+									<t:template>
+										<unified:Currency stringValue="{approval>netPrice}" currency="{approval>/currency}"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Right" width="14%">
+									<Label text="PO Doc. Number"/>
+									<t:template>
+										<Text text="{approval>poNumber}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Right"
+									width="17%">
+									<Label text="Open PO Qty" />
+									<t:template>
+										<Text text="{approval>qtyToDisplay}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Center" width="17%">
+									<Label text="Qty"/>
+									<t:template>
+										<Input value="{approval>poItemQuantity}" submit="onChangePoQuantity"/>
+										<!--<Text text="{approval>PoitemQuantity}" wrapping="false"/>-->
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Center" width="14%">
+									<Label text="Tax Code"/>
+									<t:template>
+										<Text text="{approval>taxCode}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="17%">
+									<Label text="Material" />
+									<t:template>
+										<Text text="{approval>material}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="17%">
+									<Label text="UoM" />
+									<t:template>
+										<Text text="{approval>poItemUom}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="24%">
+									<Label text="Text" />
+									<t:template>
+										<Text text="{approval>poItemText}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="17%">
+									<Label text="Ref. Doc. Item" />
+									<t:template>
+										<Text text="{approval>refDocItm}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="17%">
+									<Label text="Ref. Doc. #" />
+									<t:template>
+										<Text text="{approval>refDocNum}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="10%">
+									<Label text="Year" />
+									<t:template>
+										<Text text="{approval>ocrYear}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column
+									width="17%">
+									<Label text="Description" />
+									<t:template>
+										<Text text="{approval>description}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+							</t:columns>
+						</t:Table>
+					</IconTabFilter>
+					<!--<IconTabFilter
+						text="Line Items"
+						count="{= ${lineItems>/}.length }">
+						<t:Table
+							rows="{lineItems>/}"
+							selectionMode="None"
+							alternateRowColors="true"
+							visibleRowCount="8"
+							ariaLabelledBy="title">
+							<t:columns>
+								<t:Column hAlign="Center"
+									sortProperty="lineItems>description" 
+									filterProperty="lineItems>description">
+									<Label text="Item"/>
+									<t:template>
+										<Text text="{lineItems>description}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Center"
+									sortProperty="lineItems>unitPrice" 
+									filterProperty="lineItems>unitPrice">
+									<Label text="Unit Price"/>
+									<t:template>
+										<unified:Currency stringValue="{lineItems>unitPrice}" currency="EUR"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Right">
+									<Label text="Quantity" />
+									<t:template>
+										<Text text="{lineItems>quantity}" wrapping="false"/>
+									</t:template>
+								</t:Column>
+								<t:Column hAlign="Center"
+									sortProperty="lineItems>lineTotal" 
+									filterProperty="lineItems>lineTotal">
+									<Label text="Line Total"/>
+									<t:template>
+										<unified:Currency stringValue="{lineItems>lineTotal}" currency="EUR"/>
+									</t:template>
+								</t:Column>
+							</t:columns>
+						</t:Table>
+					</IconTabFilter>-->
+				</items>
+			</IconTabBar>
+		</content>
+	</Page>
 </mvc:View>
