@@ -56,7 +56,7 @@ sap.ui.define([
 					expand: "GetOcrHdrToOcrItm",
 					fnSuccess: function(data) {
 						var oModel = new JSONModel();
-						oModel.setData(instance.toSAPDocuments(data.results));
+						oModel.setData(instance.toSAPDocuments(data.results, false));
 						oController.getOwnerComponent().setModel(oModel, "awaitingApprovalDocuments");
 						if(fnCallback)
 							fnCallback();
@@ -70,7 +70,7 @@ sap.ui.define([
 					expand: "GetOcrHdrToOcrItm",
 					fnSuccess: function(data) {
 						var oModel = new JSONModel();
-						oModel.setData(instance.toSAPDocuments(data.results));
+						oModel.setData(instance.toSAPDocuments(data.results, true));
 						oController.getOwnerComponent().setModel(oModel, "approvedDocuments");
 						if(fnCallback)
 							fnCallback();
@@ -96,7 +96,7 @@ sap.ui.define([
 							}
 						}
 						var oModel = new JSONModel();
-						oModel.setData(instance.toSAPDocuments(postedDocuments));
+						oModel.setData(instance.toSAPDocuments(postedDocuments, true));
 						oController.getOwnerComponent().setModel(oModel, "postedDocuments");
 						if(fnCallback)
 							fnCallback();
@@ -170,7 +170,7 @@ sap.ui.define([
 			}
 			return documents;
 		},
-		toSAPDocuments: function (data) {
+		toSAPDocuments: function (data, isApproved) {
 			var documents = [];
 			for (var i = 0, len = data.length; i < len; i++) {
 				var document = new Document({
@@ -198,16 +198,18 @@ sap.ui.define([
 					tacCode: data[i].Taxcode,
 					sapInvoice: data[i].Sapinvoice,
 					ocrYear: data[i].OcrYear,
-					poItems: (data[i].GetOcrHdrToOcrItm && data[i].GetOcrHdrToOcrItm.results) ? this.toSAPPOItems(data[i].GetOcrHdrToOcrItm.results) : [] 
+					poNumber: data[i].Ponumber,
+					poItems: (data[i].GetOcrHdrToOcrItm && data[i].GetOcrHdrToOcrItm.results) ? this.toSAPPOItems(data[i].GetOcrHdrToOcrItm.results, isApproved) : [] 
 				});
 				documents.push(document);
 			}
 			return documents;
 		},
-		toSAPPOItems: function (data) {
+		toSAPPOItems: function (data, isApproved) {
 			var poItems = [];
 			for (var i = 0, len = data.length; i < len; i++) {
 				var item = new POItem({
+					id: i + 1,
 					companyCode: data[i].Companycode,
 					description: data[i].Description,
 					finReviewed: data[i].FinReviewed,
@@ -220,7 +222,8 @@ sap.ui.define([
 					paymentInDays: data[i].Paymentindays,
 					paymentTerm: data[i].Paymentterm,
 					poItem: data[i].Poitem,
-					poItemQuantity: data[i].PoitemQuantity,
+					qtyToDisplay: data[i].PoitemQuantity,
+					poItemQuantity: (isApproved) ? data[i].PoitemQuantity : "0",
 					poItemText: data[i].PoitemText,
 					poItemUom: data[i].PoitemUom,
 					poNumber: data[i].Ponumber,
@@ -230,7 +233,13 @@ sap.ui.define([
 					taxCode: data[i].Taxcode,
 					uniqueId: data[i].Uniqueid,
 					vendorCountry: data[i].VendorCountry,
-					vendorNo: data[i].Vendorno
+					vendorNo: data[i].Vendorno,
+					vendorMaterialDesc: data[i].VenMattxt,
+					priceLowLimit: data[i].PrcLowLimit,
+					priceUpLimit: data[i].PrcUpLimit,
+					qtyLowLimit: data[i].QtyLowLimit,
+					qtyUpLimit: data[i].QtyUpLimit,
+					webre: (data[i].Webre === "X") ? true : false,
 				});
 				poItems.push(item);
 			}

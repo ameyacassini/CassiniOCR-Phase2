@@ -155,6 +155,7 @@ body {
 
 .ocrCassini .priceField {
 	width: 100%;
+	position: relative;
 }
 
 .ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child {
@@ -168,6 +169,12 @@ body {
     width: 2.1rem;
 }
 
+.ocrCassini .priceField[data-status='Error'] div.sapUiHLayoutChildWrapper:first-child {
+	z-index: 1;
+    margin-top: 6px;
+    padding: 6px 6px 6px 0px;
+    left: 2px;
+}
 .ocrCassini .priceField div.sapUiHLayoutChildWrapper:first-child .sapUiUfdCurrencyValue {
 	display: none;
 }
@@ -626,4 +633,13 @@ body {
 
 .pdfViewerWrapper>div + div{
 	height: 100%;
+}
+
+.sapMInputBaseReadonly .sapMInputBaseContentWrapper.sapMInputBaseContentWrapperError {
+	border-color: #ee0000;
+}
+
+input:disabled, textarea:disabled {
+    color: #000000;
+    cursor: default;
 }

@@ -44,6 +44,11 @@
 						demandPopin="true">
 						<Text text="Reference Number" />
 					</Column>
+					<!--<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="PO Number" />-->
+					</Column>
 					<Column hAlign="Center"
 						minScreenWidth="Desktop"
 						demandPopin="true">
@@ -64,6 +69,8 @@
 								text="{postedDocuments>vendorNo}"/>
 							<Text
 								text="{postedDocuments>referenceNo}" />
+							<!--<Text
+								text="{postedDocuments>poNumber}" />-->
 							<Text
 								text="{postedDocuments>sapInvoice}" />
 							<Text

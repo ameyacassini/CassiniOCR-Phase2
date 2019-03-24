@@ -32,7 +32,7 @@ sap.ui.define([
             
             var oPopOver = this.getView().byId("idPopOver");
             oPopOver.connect(vfTopVendors.getVizUid());
-            oPopOver.setFormatString(ChartFormatter.DefaultPattern.STANDARDFLOAT);
+            //oPopOver.setFormatString(ChartFormatter.DefaultPattern.STANDARDFLOAT);
             
             InitPageUtil.initPageSettings(this.getView(), "vfTopVendors", "chartTopVendors", false);
             
@@ -71,7 +71,7 @@ sap.ui.define([
             
             var oPopOverBar = this.getView().byId("idPopOverBar");
             oPopOverBar.connect(vfTopVendors.getVizUid());
-            oPopOverBar.setFormatString(ChartFormatter.DefaultPattern.STANDARDFLOAT);
+            //oPopOverBar.setFormatString(ChartFormatter.DefaultPattern.STANDARDFLOAT);
             
             InitPageUtil.initPageSettings(this.getView(), "vfTopProducts", "chartTopProducts", false);
             
@@ -81,10 +81,7 @@ sap.ui.define([
 		
 		_onObjectMatched: function() {
 			documentServices.getInstance().getAnalyticsReport(this, new Date().getFullYear(), [this.vfTopVendors, this.vfTopProducts]);
-			//documentServices.getInstance().getValidationErrorDocuments(this);
-			//documentServices.getInstance().getAwaitingApprovalDocuments(this);
 			oView.byId("tileSuccessfullyScanned").focus();
-			
 		},
 		
 		onAfterRendering: function() {
@@ -93,8 +90,6 @@ sap.ui.define([
 		
 		onPost: function(oEvent) {
 			try {
-				//var source = oEvent.getSource();
-				
 				var oRow = oEvent.getSource().getParent();
 				var oBindingContext = oRow.getBindingContext('approvedDocuments');
 				var oBindingModel = oBindingContext.getModel();

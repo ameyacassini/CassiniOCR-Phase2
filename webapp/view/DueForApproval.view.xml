@@ -45,6 +45,11 @@
 					<Column hAlign="Center"
 						minScreenWidth="Desktop"
 						demandPopin="true">
+						<Text text="PO Number" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
 						<Text text="Net Amount" />
 					</Column>
 					<Column hAlign="Center"
@@ -71,6 +76,8 @@
 								text="{awaitingApprovalDocuments>vendorNo}"/>
 							<Text
 								text="{awaitingApprovalDocuments>referenceNo}" />
+							<Text
+								text="{awaitingApprovalDocuments>poNumber}" />
 							<u:Currency textAlign="Center" stringValue="{awaitingApprovalDocuments>netValue}" currency="{awaitingApprovalDocuments>currency}" useSymbol="true"/>
 							<u:Currency textAlign="Center" stringValue="{awaitingApprovalDocuments>tax}" currency="{awaitingApprovalDocuments>currency}" useSymbol="true"/>
 							<u:Currency textAlign="Center" stringValue="{awaitingApprovalDocuments>grossValue}" currency="{awaitingApprovalDocuments>currency}" useSymbol="true"/>

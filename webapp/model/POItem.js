@@ -6,6 +6,7 @@ sap.ui.define([
 		constructor: function (data) {
 			BaseObject.call(this);
 			if (data) {
+				this.id = data.id;
 				this.companyCode = data.companyCode;
 				this.description = data.description;
 				this.finReviewed = data.finReviewed;
@@ -29,12 +30,35 @@ sap.ui.define([
 				this.uniqueId = data.uniqueId;
 				this.vendorCountry = data.vendorCountry;
 				this.vendorNo = data.vendorNo;
-				this.qtyToDisplay = data.poItemQuantity;
+				this.qtyToDisplay = data.qtyToDisplay;
+				this.vendorMaterialDesc = data.vendorMaterialDesc;
+				this.setValueState("mappingValueState", sap.ui.core.ValueState.None);
+				this.mappingValueStateText = "";
+				this.priceLowLimit = data.priceLowLimit;
+				this.priceUpLimit = data.priceUpLimit;
+				this.qtyLowLimit = data.qtyLowLimit;
+				this.qtyUpLimit = data.qtyUpLimit;
+				this.webre = data.webre;
+				this.priceValueState = "None";
+				
+				if(this.message === "GRND") {
+					this.messageValueState = "Error";
+					this.messageValueStateText = "Good Reciept Not Done";
+				} else {
+					this.messageValueState = "None";
+					this.messageValueStateText = "";
+				}
 			}
+			this.status = "None";
+			this.lineItemPrice = 0;
+		},
+		
+		setValueState: function(sProperty, sValueState) {
+			this[sProperty] = sValueState;
 		},
 		
 		getSAPPostData: function(isFinReviewed) {
-			return {
+			var oPostData = {
 				Companycode: this.companyCode,
 				Description: this.description,
 				FinReviewed: (isFinReviewed) ? "X" : this.finReviewed,
@@ -47,7 +71,7 @@ sap.ui.define([
 				Paymentindays: this.paymentInDays,
 				Paymentterm: this.paymentTerm,
 				Poitem: this.poItem,
-				PoitemQuantity: this.poItemQuantity,
+				PoitemQuantity: this.poItemQuantity.toString(),
 				PoitemText: this.poItemText,
 				PoitemUom: this.poItemUom,
 				Ponumber: this.poNumber,
@@ -59,6 +83,14 @@ sap.ui.define([
 				VendorCountry: this.vendorCountry,
 				Vendorno: this.vendorNo
 			};
+			
+			if(!isFinReviewed) {
+				oPostData.VenMattxt = this.vendorMaterialDesc;
+				oPostData.MatnrVen = "";
+			}
+			
+			return oPostData;
 		}
+		
 	});
 });

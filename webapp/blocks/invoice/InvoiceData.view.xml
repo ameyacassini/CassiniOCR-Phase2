@@ -60,6 +60,11 @@
 							<Input value="Invoice" editable="false" />
 						</f:fields>
 					</f:FormElement>
+					<f:FormElement label="PO Number">
+						<f:fields>
+							<Input value="{record>/poNumber}" editable="false" />
+						</f:fields>
+					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer>

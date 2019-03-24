@@ -23,7 +23,7 @@
       "path": "/sap/opu/odata",
       "target": {
         "type": "destination",
-        "name": "Cassini",
+        "name": "Cassini01",
         "entryPath": "/sap/opu/odata"
       },
       "description": ""
@@ -45,6 +45,15 @@
         "entryPath": "/"
       },
       "description": "OCR Spring API"
+    },
+    {
+      "path": "/dataVerifier",
+      "target": {
+        "type": "destination",
+        "name": "dataVerifier",
+        "entryPath": "/"
+      },
+      "description": "Data Verifier API"
     }
   ],
   "sendWelcomeFileRedirect": true

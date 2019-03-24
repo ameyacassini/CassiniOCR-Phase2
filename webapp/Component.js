@@ -129,14 +129,9 @@ sap.ui.define([
 			var manualVerifyDocsModel = new sap.ui.model.json.JSONModel([]);
 			this.setModel(manualVerifyDocsModel, "manualVerifyDocuments");
 			
-			//var completeRecordsModel = new sap.ui.model.json.JSONModel([]);
-			//this.setModel(chartDataModel, "CompleteRecords");
-			
-			//this.getCompletedRecords();
-			
 		},
 		
-		getNonSapErrorData: function(oController, ...ids) {
+		getNonSapErrorData: function(oController, ids) {
 			try {
 				for(var i = 0; i < ids.length; i++) {
 					oController.getView().byId(ids[0]).setBusy(true);	
@@ -223,7 +218,7 @@ sap.ui.define([
 						if(!isExist) {
 							chartData.push(chartItem);
 						}
-						console.log(JSON.stringify(chartData));
+						//console.log(JSON.stringify(chartData));
 						chartDataModel.refresh(true);
 						
 						var oVizFrame = oController.getView().byId("idVizFrame");
@@ -234,21 +229,21 @@ sap.ui.define([
 			            dataModel.refresh(true);
 					},
 					error: function(err) {
-						console.log(err);
+						//console.log(err);
 						for(var i = 0; i < ids.length; i++) {
 							oController.getView().byId(ids[0]).setBusy(false);	
 						}
 			    	}
 			   });
 			} catch (ex) {
-				console.log(ex);
+				//console.log(ex);
 				for(var i = 0; i < ids.length; i++) {
 					oController.getView().byId(ids[0]).setBusy(false);	
 				}
 			}
 		},
 		
-		getFiReviewRecords: function(oController, ...ids) {
+		getFiReviewRecords: function(oController, ids) {
 			try {
 				for(var i = 0; i < ids.length; i++) {
 					oController.getView().byId(ids[0]).setBusy(true);	
@@ -263,11 +258,11 @@ sap.ui.define([
 						"$expand": "GetOcrHdrToOcrItm"
 					},
 					success: function(oData) {
-						console.log(oData);
+						//console.log(oData);
 						var results = oData.results;
 						for(var i = 0; i < results.length; i++) {
-							results[i].highlightStatus = "Success"
-							results[i].workflow = 1
+							results[i].highlightStatus = "Success";
+							results[i].workflow = 1;
 							results[i].Ponumber = results[i].GetOcrHdrToOcrItm.results[0].Ponumber;
 							results[i].VendorCountry = results[i].GetOcrHdrToOcrItm.results[0].VendorCountry;
 							results[i].Paymentterm = results[i].GetOcrHdrToOcrItm.results[0].Paymentterm;
@@ -300,7 +295,7 @@ sap.ui.define([
 						if(!isExist) {
 							chartData.push(chartItem);
 						}
-						console.log(JSON.stringify(chartData));
+						//console.log(JSON.stringify(chartData));
 						chartDataModel.refresh(true);
 						
 						var oVizFrame = oController.getView().byId("idVizFrame");
@@ -311,18 +306,18 @@ sap.ui.define([
 			            dataModel.refresh(true);
 					},
 					error: function(oError) {
-						console.log(oError);
+						//console.log(oError);
 						for(var i = 0; i < ids.length; i++) {
 							oController.getView().byId(ids[0]).setBusy(false);	
 						}
 					}
 				});
 			} catch (ex) {
-				console.log(ex);
+				//console.log(ex);
 			}
 		},
 		
-		getSapErrorData: function(oController, ...ids) {
+		getSapErrorData: function(oController, ids) {
 			try {
 				for(var i = 0; i < ids.length; i++) {
 					oController.getView().byId(ids[0]).setBusy(true);	
@@ -332,7 +327,7 @@ sap.ui.define([
 				var sapErrorDataModel = oComponent.getModel("SapErrorData");
 				mainServiceModel.read("/GetOcrScanErrs", {
 					success: function(oData) {
-						console.log(oData);
+						//console.log(oData);
 						sapErrorDataModel.setData(oData.results);
 						sapErrorDataModel.refresh(true);
 						for(var i = 0; i < ids.length; i++) {
@@ -357,7 +352,7 @@ sap.ui.define([
 						if(!isExist) {
 							chartData.push(chartItem);
 						}
-						console.log(JSON.stringify(chartData));
+						//console.log(JSON.stringify(chartData));
 						chartDataModel.refresh(true);
 						//oController.getView().byId(ids).setBusy(false);
 						//oComponent.setModel(sapErrorDataModel, "SapErrorData"); 
@@ -370,7 +365,7 @@ sap.ui.define([
 			            dataModel.refresh(true);
 					},
 					error: function(oError) {
-						console.log(oError);
+						//console.log(oError);
 						for(var i = 0; i < ids.length; i++) {
 							oController.getView().byId(ids[0]).setBusy(false);	
 						}
@@ -378,11 +373,11 @@ sap.ui.define([
 					}
 				});
 			} catch (ex) {
-				console.log(ex);
+				//console.log(ex);
 			}
 		},
 		
-		getMgrApprovalData: function(oController, ...ids) {
+		getMgrApprovalData: function(oController, ids) {
 			try {
 				for(var i = 0; i < ids.length; i++) {
 					oController.getView().byId(ids[0]).setBusy(true);	
@@ -397,7 +392,7 @@ sap.ui.define([
 						"$expand": "GetOcrHdrToOcrItm"
 					},
 					success: function(oData) {
-						console.log(oData);
+						//console.log(oData);
 						var results = oData.results;
 						
 						
@@ -432,7 +427,7 @@ sap.ui.define([
 						if(!isExist) {
 							chartData.push(chartItem);
 						}
-						console.log(JSON.stringify(chartData));
+						//console.log(JSON.stringify(chartData));
 						chartDataModel.refresh(true);
 						
 						var oVizFrame = oController.getView().byId("idVizFrame");
@@ -443,14 +438,14 @@ sap.ui.define([
 			            dataModel.refresh(true);
 					},
 					error: function(oError) {
-						console.log(oError);
+						//console.log(oError);
 						for(var i = 0; i < ids.length; i++) {
 							oController.getView().byId(ids[0]).setBusy(false);	
 						}
 					}
 				});
 			} catch (ex) {
-				console.log(ex);
+				//console.log(ex);
 			}
 		},
 		
@@ -460,7 +455,7 @@ sap.ui.define([
 				var mainServiceModel = this.getModel("mainServiceModel");
 				mainServiceModel.read("/GetApprovalDataSet", {
 					success: function(oData) {
-						console.log(oData);
+						//console.log(oData);
 						var results = oData.results;
 						for(var i = 0; i < results.length; i++) {
 							var recordExist = false;
@@ -496,7 +491,7 @@ sap.ui.define([
 						if(!isExist) {
 							chartData.push(chartItem);
 						}
-						console.log(JSON.stringify(chartData));
+						//console.log(JSON.stringify(chartData));
 						chartDataModel.refresh(true);
 						
 						var oVizFrame = oController.getView().byId("idVizFrame");
@@ -507,11 +502,11 @@ sap.ui.define([
 			            dataModel.refresh(true);
 					},
 					error: function(oError) {
-						console.log(oError);
+						//console.log(oError);
 					}
 				});
 			} catch (ex) {
-				console.log(ex);
+				//console.log(ex);
 			}
 		},
 		

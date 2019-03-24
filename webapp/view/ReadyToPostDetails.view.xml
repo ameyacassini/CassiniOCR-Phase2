@@ -31,6 +31,7 @@
 						<m:ObjectStatus title="Payment Days" text="{record>/paymentInDays} days"/>
 						<m:ObjectStatus title="Basline Date"
 							text="{ path: 'record>/documentDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' } }"/>
+							
 					</layout:VerticalLayout>
 					<layout:VerticalLayout>
 						<m:Label text="Transaction:" labelFor="selTransaction"/>
@@ -38,6 +39,7 @@
 							<core:Item key="0" text="Invoice"/>
 							<core:Item key="1" text="Credit memo"/>
 						</m:Select>
+						
 					</layout:VerticalLayout>
 					<layout:VerticalLayout>
 						<m:Label text="Module" labelFor="selDocType"/>
@@ -46,6 +48,7 @@
 							<core:Item key="FI" text="FI"/>
 						</m:Select>
 					</layout:VerticalLayout>
+					
 					<layout:VerticalLayout class="txtCommentsContainer">
 						<m:Label text="Text/Comments" labelFor="txtComments"/>
 						<m:TextArea id="txtComments" value="{record>/mgrComment}" width="20rem" rows="2" editable="false"/>

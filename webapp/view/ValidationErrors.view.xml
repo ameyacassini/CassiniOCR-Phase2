@@ -45,6 +45,11 @@
 					<Column hAlign="Center"
 						minScreenWidth="Desktop"
 						demandPopin="true">
+						<Text text="PO Number" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
 						<Text text="Net Amount" />
 					</Column>
 					<Column hAlign="Center"
@@ -70,6 +75,8 @@
 								text="{validationErrorsDocuments>vendorName}"/>
 							<Text
 								text="{validationErrorsDocuments>referenceNo}" />
+							<Text
+								text="{validationErrorsDocuments>poNumber}" />
 							<u:Currency stringValue="{validationErrorsDocuments>netValue}" currency="{validationErrorsDocuments>currency}" useSymbol="true"/>
 							<u:Currency stringValue="{validationErrorsDocuments>tax}" currency="{validationErrorsDocuments>currency}" useSymbol="true"/>
 							<u:Currency stringValue="{validationErrorsDocuments>grossValue}" currency="{validationErrorsDocuments>currency}" useSymbol="true"/>

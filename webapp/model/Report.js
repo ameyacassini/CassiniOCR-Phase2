@@ -22,7 +22,7 @@ sap.ui.define([
 			this.activeVendors = oData.vendorCount;
 			for (var vendor in oData.topVendorData) {
 				//this.addVendor(new Vendor({Vendor: vendor, Revenue: parseFloat(oData.topVendorData[vendor])}));
-				this.addVendor(new Vendor({Vendor: vendor, Revenue: parseInt(oData.topVendorData[vendor], 10)}).getChartData());
+				this.addVendor(new Vendor({Vendor: vendor, Revenue: parseFloat(oData.topVendorData[vendor])}).getChartData());
 				//this.addVendor(new Vendor({Vendor: vendor, Revenue: oData.topVendorData[vendor].toString()}));
 			}
 			

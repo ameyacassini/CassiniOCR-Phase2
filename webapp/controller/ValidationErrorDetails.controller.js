@@ -159,6 +159,7 @@ sap.ui.define([
 							            Grossvalue: errorData.grossValue,
 							            Vat: errorData.tax,
 							            Currency: errorData.currency,
+							            Ponumber: errorData.poNumber,
 							            Timestamp: null,
 							            ValidStatus: "VE"
 									}]

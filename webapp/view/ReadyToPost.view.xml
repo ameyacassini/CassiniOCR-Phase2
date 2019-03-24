@@ -46,6 +46,11 @@
 					<Column hAlign="Center"
 						minScreenWidth="Desktop"
 						demandPopin="true">
+						<Text text="PO Number" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
 						<Text text="Workflow" />
 					</Column>
 					<Column hAlign="Center"
@@ -82,6 +87,8 @@
 								text="{approvedDocuments>vendorNo}"/>
 							<Text
 								text="{approvedDocuments>referenceNo}" />
+							<Text
+								text="{approvedDocuments>poNumber}" />
 							<core:Icon
 								color="{=
 									(${approvedDocuments>workflow} === 1) ? '#385723' : '#ff0000'

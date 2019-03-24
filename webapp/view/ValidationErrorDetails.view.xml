@@ -66,6 +66,14 @@
 										<Input editable="false" value="{errorData>/referenceNo}" />
 									</f:fields>
 								</f:FormElement>
+								<!--
+								<f:FormElement label="PO Number">
+									<f:fields>
+										<Input editable="true" value="{errorData>/poNumber}" />
+									</f:fields>
+								</f:FormElement>
+								-->
+								
 								<f:FormElement label="Invoice Date">
 									<f:fields>
 										<Input editable="false" value="{
@@ -94,6 +102,11 @@
 											(${errorData>/vendorNo} === '') ? 'Vendor Name or Pincode is not valid!!!' : '' 
 										}"
 										value="{errorData>/vendorNo}" />
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="PO Number">
+									<f:fields>
+										<Input value="{errorData>/poNumber}" />
 									</f:fields>
 								</f:FormElement>
 							</f:formElements>
