@@ -42,7 +42,8 @@ sap.ui.define([
 		},
 		onNavigateManualVerify: function (oEvent) {
 			var batchId = oEvent.getSource().data("batchId");
-			var url = "/dataVerifier?batchId=" + batchId;
+			//var url = "/dataVerifier?batchId=" + batchId;
+			var url = "http://103.73.151.249/DataVerifier/?batchId=" + batchId;
 			window.open(url, '_blank');
 		},
 		onRefresh: function (oEvent) {

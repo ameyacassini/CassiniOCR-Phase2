@@ -199,49 +199,52 @@ sap.ui.define([
 					sapInvoice: data[i].Sapinvoice,
 					ocrYear: data[i].OcrYear,
 					poNumber: data[i].Ponumber,
-					poItems: (data[i].GetOcrHdrToOcrItm && data[i].GetOcrHdrToOcrItm.results) ? this.toSAPPOItems(data[i].GetOcrHdrToOcrItm.results, isApproved) : [] 
+					poItems: (data[i].GetOcrHdrToOcrItm && data[i].GetOcrHdrToOcrItm.results) ? this.toSAPPOItems(data[i].GetOcrHdrToOcrItm.results, isApproved, data[i].Ponumber) : [] 
 				});
 				documents.push(document);
 			}
 			return documents;
 		},
-		toSAPPOItems: function (data, isApproved) {
+		toSAPPOItems: function (data, isApproved, poNumber) {
 			var poItems = [];
 			for (var i = 0, len = data.length; i < len; i++) {
-				var item = new POItem({
-					id: i + 1,
-					companyCode: data[i].Companycode,
-					description: data[i].Description,
-					finReviewed: data[i].FinReviewed,
-					invoiceNo: data[i].Invoiceno,
-					material: data[i].Material,
-					message: data[i].Message,
-					mgrApproved: data[i].MgrApproved,
-					netPrice: data[i].Netprice,
-					ocrYear: data[i].OcrYear,
-					paymentInDays: data[i].Paymentindays,
-					paymentTerm: data[i].Paymentterm,
-					poItem: data[i].Poitem,
-					qtyToDisplay: data[i].PoitemQuantity,
-					poItemQuantity: (isApproved) ? data[i].PoitemQuantity : "0",
-					poItemText: data[i].PoitemText,
-					poItemUom: data[i].PoitemUom,
-					poNumber: data[i].Ponumber,
-					refDocItm: data[i].RefDocItm,
-					refDocNum: data[i].RefDocNum,
-					sapInvoice: data[i].Sapinvoice,
-					taxCode: data[i].Taxcode,
-					uniqueId: data[i].Uniqueid,
-					vendorCountry: data[i].VendorCountry,
-					vendorNo: data[i].Vendorno,
-					vendorMaterialDesc: data[i].VenMattxt,
-					priceLowLimit: data[i].PrcLowLimit,
-					priceUpLimit: data[i].PrcUpLimit,
-					qtyLowLimit: data[i].QtyLowLimit,
-					qtyUpLimit: data[i].QtyUpLimit,
-					webre: (data[i].Webre === "X") ? true : false,
-				});
-				poItems.push(item);
+				if(poNumber && poNumber !== "" && poNumber === data[i].Ponumber) {
+					var item = new POItem({
+						id: i + 1,
+						companyCode: data[i].Companycode,
+						description: data[i].Description,
+						finReviewed: data[i].FinReviewed,
+						invoiceNo: data[i].Invoiceno,
+						material: data[i].Material,
+						message: data[i].Message,
+						mgrApproved: data[i].MgrApproved,
+						netPrice: data[i].Netprice,
+						ocrYear: data[i].OcrYear,
+						paymentInDays: data[i].Paymentindays,
+						paymentTerm: data[i].Paymentterm,
+						poItem: data[i].Poitem,
+						qtyToDisplay: data[i].PoitemQuantity,
+						poItemQuantity: (isApproved) ? data[i].PoitemQuantity : "0",
+						poItemText: data[i].PoitemText,
+						poItemUom: data[i].PoitemUom,
+						poNumber: data[i].Ponumber,
+						refDocItm: data[i].RefDocItm,
+						refDocNum: data[i].RefDocNum,
+						sapInvoice: data[i].Sapinvoice,
+						taxCode: data[i].Taxcode,
+						uniqueId: data[i].Uniqueid,
+						vendorCountry: data[i].VendorCountry,
+						vendorNo: data[i].Vendorno,
+						vendorMaterialDesc: data[i].VenMattxt,
+						priceLowLimit: data[i].PrcLowLimit,
+						priceUpLimit: data[i].PrcUpLimit,
+						qtyLowLimit: data[i].QtyLowLimit,
+						qtyUpLimit: data[i].QtyUpLimit,
+						webre: (data[i].Webre === "X") ? true : false,
+					});
+					poItems.push(item);	
+				} 
+				
 			}
 			return poItems;
 		}
