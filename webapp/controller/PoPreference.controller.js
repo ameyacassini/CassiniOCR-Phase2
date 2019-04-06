@@ -10,7 +10,7 @@ sap.ui.define([
 ], function (BaseController, JSONModel, MessageBox, PDFViewer, documentServices, LineItem, MessageToast, Formatter) {
 	"use strict";
 	var oView, oController, oComponent;
-	return BaseController.extend("cassini.sim.controller.ScanningErrors", {
+	return BaseController.extend("cassini.sim.controller.PoPreference", {
 		onInit: function() {
 			this._pdfViewer = new PDFViewer();
 			this.getView().addDependent(this._pdfViewer);
@@ -22,6 +22,7 @@ sap.ui.define([
 		},
 		
 		_onObjectMatched: function(oEvent) {
+			sap.ui.core.BusyIndicator.show(0);
 			var mgrApprovalDataModel = oComponent.getModel("awaitingApprovalDocuments");
 			var approvals = mgrApprovalDataModel.getData();
 			var approval = {};
@@ -31,30 +32,24 @@ sap.ui.define([
 					break;
 				}
 			}
-			
-			
-			
 			approval.balanceAmount = approval.grossValue;
 			approval.isValid = false;
-			
 			var approvalModel = new sap.ui.model.json.JSONModel(approval);
 			oView.setModel(approvalModel, "approval"); 
-			
 			var filePath = approval.filePath;
 			var newFilePath = filePath.substring(filePath.lastIndexOf("/") + 1);
 			var postData = JSON.stringify({
 				filePath: newFilePath,
 				linkId: approval.documentId
 			});
-			
 			documentServices.getInstance().getFile(this, postData, 
 				function(oData) {
-					//oView.byId("invoiceFileImg").setBusy(false);
 				},
 				function(oError) {
 					if(oError.status === 200) {
 						approvalModel.getData().file = oError.responseText;
 						approvalModel.refresh(true);
+						sap.ui.core.BusyIndicator.hide();
 					}
 				});
 			

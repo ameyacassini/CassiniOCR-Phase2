@@ -73,7 +73,19 @@ sap.ui.define([
 						oModel.setData(instance.toSAPDocuments(data.results, true));
 						oController.getOwnerComponent().setModel(oModel, "approvedDocuments");
 						if(fnCallback)
+							{fnCallback();}
+					}
+				});
+		},
+		getRejectedDocuments: function (oController, fnCallback) {
+			utilities.getInstance().read(
+				{	oController: oController, sModelName: "mainServiceModel", sEntity: "GetMgrRejectSet",
+					fnSuccess: function(data) {
+						var oModel = new JSONModel(instance.toSAPDocuments(data.results, false));
+						oController.getOwnerComponent().setModel(oModel, "rejectedDocuments");
+						if(fnCallback) {
 							fnCallback();
+						}
 					}
 				});
 		},
@@ -99,7 +111,7 @@ sap.ui.define([
 						oModel.setData(instance.toSAPDocuments(postedDocuments, true));
 						oController.getOwnerComponent().setModel(oModel, "postedDocuments");
 						if(fnCallback)
-							fnCallback();
+							{fnCallback();}
 					}
 				});
 		},
@@ -208,7 +220,7 @@ sap.ui.define([
 		toSAPPOItems: function (data, isApproved, poNumber) {
 			var poItems = [];
 			for (var i = 0, len = data.length; i < len; i++) {
-				if(poNumber && poNumber !== "" && poNumber === data[i].Ponumber) {
+				//if(poNumber && poNumber !== "" && poNumber === data[i].Ponumber) {
 					var item = new POItem({
 						id: i + 1,
 						companyCode: data[i].Companycode,
@@ -243,7 +255,7 @@ sap.ui.define([
 						webre: (data[i].Webre === "X") ? true : false,
 					});
 					poItems.push(item);	
-				} 
+				//} 
 				
 			}
 			return poItems;

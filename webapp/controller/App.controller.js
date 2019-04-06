@@ -14,7 +14,7 @@ sap.ui.define([
 			documentServices.getInstance().getAwaitingApprovalDocuments(this);
 			documentServices.getInstance().getApprovedDocuments(this);
 			documentServices.getInstance().getPostedDocuments(this);
-			
+			documentServices.getInstance().getRejectedDocuments(this);
 		},
 		
 		calculateSuccessRate: function() {

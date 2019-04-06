@@ -24,6 +24,7 @@ sap.ui.define([
 		},
 		
 		_onObjectMatched: function(oEvent) {
+			sap.ui.core.BusyIndicator.show(0);
 			var fiReviewRecordsDataModel = oComponent.getModel("approvedDocuments");
 			var records = fiReviewRecordsDataModel.getData();
 			var record = {};
@@ -54,6 +55,7 @@ sap.ui.define([
 					if(oError.status === 200) {
 						recordlModel.getData().file = oError.responseText;
 						recordlModel.refresh(true);
+						sap.ui.core.BusyIndicator.hide();
 					}
 				});
 			
@@ -61,8 +63,8 @@ sap.ui.define([
 					function(oData) {
 						recordlModel.getData().taxCode = oData.taxCode;
 						recordlModel.getData().taxRate = oData.taxRate;
-						record.tax = documentServices.getInstance().calculateTax(record.netValue, oData.taxRate);
-						recordlModel.getData().tax  = (parseFloat(recordlModel.getData().netValue) * parseFloat(oData.taxRate)) / 100;
+						//record.tax = documentServices.getInstance().calculateTax(record.netValue, oData.taxRate);
+						//recordlModel.getData().tax  = (parseFloat(recordlModel.getData().netValue) * parseFloat(oData.taxRate)) / 100;
 						recordlModel.refresh(true);
 					});
 			

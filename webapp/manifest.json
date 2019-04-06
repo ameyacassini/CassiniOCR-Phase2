@@ -184,6 +184,24 @@
 					]
 				},
 				{
+					"name": "DocumentsRejected",
+					"pattern": "documents-rejected",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"DocumentsRejected"
+					]
+				},
+				{
+					"name": "DocumentsRejectedDetails",
+					"pattern": "documents-rejected-details/{rejectionId}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"DocumentsRejectedDetails"
+					]
+				},
+				{
 					"name": "ScannedDocuments",
 					"pattern": "scanned-documents",
 					"titleTarget": "",
@@ -280,6 +298,22 @@
 					"transition": "slide",
 					"clearControlAggregation": false,
 					"viewName": "DueForApproval",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"DocumentsRejected": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "DocumentsRejected",
+					"viewLevel": 1,
+					"controlId": "idAppControl"
+				},
+				"DocumentsRejectedDetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "DocumentsRejectedDetails",
 					"viewLevel": 1,
 					"controlId": "idAppControl"
 				},

@@ -1,0 +1,97 @@
+<mvc:View controllerName="cassini.sim.controller.DocumentsRejected" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:unified="sap.ui.unified"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:u="sap.ui.unified"
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
+	<Page
+		title="{=
+			'Documents Rejected (' + ${rejectedDocuments>/}.length + ')'
+		}"
+		class="sapUiSizeCompact"
+		showNavButton="true"
+		navButtonPress="onNavBack">
+		<headerContent>
+			<Button icon="sap-icon://refresh" press="onRefresh" tooltip="Refresh" />
+		</headerContent>
+		<content>
+			<Table id="rejectedDocumentsTable"
+				busyIndicatorDelay="0"
+				inset="false"
+				items="{
+					path: 'rejectedDocuments>/',
+					sorter: {
+						path: 'rejectedDocuments>uniqueId'
+					}
+				}">
+				<columns>
+					<Column>
+						<Text text="Unique ID" />
+					</Column>
+					<Column minScreenWidth="Tablet"
+						demandPopin="true">
+						<Text text="Vendor Details" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Reference No." />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="PO Number" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Net Amount" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Tax" />
+					</Column>
+					<Column hAlign="Center"
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Gross Amount" />
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Document Date" />
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Manager Comments" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem vAlign="Middle" type="Navigation" custom:uniqueId="{rejectedDocuments>uniqueId}" press="onSelectDocument">
+						<cells>
+							<ObjectIdentifier
+								title="{rejectedDocuments>uniqueId}"/>
+							<ObjectIdentifier
+								title="{rejectedDocuments>vendorName}"
+								text="{rejectedDocuments>vendorNo}"/>
+							<Text
+								text="{rejectedDocuments>referenceNo}" />
+							<Text
+								text="{rejectedDocuments>poNumber}" />
+							<u:Currency textAlign="Center" stringValue="{rejectedDocuments>netValue}" currency="{rejectedDocuments>currency}" useSymbol="true"/>
+							<u:Currency textAlign="Center" stringValue="{rejectedDocuments>tax}" currency="{rejectedDocuments>currency}" useSymbol="true"/>
+							<u:Currency textAlign="Center" stringValue="{rejectedDocuments>grossValue}" currency="{rejectedDocuments>currency}" useSymbol="true"/>
+							<Text text="{ path: 'rejectedDocuments>documentDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' } }"
+								wrapping="false"/>
+							<Text text="{rejectedDocuments>mgrComment}"
+								wrapping="true"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

@@ -13,9 +13,6 @@
 			<cassini:Tile titleLevel="H3" height="6.5rem" title="{= ${validationErrorsDocuments>/}.length }" custom:route="ValidationErrors"
 				description="Validation Errors" press="handleNav"/>
 		</l:Grid>
-		<!--<cassini:Tile padding="2rem" height="226px" description="Success Percentage">
-			<c:RadialMicroChart size="Responsive" percentage="{= ${report>/successRate} }" press="press"></c:RadialMicroChart>
-		</cassini:Tile>-->
 		<l:FixFlex id='chartTopVendors' class="dashboardDonutChart" minFlexSize="290">
 			<l:flexContent>
 				<viz:Popover id="idPopOver"></viz:Popover>
@@ -44,7 +41,8 @@
 				custom:route="DueForApproval" description="Documents Awaiting Approval" press="handleNav"/>
 			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile critical sapUiTinyMarginEnd"
 				title="{= ${approvedDocuments>/}.length }" custom:route="ReadyToPost" description="Ready To Post" press="handleNav"/>
-			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile negative" title="0" description="Documents Rejected"
+			<cassini:Tile titleLevel="H3" height="7.5rem" padding="0.5rem" class="tile negative" 
+				title="{= ${rejectedDocuments>/}.length }" custom:route="DocumentsRejected" description="Documents Rejected"
 				press="handleNav"/>
 		</l:Grid>
 	</l:Grid>

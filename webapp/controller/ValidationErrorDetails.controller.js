@@ -19,6 +19,7 @@ sap.ui.define([
 		},
 		
 		_onObjectMatched: function(oEvent) {
+			sap.ui.core.BusyIndicator.show(0);
 			var sapErrorDataModel = oComponent.getModel("validationErrorsDocuments");
 			var errors = sapErrorDataModel.getData();
 			var errorData = {};
@@ -56,6 +57,7 @@ sap.ui.define([
 						if(oError.status === 200) {
 						errorModel.getData().file = oError.responseText;
 						errorModel.refresh(true);
+						sap.ui.core.BusyIndicator.hide();
 					}
 					}
 				});
