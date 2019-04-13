@@ -11,7 +11,7 @@
 	xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
 	<Page title="Awaiting for Approval  - {approval>/uniqueId}" class="detailScreen" showNavButton="true" navButtonPress="onNavBack">
 		<headerContent>
-			<Button text="Reject" type="Reject" />
+			<Button text="Reject" type="Reject" press="onReject"/>
 			<Button 
 				text="Approve" 
 				type="Accept" 
@@ -225,7 +225,7 @@
 								<t:Column hAlign="Center" width="17%">
 									<Label text="Qty"/>
 									<t:template>
-										<Input editable="false" value="{approval>poItemQuantity}" submit="onChangePoQuantity" valueState="{approval>qtyValueState}" tooltip="{approval>qtyValueStateText}" valueStateText="{approval>qtyValueStateText}" />
+										<Input editable="{= !${approval>isThreeWayPOMatch}}" value="{approval>poItemQuantity}" submit="onChangePoQuantity" valueState="{approval>qtyValueState}" tooltip="{approval>qtyValueStateText}" valueStateText="{approval>qtyValueStateText}" />
 										<!--<Text text="{approval>PoitemQuantity}" wrapping="false"/>-->
 									</t:template>
 								</t:Column>

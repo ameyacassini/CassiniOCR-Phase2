@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/base/Object"
-], function (Object) {
+	"sap/ui/base/Object",
+	"cassini/sim/model/Application"
+], function (Object, Application) {
 	"use strict";
 	var instance;
 	var utilities = Object.extend("cassini.sim.service.utilities", {
@@ -71,16 +72,17 @@ sap.ui.define([
 			jQuery.sap.log.error(oError);
 		},
 		loadingCompleted: function(oController) {
-			
 			var successfullyScannedDocuments = oController.getOwnerComponent().getModel("successfullyScannedDocuments");
 			var manualVerifyDocuments = oController.getOwnerComponent().getModel("manualVerifyDocuments");
 			var validationErrorsDocuments = oController.getOwnerComponent().getModel("validationErrorsDocuments");
 			var awaitingApprovalDocuments = oController.getOwnerComponent().getModel("awaitingApprovalDocuments");
+			var rejectedDocuments = oController.getOwnerComponent().getModel("rejectedDocuments");
 			var approvedDocuments = oController.getOwnerComponent().getModel("approvedDocuments");
 			var postedDocuments = oController.getOwnerComponent().getModel("postedDocuments");
-			
-			if(successfullyScannedDocuments && manualVerifyDocuments && validationErrorsDocuments && awaitingApprovalDocuments && approvedDocuments && postedDocuments) {
+			if(successfullyScannedDocuments && manualVerifyDocuments && validationErrorsDocuments && awaitingApprovalDocuments && rejectedDocuments && approvedDocuments && postedDocuments) {
+				var oComponent = Application.getInstance().getComponent();
 				jQuery("#busyLoader").fadeOut();
+				oComponent.getRouter().initialize();
 			}
 		}
 	});

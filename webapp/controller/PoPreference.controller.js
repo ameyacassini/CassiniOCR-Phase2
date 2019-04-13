@@ -74,7 +74,7 @@ sap.ui.define([
 		   });
 		},
 		
-		_updatePOWithLineItem: function() {
+		_updatePOWithLineItem: function(bQtyManuallyUpdated) {
 			var aLineItems = oComponent.getModel("lineItems").getData();
 			var oApprovalModel = this.getView().getModel("approval");
 			oApprovalModel.setProperty("/isValid", true);
@@ -85,7 +85,9 @@ sap.ui.define([
 						return item.description && aPOItems[i].vendorMaterialDesc.toUpperCase().trim() === item.description.toUpperCase().trim();
 					});
 					if(oLineItem) {
-						aPOItems[i].poItemQuantity = parseFloat(oLineItem.quantity);
+						if(!bQtyManuallyUpdated) {
+							aPOItems[i].poItemQuantity = parseFloat(oLineItem.quantity);	
+						}
 						aPOItems[i].lineItemPrice = parseFloat(oLineItem.unitPrice);
 						aPOItems[i].lineItemQty = parseFloat(oLineItem.quantity);
 						var bHighlightError = false;
@@ -156,7 +158,7 @@ sap.ui.define([
 			//var qtyLowLimit = fQtyToDisplay - ((fQtyToDisplay * percentQtyLowLimit) / 100);
 			var qtyUpLimit = fQtyToDisplay + ((fQtyToDisplay * percentQtyUpLimit) / 100);
 			
-			var fLineItemQty = parseFloat(oPOItem.lineItemQty);
+			var fLineItemQty = parseFloat(oPOItem.poItemQuantity);
 			
 			if( fLineItemQty > qtyUpLimit) {
 				return false;
@@ -244,8 +246,11 @@ sap.ui.define([
 				aSelectedPOItems = [];
 				//oApprovalModel.setProperty("/selectedPoItems", []);
 				for(var i = 0; i < aPOItems.length; i++) {
-					totalDiff = totalDiff + (parseFloat(aPOItems[i].poItemQuantity) * parseFloat(aPOItems[i].lineItemPrice));
-					aSelectedPOItems.push(aPOItems[i]);
+					var poItemQuantity = parseFloat(aPOItems[i].poItemQuantity);
+					if(!isNaN(poItemQuantity) && poItemQuantity > 0) {
+						totalDiff = totalDiff + (parseFloat(aPOItems[i].poItemQuantity) * parseFloat(aPOItems[i].lineItemPrice));
+						aSelectedPOItems.push(aPOItems[i]);
+					}
 				}
 				var balanceAmount = parseFloat(oApprovalModel.getProperty("/grossValue")) - (totalDiff + tax);
 				if(balanceAmount !== 0) {
@@ -304,7 +309,8 @@ sap.ui.define([
 		},
 		onChangePoQuantity: function(oEvent) {
 			try {
-				var row = oEvent.getSource().getParent();
+				oController._updatePOWithLineItem(true);
+				/*var row = oEvent.getSource().getParent();
 				var sPath = row.getBindingContext('approval').getPath();
 				var selectedRecord = row.getBindingContext('approval').getModel().getProperty(sPath);
 				
@@ -321,7 +327,7 @@ sap.ui.define([
 				}
 				if(isSelected) {
 					oController._updateBalanceAmount(table, selectedRecord);
-				}
+				}*/
 			} catch (ex) {
 				MessageBox.error(ex);
 			}
@@ -395,6 +401,59 @@ sap.ui.define([
 												actions: [sap.m.MessageBox.Action.OK],
 												onClose: function(sAction) {
 													documentServices.getInstance().getAwaitingApprovalDocuments(oController);
+													documentServices.getInstance().getApprovedDocuments(oController);
+													oController.getRouter().navTo("Dashboard");
+												}
+											}
+										);
+									},
+									error: function(oError) {
+										sap.ui.core.BusyIndicator.hide();
+										MessageBox.error(oError);
+									}
+								});				
+							} else {
+								sap.ui.core.BusyIndicator.hide();
+							}
+						}
+					});
+			} catch (ex) {
+				sap.ui.core.BusyIndicator.hide();
+				MessageBox.error(ex);
+			}
+		},
+		
+		onReject: function(oEvent) {
+			try {
+				MessageBox.confirm(
+					"Do you reject the invoice posting?",
+					{
+						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+						onClose: function(sAction) {
+							if(sAction == "OK") { 
+								sap.ui.core.BusyIndicator.show(0);
+								
+								var approval = oView.getModel("approval").getData();
+								
+								var postData = {
+									Servicecall: "MRJ",
+									MgrComment: approval.mgrComment,
+									UpdOcrRejHdrToItm: [{
+										Uniqueid: approval.uniqueId,
+										Message: ""
+									}]
+								};
+								var mainServiceModel = oComponent.getModel("mainServiceModel");
+								mainServiceModel.create("/UpdOcrRejHdrs", postData, {
+									success: function() {
+										sap.ui.core.BusyIndicator.hide();
+										MessageBox.success(
+											"The document is rejected successfully",
+											{
+												actions: [sap.m.MessageBox.Action.OK],
+												onClose: function() {
+													documentServices.getInstance().getAwaitingApprovalDocuments(oController);
+													documentServices.getInstance().getRejectedDocuments(oController);
 													documentServices.getInstance().getApprovedDocuments(oController);
 													oController.getRouter().navTo("Dashboard");
 												}

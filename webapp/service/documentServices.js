@@ -252,6 +252,7 @@ sap.ui.define([
 						priceUpLimit: data[i].PrcUpLimit,
 						qtyLowLimit: data[i].QtyLowLimit,
 						qtyUpLimit: data[i].QtyUpLimit,
+						isThreeWayPOMatch: (poNumber && poNumber !== ""),
 						webre: (data[i].Webre === "X") ? true : false,
 					});
 					poItems.push(item);	

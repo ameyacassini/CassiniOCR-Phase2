@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"cassini/sim/model/models",
-	"cassini/sim/model/Report"
-], function (UIComponent, Device, models, Report) {
+	"cassini/sim/model/Report",
+	"cassini/sim/model/Application"
+], function (UIComponent, Device, models, Report, Application) {
 	"use strict";
 	var oComponent;
 	return UIComponent.extend("cassini.sim.Component", {
@@ -21,9 +22,9 @@ sap.ui.define([
 			oComponent = this;
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
-
+			Application.getInstance().setComponent(this);
 			// enable routing
-			this.getRouter().initialize();
+			//this.getRouter().initialize();
 
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
