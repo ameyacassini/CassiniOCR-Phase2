@@ -39,6 +39,7 @@ sap.ui.define([
 				this.qtyLowLimit = data.qtyLowLimit;
 				this.qtyUpLimit = data.qtyUpLimit;
 				this.webre = data.webre;
+				this.ekbeQuant = data.ekbeQuant;
 				this.priceValueState = "None";
 				
 				if(this.message === "GRND") {

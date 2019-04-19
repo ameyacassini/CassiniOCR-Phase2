@@ -103,7 +103,7 @@ sap.ui.define([
 							aPOItems[i].priceValueStateText = "Price is out of allowed tolerance limit";
 						}
 						
-						if(!aPOItems[i].webre && oController._validateQtyTolerance(aPOItems[i])) {
+						if(oController._validateQtyTolerance(aPOItems[i])) {
 							//aPOItems[i].status = "Success";
 							aPOItems[i].qtyValueState = "None";
 							aPOItems[i].qtyValueStateText = "";
@@ -153,7 +153,12 @@ sap.ui.define([
 			//var percentQtyLowLimit = parseFloat(oPOItem.qtyLowLimit);
 			var percentQtyUpLimit = parseFloat(oPOItem.qtyUpLimit);
 			
-			var fQtyToDisplay = parseFloat(oPOItem.qtyToDisplay);
+			var fQtyToDisplay;
+			if(oPOItem.webre) {
+				fQtyToDisplay = parseFloat(oPOItem.ekbeQuant);
+			} else {
+				fQtyToDisplay = parseFloat(oPOItem.qtyToDisplay);
+			}
 			
 			//var qtyLowLimit = fQtyToDisplay - ((fQtyToDisplay * percentQtyLowLimit) / 100);
 			var qtyUpLimit = fQtyToDisplay + ((fQtyToDisplay * percentQtyUpLimit) / 100);

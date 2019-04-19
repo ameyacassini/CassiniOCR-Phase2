@@ -72,7 +72,11 @@ sap.ui.define([
 		getSAPPOItems: function (arrItems, isFinReviewed) {
 			var poItems = [];
 			for(var i = 0; i < arrItems.length; i++) {
-				poItems.push(arrItems[i].getSAPPostData(isFinReviewed));
+				var poItem = arrItems[i].getSAPPostData(isFinReviewed);
+				var fPoQuantity = parseFloat(poItem.PoitemQuantity);
+				if(isFinReviewed || (!isNaN(fPoQuantity) && fPoQuantity > 0)) {
+					poItems.push(arrItems[i].getSAPPostData(isFinReviewed));
+				}
 			}
 			return poItems;
 		}
