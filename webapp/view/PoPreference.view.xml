@@ -300,9 +300,9 @@
 								</t:Column>
 								<t:Column
 									width="17%">
-									<Label text="Description" />
+									<Label text="Reference Qty" />
 									<t:template>
-										<Text text="{approval>description}" wrapping="false"/>
+										<Text text="{approval>ekbeQuant}" wrapping="false"/>
 									</t:template>
 								</t:Column>
 							</t:columns>
